@@ -1,4 +1,4 @@
-package edu.itba.edu.poog7;
+package edu.itba.it.poog7;
 
 public class GameFront extends Game{
 	GameFront(){
