@@ -14,11 +14,6 @@ import edu.itba.it.poog7.gamelogic.tiles.Wall;
 import junit.framework.TestCase;
 
 /**
- * 
- * @author eordano
- *
- */
-/**
  * @author eordano
  *
  */
@@ -39,19 +34,6 @@ public class LevelObjectTest extends TestCase {
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
-	}
-	
-	/**
-	 * Checks that the user is unable to move across walls in all directions
-	 * 
-	 * @throws Exception
-	 */
-	public void testInvalidMoves() throws Exception{
-		((TileMatrixStub) state.getMatrix()).setTile(new Position(1,3), new WallStub(new Position(1, 3)));
-		assertTrue(chabon.canMove(state, Direction.LEFT));
-		assertTrue(chabon.canMove(state, Direction.RIGHT));
-		assertTrue(chabon.canMove(state, Direction.UP));
-		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}
 	
 	/**
@@ -85,12 +67,72 @@ public class LevelObjectTest extends TestCase {
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
 	}
 	
+	/**
+	 * Moving a box that has a OneWayTile under it
+	 * 
+	 * @throws Exception
+	 */
 	public void testMove4() throws Exception{
 		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
 		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
 				Direction.RIGHT));
+		assertTrue(chabon.canMove(state, Direction.RIGHT));
 	}
 	
+	/**
+	 * Moving a box to the right; the box has a OneWayTile under it in the wrong direction (up)
+	 * so it can't be moved.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove5() throws Exception{
+		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
+				Direction.UP));
+		assertFalse(chabon.canMove(state, Direction.RIGHT));
+	}
+	
+	/**
+	 * Checks that the user is unable to move across walls in all directions
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove6() throws Exception{
+		((TileMatrixStub) state.getMatrix()).setTile(new Position(1,3), new WallStub(new Position(1, 3)));
+		assertTrue(chabon.canMove(state, Direction.LEFT));
+		assertTrue(chabon.canMove(state, Direction.RIGHT));
+		assertTrue(chabon.canMove(state, Direction.UP));
+		assertTrue(chabon.canMove(state, Direction.DOWN));
+	}
+
+	/**
+	 * Moving a to the right: I have a onewaytile under me in the right direction
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove7() throws Exception{
+		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 1), new OneWayStub(new Position(1, 1), 
+				Direction.RIGHT));
+		assertTrue(chabon.canMove(state, Direction.RIGHT));
+	}
+
+	/**
+	 * Moving to the right: but there is a onewaytile there and it's not in the right direction
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove8() throws Exception{
+		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
+				Direction.UP));
+		assertFalse(chabon.canMove(state, Direction.RIGHT));
+	}
+	
+	
+	/**
+	 * Stub classes
+	 * 
+	 * @author eordano
+	 */
 	private class TileMatrixStub extends TileMatrix{
 		TileMatrixStub(){
 			this.matrix = new Tile[3][5];
@@ -144,9 +186,6 @@ public class LevelObjectTest extends TestCase {
 	private class LevelStateStub extends LevelState{
 		LevelStateStub(){
 			matrix = new TileMatrixStub();
-		}
-		public void setTile(Position pos, Tile newTile){
-			((TileMatrixStub) matrix).setTile(pos, newTile);
 		}
 	}
 	class ChaboncitouStub extends Chaboncitou{
