@@ -1,5 +1,10 @@
 package edu.itba.it.poog7.gamelogic.exceptions;
 
+/**
+ * 
+ * @author eordano
+ *
+ */
 public class GameOverException extends Exception {
 
 	/**

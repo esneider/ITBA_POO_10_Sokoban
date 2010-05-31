@@ -12,6 +12,11 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 import junit.framework.TestCase;
 
+/**
+ * 
+ * @author eordano
+ *
+ */
 public class LevelObjectTest extends TestCase {
 	LevelStateStub state;
 	ChaboncitouStub chabon;
@@ -32,29 +37,37 @@ public class LevelObjectTest extends TestCase {
 	}
 
 	public void test1() throws Exception{
-		assert chabon.canMove(state, Direction.LEFT);
+		assertTrue(chabon.canMove(state, Direction.RIGHT));
+		assertFalse(chabon.canMove(state, Direction.UP));
+		assertFalse(chabon.canMove(state, Direction.DOWN));
+		assertFalse(chabon.canMove(state, Direction.LEFT));
 		
 		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
-		assert chabon.canMove(state, Direction.LEFT);
+		assertTrue(chabon.canMove(state, Direction.RIGHT));
 		
 		state.getMatrix().getTile(new Position(1,3)).setObject(new BoxStub(new Position(1, 3)));
-		assert !chabon.canMove(state, Direction.LEFT);
+		assertFalse(chabon.canMove(state, Direction.RIGHT));
+
+	}
+	
+	public void test2() throws Exception{
+		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		
+		// Add One Way Test cases
 	}
 	
 	class TileMatrixStub extends TileMatrix{
 		TileMatrixStub(){
-			this.matrix = new Tile[5][5];
+			this.matrix = new Tile[3][5];
 			// Make a simple room
-			for(int i = 0; i < 5; i++){
+			for(int i = 0; i < 3; i++){
 				for(int j = 0; j < 5; j++){
 					matrix[i][j] = new WallStub(new Position(i, j));
 				}
-				if (i > 0 && i < 4){
-					for(int j = 1; j < 4; j++){
-						matrix[i][j] = new BlankStub(new Position(i, j));
-					}
-				}
 			}
+			matrix[1][1] = new BlankStub(new Position(1,1));
+			matrix[1][2] = new BlankStub(new Position(1,2));
+			matrix[1][3] = new BlankStub(new Position(1,3));
 		}
 		public void setTile(Position pos, Tile newTile){
 			matrix[pos.getX()][pos.getY()] = newTile;

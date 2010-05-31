@@ -5,6 +5,11 @@ import javax.swing.JPanel;
 import edu.itba.it.poog7.Drawable;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
+/**
+ * 
+ * @author eordano
+ *
+ */
 public class LevelState implements Drawable {
 	protected TileMatrix matrix;
 	int numberOfTargets;

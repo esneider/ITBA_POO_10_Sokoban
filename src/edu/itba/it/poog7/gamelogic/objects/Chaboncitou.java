@@ -7,6 +7,11 @@ import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
+/**
+ * 
+ * @author eordano
+ *
+ */
 public abstract class Chaboncitou extends LevelObject {
 
 	public Chaboncitou(Position pos) {
