@@ -1,53 +1,62 @@
 package edu.itba.it.poog7.gamelogic;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.Drawable;
+import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
-/**
- * 
- * @author eordano
- *
- */
-public class LevelState implements Drawable {
-	protected TileMatrix matrix;
-	int numberOfTargets;
-	int numberOfBoxes;
-	int matchedBoxes;
-	int destroyedBoxes;
-	
-	@Override
-	public void draw(JPanel panel) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public boolean isGameWon(){
-		return numberOfTargets == matchedBoxes &&
-			numberOfBoxes == matchedBoxes+destroyedBoxes;
-	}
-	
-	public Tile getTile(Position pos){
-		return matrix.getTile(pos);
+public abstract class LevelState implements Drawable {
+
+	TileMatrix tiles;
+//	Tiles [][] tiles;
+	Chaboncitou chaboncitou;
+	String levelName;
+	int numMoves;
+	int remainingBoxes;
+	int boxesNotMatched;
+
+	public GameState getState() {
+		if (chaboncitou == null) {
+			return GameState.GAMEOVER;
+		}
+		if (remainingBoxes == 0 && boxesNotMatched == 0) {
+			return GameState.FINISHED;
+		}
+		return GameState.PLAYING;
 	}
 
-	public void setMatrix(TileMatrix matrix) {
-		this.matrix = matrix;
-	}
-
-	public TileMatrix getMatrix() {
-		return matrix;
+	public void moveChaboncitou( Direction dir ) {
+		if (chaboncitou.canMove(this,dir)) {
+			chaboncitou.move(this, dir);
+		}
 	}
 	
-	public void matchedBox(){
-		matchedBoxes++;
+	public Tile getTile( Position pos ) {
+		return tiles.getTile(pos);
+//		return tiles[pos.getX()][pos.getY()];
 	}
-	public void unmatchedBox(){
-		// Should this exist?
-		matchedBoxes--;
+
+	public int getNumMoves() {
+		return numMoves;
 	}
-	public void destroyedBox(){
-		destroyedBoxes++;
+
+	public void incNumMoves(int numMoves) {
+		this.numMoves++;
 	}
+
+	public void decRemainingBoxes(int remainingBoxes) {
+		this.remainingBoxes--;
+	}
+
+	public void incRemainingBoxes(int remainingBoxes) {
+		this.remainingBoxes++;
+	}
+
+	public void incBoxesMatched(int boxesNotMatched) {
+		this.boxesNotMatched--;
+	}
+
+	public void decBoxesMatched(int boxesNotMatched) {
+		this.boxesNotMatched++;
+	}
+
 }

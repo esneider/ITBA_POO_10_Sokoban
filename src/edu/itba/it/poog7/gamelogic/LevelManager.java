@@ -3,30 +3,26 @@
  */
 package edu.itba.it.poog7.gamelogic;
 
-import edu.itba.it.poog7.gamelogic.objects.Box;
+import edu.itba.it.poog7.gamelogic.objects.Box; 
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
-/**
- * @author champo
- *
- */
 public abstract class LevelManager {
 
 	private LevelState current;
 	
 	public LevelState getCurrent() {
-		return current;
+		return current; // clone()
 	}
 
 	public LevelState getNext() {
 		// TODO: stub
 		return null;
 	}
-	
+
 	public LevelState load(String name) {
 		// TODO: stub
 		return null;
