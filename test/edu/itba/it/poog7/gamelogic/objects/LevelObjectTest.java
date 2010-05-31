@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import edu.itba.it.poog7.gamelogic.LevelState;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.TileMatrix;
 import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
@@ -11,11 +12,11 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 import junit.framework.TestCase;
 
-public class ChaboncitouTest extends TestCase {
+public class LevelObjectTest extends TestCase {
 	LevelStateStub state;
 	ChaboncitouStub chabon;
 	
-	public ChaboncitouTest(String arg0) {
+	public LevelObjectTest(String arg0) {
 		super(arg0);
 	}
 
@@ -23,18 +24,21 @@ public class ChaboncitouTest extends TestCase {
 		super.setUp();
 		state = new LevelStateStub();
 		chabon = new ChaboncitouStub(new Position(1, 1));
+		state.getMatrix().getTile(new Position(1,1)).setObject(chabon);
 	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 
-	public void testCanMove() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	public void testMove() {
-		fail("Not yet implemented"); // TODO
+	public void test1() throws Exception{
+		assert chabon.canMove(state, Direction.LEFT);
+		
+		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		assert chabon.canMove(state, Direction.LEFT);
+		
+		state.getMatrix().getTile(new Position(1,3)).setObject(new BoxStub(new Position(1, 3)));
+		assert !chabon.canMove(state, Direction.LEFT);
 	}
 	
 	class TileMatrixStub extends TileMatrix{
@@ -51,6 +55,9 @@ public class ChaboncitouTest extends TestCase {
 					}
 				}
 			}
+		}
+		public void setTile(Position pos, Tile newTile){
+			matrix[pos.getX()][pos.getY()] = newTile;
 		}
 	}
 	class WallStub extends Wall{
@@ -79,6 +86,9 @@ public class ChaboncitouTest extends TestCase {
 		LevelStateStub(){
 			matrix = new TileMatrixStub();
 		}
+		public void setTile(Position pos, Tile newTile){
+			((TileMatrixStub) matrix).setTile(pos, newTile);
+		}
 	}
 	class ChaboncitouStub extends Chaboncitou{
 
@@ -87,13 +97,28 @@ public class ChaboncitouTest extends TestCase {
 		}
 
 		@Override
-		public void destructor(LevelState state) throws GameOverException{
-			throw new GameOverException();
+		public void draw(JPanel panel) {
+			return;
+		}
+	}
+	class BoxStub extends Box{
+
+		public BoxStub(Position pos) {
+			super(pos);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void destructor(LevelState state) throws GameOverException {
+			// TODO Auto-generated method stub
+			state.destroyedBox();
 		}
 
 		@Override
 		public void draw(JPanel panel) {
+			// TODO Auto-generated method stub
 			return;
 		}
+		
 	}
 }
