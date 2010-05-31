@@ -4,14 +4,9 @@ import edu.itba.it.poog7.Drawable;
 
 public abstract class LevelElement implements Drawable {
 
-	private Position pos;
+	protected Position pos;
 	
 	public LevelElement(Position pos) {
-		
-		this.setPos(pos);
-	}
-
-	public void setPos(Position pos) {
 		this.pos = pos;
 	}
 

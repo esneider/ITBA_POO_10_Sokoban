@@ -16,7 +16,10 @@ public abstract class LevelObject extends LevelElement {
 		Tile myTile = state.getTile(pos);
 		if (!myTile.canMoveFrom(dir))
 			return false;
-		Tile newTile = state.getTile(pos.getNeighborPosition(pos));
+		Tile newTile = state.getTile(pos.getNeighbourPosition(pos));
+		if (!newTile.canMoveTo(dir))
+			return false;
+		return true;
 	}
 	
 	public void move(LevelState state, Direction dir){
