@@ -7,11 +7,17 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 public class LevelState implements Drawable {
 	private TileMatrix matrix;
+	int numberOfTargets;
+	int matchedBoxes;
 	
 	@Override
 	public void draw(JPanel panel) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean isGameWon(){
+		return numberOfTargets == matchedBoxes;
 	}
 	
 	public Tile getTile(Position pos){
@@ -26,4 +32,11 @@ public class LevelState implements Drawable {
 		return matrix;
 	}
 	
+	public void matchedBox(){
+		matchedBoxes++;
+	}
+	public void unmatchedBox(){
+		// Should this exist?
+		matchedBoxes--;
+	}
 }
