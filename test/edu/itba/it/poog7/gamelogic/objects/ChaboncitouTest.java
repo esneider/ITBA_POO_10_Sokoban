@@ -17,7 +17,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	public void setUp() throws Exception {
 		super.setUp();
 		chabon = new ChaboncitouStub(new Position(1, 1));
-		state.getMatrix().getTile(new Position(1,1)).setObject(chabon);
+		state.getTile(new Position(1,1)).setObject(chabon);
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove2() throws Exception{
-		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		state.getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
 		assertTrue(chabon.canMove(state, Direction.RIGHT));
 	}
 	
@@ -45,8 +45,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove3() throws Exception{
-		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
-		state.getMatrix().getTile(new Position(1,3)).setObject(new BoxStub(new Position(1, 3)));
+		state.getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		state.getTile(new Position(1,3)).setObject(new BoxStub(new Position(1, 3)));
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
 	}
 	
@@ -56,9 +56,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove4() throws Exception{
-		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
-		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
-				Direction.RIGHT));
+		state.getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		((LevelStateStub) state).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2),	Direction.RIGHT));
 		assertTrue(chabon.canMove(state, Direction.RIGHT));
 	}
 	
@@ -69,9 +68,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove5() throws Exception{
-		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
-		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
-				Direction.UP));
+		state.getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
+		((LevelStateStub) state).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2),	Direction.UP));
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
 	}
 	
@@ -81,11 +79,11 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove6() throws Exception{
-		((TileMatrixStub) state.getMatrix()).setTile(new Position(1,3), new WallStub(new Position(1, 3)));
-		assertTrue(chabon.canMove(state, Direction.LEFT));
-		assertTrue(chabon.canMove(state, Direction.RIGHT));
-		assertTrue(chabon.canMove(state, Direction.UP));
-		assertTrue(chabon.canMove(state, Direction.DOWN));
+		((LevelStateStub) state).setTile(new Position(1,2), new WallStub(new Position(1, 2)));
+		assertFalse(chabon.canMove(state, Direction.LEFT));
+		assertFalse(chabon.canMove(state, Direction.RIGHT));
+		assertFalse(chabon.canMove(state, Direction.UP));
+		assertFalse(chabon.canMove(state, Direction.DOWN));
 	}
 
 	/**
@@ -94,8 +92,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove7() throws Exception{
-		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 1), new OneWayStub(new Position(1, 1), 
-				Direction.RIGHT));
+		((LevelStateStub) state).setTile(new Position(1, 1), new OneWayStub(new Position(1, 1), Direction.RIGHT));
 		assertTrue(chabon.canMove(state, Direction.RIGHT));
 	}
 
@@ -105,8 +102,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove8() throws Exception{
-		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
-				Direction.UP));
+		((LevelStateStub) state).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), Direction.UP));
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
 	}
 
@@ -121,8 +117,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 			return;
 		}
 	}
-	class BoxStub extends Box{
-
+	public class BoxStub extends Box{
 		public BoxStub(Position pos) {
 			super(pos);
 			// TODO Auto-generated constructor stub
@@ -131,13 +126,13 @@ public class ChaboncitouTest extends LevelObjectTest {
 		@Override
 		public void destructor(LevelState state) throws GameOverException {
 			// TODO Auto-generated method stub
-			state.destroyedBox();
+			
 		}
 
 		@Override
 		public void draw(JPanel panel) {
 			// TODO Auto-generated method stub
-			return;
+			
 		}
 		
 	}
