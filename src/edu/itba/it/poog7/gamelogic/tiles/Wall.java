@@ -3,31 +3,41 @@
  */
 package edu.itba.it.poog7.gamelogic.tiles;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 
 
 /**
+ * Wall tile.
+ * 
  * @author champo
- *
  */
 public abstract class Wall extends Tile {
 
+	/**
+	 * Instance a new Wall tile.
+	 * 
+	 * @param pos The position the tile is in.
+	 */
 	public Wall(Position pos) {
 		super(pos);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean canMoveFrom(Direction dir) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean canMoveTo(Direction dir) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 }

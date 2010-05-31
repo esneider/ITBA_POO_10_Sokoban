@@ -28,7 +28,29 @@ public class Position {
 	
 	public Position getNeighbourPosition(Direction dir) {
 		
-		//TODO: Stub
-		return new Position(0, 0);
+		Position ret;
+		switch (dir) {
+		case DOWN:
+			ret = new Position(x+1, y);
+			break;
+			
+		case UP:
+			ret = new Position(x-1, y);
+			break;
+		
+		case LEFT:
+			ret = new Position(x, y-1);
+			break;
+		
+		case RIGHT:
+			ret = new Position(x, y+1);
+			break;
+
+		default:
+			ret = new Position(x, y);
+			break;
+		}
+		
+		return ret;
 	}
 }
