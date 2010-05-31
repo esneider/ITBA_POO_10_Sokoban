@@ -1,4 +1,4 @@
-package test.edu.itba.it.poog7.gamelogic.objects
+package edu.itba.it.poog7.gamelogic.objects;
 
 import javax.swing.JPanel;
 
