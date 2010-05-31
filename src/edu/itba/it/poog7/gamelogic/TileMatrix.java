@@ -6,7 +6,7 @@ import edu.itba.it.poog7.Drawable;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 public abstract class TileMatrix implements Drawable {
-	private Tile matrix[][];
+	protected Tile matrix[][];
 	
 	@Override
 	public void draw(JPanel panel) {

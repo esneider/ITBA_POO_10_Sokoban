@@ -6,7 +6,7 @@ import edu.itba.it.poog7.Drawable;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 public class LevelState implements Drawable {
-	private TileMatrix matrix;
+	protected TileMatrix matrix;
 	int numberOfTargets;
 	int numberOfBoxes;
 	int matchedBoxes;

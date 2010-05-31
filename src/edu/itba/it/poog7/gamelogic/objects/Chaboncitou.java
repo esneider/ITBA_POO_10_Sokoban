@@ -12,7 +12,6 @@ public abstract class Chaboncitou extends LevelObject {
 		super(pos);
 	}
 	
-	@Override
 	public boolean canMove(LevelState state, Direction dir){
 		if (!super.canMove(state, dir)){
 			return false;

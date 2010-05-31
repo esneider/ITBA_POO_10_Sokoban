@@ -8,9 +8,7 @@ package edu.itba.it.poog7.gamelogic;
  *
  */
 public class Position {
-
 	final private int x;
-	
 	final private int y;
 
 	public Position(int x, int y) {
