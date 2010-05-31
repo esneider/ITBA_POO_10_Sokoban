@@ -53,4 +53,20 @@ public class Position {
 		
 		return ret;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (obj instanceof Position) {
+			
+			Position b = (Position) obj;
+			return b.getX() == x && b.getY() == y;
+		} else {
+			
+			return false;
+		}
+	}
 }
