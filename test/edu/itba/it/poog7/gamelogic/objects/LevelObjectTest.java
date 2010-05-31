@@ -8,12 +8,17 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.TileMatrix;
 import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
+import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 import junit.framework.TestCase;
 
 /**
  * 
+ * @author eordano
+ *
+ */
+/**
  * @author eordano
  *
  */
@@ -35,28 +40,58 @@ public class LevelObjectTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-
-	public void test1() throws Exception{
+	
+	/**
+	 * Checks that the user is unable to move across walls in all directions
+	 * 
+	 * @throws Exception
+	 */
+	public void testInvalidMoves() throws Exception{
+		((TileMatrixStub) state.getMatrix()).setTile(new Position(1,3), new WallStub(new Position(1, 3)));
+		assertTrue(chabon.canMove(state, Direction.LEFT));
 		assertTrue(chabon.canMove(state, Direction.RIGHT));
-		assertFalse(chabon.canMove(state, Direction.UP));
-		assertFalse(chabon.canMove(state, Direction.DOWN));
-		assertFalse(chabon.canMove(state, Direction.LEFT));
-		
+		assertTrue(chabon.canMove(state, Direction.UP));
+		assertTrue(chabon.canMove(state, Direction.DOWN));
+	}
+	
+	/**
+	 * First movement case. The simplest: [P] -> [ ] (a player moving into a empty blank tile
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove1() throws Exception{
+		assertTrue(chabon.canMove(state, Direction.RIGHT));
+	}
+	
+	
+	/**
+	 * Second movement case. A player moves a box.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove2() throws Exception{
 		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
 		assertTrue(chabon.canMove(state, Direction.RIGHT));
-		
+	}
+	
+	/**
+	 * A player shouldn't be able to move a box that has a box behind it.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMove3() throws Exception{
+		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
 		state.getMatrix().getTile(new Position(1,3)).setObject(new BoxStub(new Position(1, 3)));
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
-
 	}
 	
-	public void test2() throws Exception{
+	public void testMove4() throws Exception{
 		state.getMatrix().getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
-		
-		// Add One Way Test cases
+		((TileMatrixStub) state.getMatrix()).setTile(new Position(1, 2), new OneWayStub(new Position(1, 2), 
+				Direction.RIGHT));
 	}
 	
-	class TileMatrixStub extends TileMatrix{
+	private class TileMatrixStub extends TileMatrix{
 		TileMatrixStub(){
 			this.matrix = new Tile[3][5];
 			// Make a simple room
@@ -73,7 +108,7 @@ public class LevelObjectTest extends TestCase {
 			matrix[pos.getX()][pos.getY()] = newTile;
 		}
 	}
-	class WallStub extends Wall{
+	private class WallStub extends Wall{
 		public WallStub(Position pos) {
 			super(pos);
 		}
@@ -84,7 +119,7 @@ public class LevelObjectTest extends TestCase {
 		}
 		
 	}
-	class BlankStub extends Blank{
+	private class BlankStub extends Blank{
 		public BlankStub(Position pos) {
 			super(pos);
 		}
@@ -95,7 +130,18 @@ public class LevelObjectTest extends TestCase {
 		}
 		
 	}
-	class LevelStateStub extends LevelState{
+	private class OneWayStub extends OneWay{
+		public OneWayStub(Position pos, Direction orientation) {
+			super(pos, orientation);
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public void draw(JPanel panel) {
+			return;
+		}
+		
+	}
+	private class LevelStateStub extends LevelState{
 		LevelStateStub(){
 			matrix = new TileMatrixStub();
 		}
@@ -114,7 +160,7 @@ public class LevelObjectTest extends TestCase {
 			return;
 		}
 	}
-	class BoxStub extends Box{
+	private class BoxStub extends Box{
 
 		public BoxStub(Position pos) {
 			super(pos);
