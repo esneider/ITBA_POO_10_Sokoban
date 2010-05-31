@@ -23,11 +23,13 @@ public abstract class LevelManager {
 	}
 
 	public LevelState getNext() {
-		
+		// TODO: stub
+		return null;
 	}
 	
 	public LevelState load(String name) {
-		
+		// TODO: stub
+		return null;
 	}
 	
 	public void save(LevelState level) {
