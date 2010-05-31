@@ -1,5 +1,11 @@
 package edu.itba.it.poog7.gamelogic.objects;
 
-public class Chaboncitou extends LevelObject {
+import edu.itba.it.poog7.gamelogic.Position;
+
+public abstract class Chaboncitou extends LevelObject {
+
+	public Chaboncitou(Position pos) {
+		super(pos);
+	}
 
 }

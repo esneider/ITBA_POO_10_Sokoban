@@ -1,5 +1,11 @@
 package edu.itba.it.poog7.gamelogic.objects;
 
-public class Box extends LevelObject {
+import edu.itba.it.poog7.gamelogic.Position;
+
+public abstract class Box extends LevelObject {
+
+	public Box(Position pos) {
+		super(pos);
+	}
 
 }

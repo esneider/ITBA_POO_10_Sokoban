@@ -28,5 +28,7 @@ public class Position {
 	
 	public Position getNeighbourPosition(Direction dir) {
 		
+		//TODO: Stub
+		return new Position(0, 0);
 	}
 }

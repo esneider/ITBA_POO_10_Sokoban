@@ -3,10 +3,29 @@
  */
 package edu.itba.it.poog7.gamelogic.tiles;
 
+import edu.itba.it.poog7.gamelogic.Direction;
+import edu.itba.it.poog7.gamelogic.Position;
+
 /**
  * @author champo
  *
  */
-public class Hole extends Tile {
+public abstract class Hole extends Tile {
+
+	public Hole(Position pos) {
+		super(pos);
+	}
+
+	@Override
+	public boolean canMoveFrom(Direction dir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canMoveTo(Direction dir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
