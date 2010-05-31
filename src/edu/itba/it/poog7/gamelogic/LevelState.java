@@ -8,7 +8,9 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
 public class LevelState implements Drawable {
 	private TileMatrix matrix;
 	int numberOfTargets;
+	int numberOfBoxes;
 	int matchedBoxes;
+	int destroyedBoxes;
 	
 	@Override
 	public void draw(JPanel panel) {
@@ -17,7 +19,8 @@ public class LevelState implements Drawable {
 	}
 	
 	public boolean isGameWon(){
-		return numberOfTargets == matchedBoxes;
+		return numberOfTargets == matchedBoxes &&
+			numberOfBoxes == matchedBoxes+destroyedBoxes;
 	}
 	
 	public Tile getTile(Position pos){
@@ -38,5 +41,8 @@ public class LevelState implements Drawable {
 	public void unmatchedBox(){
 		// Should this exist?
 		matchedBoxes--;
+	}
+	public void destroyedBox(){
+		destroyedBoxes++;
 	}
 }
