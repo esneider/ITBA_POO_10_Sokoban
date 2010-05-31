@@ -6,8 +6,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 public abstract class LevelState implements Drawable {
 
-	TileMatrix tiles;
-//	Tiles [][] tiles;
+	Tile [][] tiles;
 	Chaboncitou chaboncitou;
 	String levelName;
 	int numMoves;
@@ -31,8 +30,7 @@ public abstract class LevelState implements Drawable {
 	}
 	
 	public Tile getTile( Position pos ) {
-		return tiles.getTile(pos);
-//		return tiles[pos.getX()][pos.getY()];
+		return tiles[pos.getX()][pos.getY()];
 	}
 
 	public int getNumMoves() {
