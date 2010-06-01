@@ -6,6 +6,7 @@
 	<property name="test" location="test"/>
 	
 	<target name="build">
+		<mkdir dir="${build}" />
 		<javac srcdir="${src}" destdir="${build}" />
 	</target>
 		
