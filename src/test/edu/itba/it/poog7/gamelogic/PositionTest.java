@@ -1,8 +1,10 @@
 /**
  * 
  */
-package edu.itba.it.poog7.gamelogic;
+package test.edu.itba.it.poog7.gamelogic;
 
+import edu.itba.it.poog7.gamelogic.Direction;
+import edu.itba.it.poog7.gamelogic.Position;
 import junit.framework.TestCase;
 
 /**

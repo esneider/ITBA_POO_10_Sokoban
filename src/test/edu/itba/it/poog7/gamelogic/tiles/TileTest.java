@@ -1,15 +1,17 @@
 /**
  * 
  */
-package edu.itba.it.poog7.gamelogic.tiles;
+package test.edu.itba.it.poog7.gamelogic.tiles;
 
 import javax.swing.JPanel;
 
+import test.edu.itba.it.poog7.gamelogic.LevelElementTest;
+
 import edu.itba.it.poog7.gamelogic.Direction;
-import edu.itba.it.poog7.gamelogic.LevelElementTest;
 import edu.itba.it.poog7.gamelogic.LevelState;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.LevelObject;
+import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
  * @author champo

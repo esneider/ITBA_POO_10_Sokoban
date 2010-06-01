@@ -1,4 +1,4 @@
-package edu.itba.it.poog7.gamelogic.objects;
+package test.edu.itba.it.poog7.gamelogic.objects;
 
 import javax.swing.JPanel;
 
@@ -6,6 +6,8 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.LevelState;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
+import edu.itba.it.poog7.gamelogic.objects.Box;
+import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 
 public class ChaboncitouTest extends LevelObjectTest {
 	public ChaboncitouTest(String arg0) {

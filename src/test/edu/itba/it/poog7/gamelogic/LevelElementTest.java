@@ -1,9 +1,12 @@
 /**
  * 
  */
-package edu.itba.it.poog7.gamelogic;
+package test.edu.itba.it.poog7.gamelogic;
 
 import javax.swing.JPanel;
+
+import edu.itba.it.poog7.gamelogic.LevelElement;
+import edu.itba.it.poog7.gamelogic.Position;
 
 import junit.framework.TestCase;
 
