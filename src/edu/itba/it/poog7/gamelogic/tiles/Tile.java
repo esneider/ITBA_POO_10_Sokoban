@@ -1,18 +1,18 @@
 package edu.itba.it.poog7.gamelogic.tiles;
 
 import edu.itba.it.poog7.gamelogic.Direction;
-import edu.itba.it.poog7.gamelogic.LevelElement;
+import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
-import edu.itba.it.poog7.gamelogic.objects.LevelObject;
+import edu.itba.it.poog7.gamelogic.objects.GameObject;
 
 /**
  * Abstract base class for all tiles.
  * 
  * @author champo
  */
-public abstract class Tile extends LevelElement {
+public abstract class Tile extends GameElement {
 	
-	LevelObject object;
+	GameObject object;
 	
 	/**
 	 * Instance a new tile. 
@@ -28,7 +28,7 @@ public abstract class Tile extends LevelElement {
 	 * 
 	 * @return The object or null if no object is in the tile.
 	 */
-	public LevelObject getObject() {
+	public GameObject getObject() {
 		return object;
 	}
 	
@@ -37,7 +37,7 @@ public abstract class Tile extends LevelElement {
 	 * 
 	 * @param object
 	 */
-	public void setObject(LevelObject object) {
+	public void setObject(GameObject object) {
 		this.object = object;
 	}
 	
@@ -60,7 +60,7 @@ public abstract class Tile extends LevelElement {
 	public abstract boolean canMoveFrom(Direction dir);
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected GameObject clone() throws CloneNotSupportedException {
 		Tile o = (Tile)super.clone();
 		// ISSUE: LevelObject.clone() is protected so Tile can't call LevelObject.clone()
 //		o.object = (LevelObject)o.object.clone();

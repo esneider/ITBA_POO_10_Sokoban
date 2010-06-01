@@ -10,7 +10,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * @author dario
  *
  */
-public abstract class LevelState implements Drawable, Cloneable {
+public abstract class Game implements Drawable, Cloneable {
 	
 	protected Tile [][] tileMatrix;
 	Position chaboncitouPos;
@@ -20,7 +20,7 @@ public abstract class LevelState implements Drawable, Cloneable {
 	int boxesNotMatched;
 
 	/**
-	 * Instance a new LevelState
+	 * Instance a new Game
 	 * 
 	 * @param name            name of the level
 	 * @param tiles           matrix of tiles (board)
@@ -29,7 +29,7 @@ public abstract class LevelState implements Drawable, Cloneable {
 	 * @param boxes           number of boxes
 	 * @param targets         number of targets
 	 */
-	public LevelState(String name, Tile[][] tiles, Position chaboncitouPos,
+	public Game(String name, Tile[][] tiles, Position chaboncitouPos,
 						int numMoves, int boxes, int targets){
 		this.levelName = name;
 		this.tileMatrix = tiles;
@@ -135,14 +135,5 @@ public abstract class LevelState implements Drawable, Cloneable {
 	 */
 	public void setChaboncitouPos(Position pos) {
 		this.chaboncitouPos = pos;
-	}
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		
-		LevelState o = (LevelState)super.clone();
-		o.tileMatrix = (Tile[][])o.tileMatrix.clone();
-		// ISSUE: chaboncitou is gonna be cloned twice if cloned here but, if not, reference is gonna be wrong :S
-		return o;
 	}
 }

@@ -2,11 +2,11 @@ package test.edu.itba.it.poog7.gamelogic.objects;
 
 import javax.swing.JPanel;
 
-import edu.itba.it.poog7.gamelogic.LevelState;
+import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
-import edu.itba.it.poog7.gamelogic.objects.LevelObject;
+import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
@@ -17,8 +17,8 @@ import junit.framework.TestCase;
  * @author eordano
  */
 public class LevelObjectTest extends TestCase {
-	LevelState state;
-	LevelObject obj;
+	Game state;
+	GameObject obj;
 	
 	public LevelObjectTest(String arg0) {
 		super(arg0);
@@ -81,7 +81,7 @@ public class LevelObjectTest extends TestCase {
 		}
 		
 	}
-	class LevelStateStub extends LevelState{
+	class LevelStateStub extends Game{
 		LevelStateStub(){
 			super();
 			tileMatrix = new Tile[3][5];
@@ -107,14 +107,14 @@ public class LevelObjectTest extends TestCase {
 		}
 		
 	}
-	class LevelObjectStub extends LevelObject{
+	class LevelObjectStub extends GameObject{
 		public LevelObjectStub(Position pos) {
 			super(pos);
 			// TODO Auto-generated constructor stub
 		}
 
 		@Override
-		public void destructor(LevelState state) throws GameOverException {
+		public void destructor(Game state) throws GameOverException {
 			// TODO Auto-generated method stub
 			
 		}

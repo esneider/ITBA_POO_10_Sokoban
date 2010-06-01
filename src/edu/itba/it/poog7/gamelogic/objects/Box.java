@@ -3,7 +3,7 @@ package edu.itba.it.poog7.gamelogic.objects;
 import java.awt.Color;
 
 import edu.itba.it.poog7.gamelogic.Direction;
-import edu.itba.it.poog7.gamelogic.LevelState;
+import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
@@ -12,7 +12,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * @author eordano
  *
  */
-public abstract class Box extends LevelObject {
+public abstract class Box extends GameObject {
 
 	Color color;
 
@@ -21,7 +21,7 @@ public abstract class Box extends LevelObject {
 		this.color = color;
 	}
 	
-	public boolean canMove(LevelState state, Direction dir){
+	public boolean canMove(Game state, Direction dir){
 		if (!super.canMove(state, dir)){
 			return false;
 		}
@@ -33,7 +33,7 @@ public abstract class Box extends LevelObject {
 	}
 
 	@Override
-	public void destructor(LevelState state) {
+	public void destructor(Game state) {
 		state.decRemainingBoxes();
 	}
 }

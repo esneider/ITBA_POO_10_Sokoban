@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import test.edu.itba.it.poog7.gamelogic.LevelElementTest;
 
 import edu.itba.it.poog7.gamelogic.Direction;
-import edu.itba.it.poog7.gamelogic.LevelState;
+import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
-import edu.itba.it.poog7.gamelogic.objects.LevelObject;
+import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
@@ -56,20 +56,20 @@ public class TileTest extends LevelElementTest {
 	}
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Tile#setObject(edu.itba.it.poog7.gamelogic.objects.LevelObject)}.
+	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Tile#setObject(edu.itba.it.poog7.gamelogic.objects.GameObject)}.
 	 */
 	public void testSetObject() {
 		
 		assertNull(tile.getObject());
 		
-		LevelObject obj = new LevelObject(new Position(0, 0)) {
+		GameObject obj = new GameObject(new Position(0, 0)) {
 			
 			@Override
 			public void draw(JPanel panel) {
 			}
 
 			@Override
-			public void destructor(LevelState state) {
+			public void destructor(Game state) {
 			}
 		};
 		
