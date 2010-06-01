@@ -1,8 +1,0 @@
-Testsuite: test.edu.itba.it.poog7.gamelogic.PositionTest
-Tests run: 5, Failures: 0, Errors: 0, Time elapsed: 0.003 sec
-
-Testcase: testPosition took 0 sec
-Testcase: testGetX took 0 sec
-Testcase: testGetY took 0 sec
-Testcase: testGetNeighbourPosition took 0.001 sec
-Testcase: testEquals took 0 sec

@@ -10,9 +10,10 @@
 	</target>
 		
 	<target name="test" depends="build">
+		<mkdir dir="${test}"/>
 		<junit printsummary="yes" haltonfailure="no">
 			<classpath path="${build}" />
-	        <batchtest>
+	        <batchtest todir="${test}">
 	        	<fileset dir="${src}">
     				<include name="**/*Test.java"/>
 				</fileset>
