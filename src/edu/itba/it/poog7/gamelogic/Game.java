@@ -1,6 +1,5 @@
 package edu.itba.it.poog7.gamelogic;
 
-import edu.itba.it.poog7.Drawable;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
@@ -10,7 +9,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * @author dario
  *
  */
-public abstract class Game implements Drawable, Cloneable {
+public abstract class Game {
 	
 	protected Tile [][] tileMatrix;
 	Position chaboncitouPos;
