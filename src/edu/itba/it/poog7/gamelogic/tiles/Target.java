@@ -16,7 +16,7 @@ import edu.itba.it.poog7.gamelogic.Position;
 public abstract class Target extends Tile {
 
 	Color color;
-	
+
 	/**
 	 * Instance a new target tile.
 	 * 

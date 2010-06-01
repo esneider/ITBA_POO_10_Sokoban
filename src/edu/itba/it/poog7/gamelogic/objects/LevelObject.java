@@ -4,7 +4,6 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.LevelElement;
 import edu.itba.it.poog7.gamelogic.LevelState;
 import edu.itba.it.poog7.gamelogic.Position;
-import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
@@ -36,5 +35,5 @@ public abstract class LevelObject extends LevelElement {
 		newTile.setObject(this);
 	}
 
-	public abstract void destructor(LevelState state) throws GameOverException;
+	public abstract void destructor(LevelState state);
 }

@@ -60,11 +60,17 @@ public class Position {
 		
 		if (obj instanceof Position) {
 			
-			Position b = (Position) obj;
-			return b.getX() == x && b.getY() == y;
+			Position p = (Position) obj;
+			return p.getX() == x && p.getY() == y;
 		} else {
 			
 			return false;
 		}
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+
+		return super.clone();
 	}
 }

@@ -34,6 +34,7 @@ public abstract class Tile extends LevelElement {
 	
 	/**
 	 * Set an level object to this tile
+	 * 
 	 * @param object
 	 */
 	public void setObject(LevelObject object) {
@@ -57,4 +58,12 @@ public abstract class Tile extends LevelElement {
 	 * @return True if it can, false otherwise.
 	 */
 	public abstract boolean canMoveFrom(Direction dir);
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Tile o = (Tile)super.clone();
+		// ISSUE: LevelObject.clone() is protected so Tile can't call LevelObject.clone()
+//		o.object = (LevelObject)o.object.clone();
+		return o;
+	}
 }

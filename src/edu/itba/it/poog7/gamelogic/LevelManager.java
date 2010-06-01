@@ -3,7 +3,9 @@
  */
 package edu.itba.it.poog7.gamelogic;
 
-import edu.itba.it.poog7.gamelogic.objects.Box; 
+//import java.util.logging.Level;
+
+import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
@@ -15,7 +17,11 @@ public abstract class LevelManager {
 	private LevelState current;
 	
 	public LevelState getCurrent() {
-		return current; // clone()
+		LevelState o = null;
+		try{
+			o = (LevelState)current.clone();
+		}catch(CloneNotSupportedException e){}
+		return o;
 	}
 
 	public LevelState getNext() {
@@ -29,9 +35,9 @@ public abstract class LevelManager {
 	}
 	
 	public void save(LevelState level) {
-		
+		// TODO
 	}
-	
+// WTF????????
 	public abstract Chaboncitou newChaboncitou();
 	
 	public abstract Box newBox();

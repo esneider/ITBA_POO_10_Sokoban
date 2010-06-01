@@ -9,6 +9,5 @@ public class Game{
 	Game(){
 		
 	}
-	
 
 }
