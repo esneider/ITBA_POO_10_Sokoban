@@ -2,5 +2,5 @@ package view;
 
 public abstract class DrawableElement {
 	
-	public void vodew(){}
+	public void juanSeLaCome(){}
 }
