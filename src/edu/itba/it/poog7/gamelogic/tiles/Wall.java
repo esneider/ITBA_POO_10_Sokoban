@@ -12,7 +12,7 @@ import edu.itba.it.poog7.gamelogic.Position;
  * 
  * @author champo
  */
-public abstract class Wall extends Tile {
+public class Wall extends Tile {
 
 	/**
 	 * Instance a new Wall tile.

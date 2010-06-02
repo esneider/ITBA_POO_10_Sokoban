@@ -1,11 +1,8 @@
 package test.edu.itba.it.poog7.gamelogic.objects;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
-import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 
@@ -47,8 +44,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove3() throws Exception{
-		state.getTile(new Position(1,2)).setObject(new BoxStub(new Position(1, 2)));
-		state.getTile(new Position(1,3)).setObject(new BoxStub(new Position(1, 3)));
+		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2)));
+		state.getTile(new Position(1,3)).setObject(new Box(new Position(1, 3)));
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
 	}
 	
@@ -113,29 +110,5 @@ public class ChaboncitouTest extends LevelObjectTest {
 			super(pos);
 			// TODO Auto-generated constructor stub
 		}
-
-		@Override
-		public void draw(JPanel panel) {
-			return;
-		}
-	}
-	public class BoxStub extends Box{
-		public BoxStub(Position pos) {
-			super(pos);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public void destructor(Game state) throws GameOverException {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void draw(JPanel panel) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 }

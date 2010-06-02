@@ -13,7 +13,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * @author eordano
  *
  */
-public abstract class Box extends GameObject {
+public class Box extends GameObject {
 
 	Color color;
 

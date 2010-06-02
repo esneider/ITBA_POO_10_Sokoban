@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.Direction;
-import edu.itba.it.poog7.gamelogic.exceptions.GameOverException;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
@@ -51,35 +50,18 @@ public class LevelObjectTest extends TestCase {
 	class WallStub extends Wall{
 		public WallStub(Position pos) {
 			super(pos);
-		}
-
-		@Override
-		public void draw(JPanel panel) {
-			return;
-		}
-		
+		}		
 	}
 	class BlankStub extends Blank{
 		public BlankStub(Position pos) {
 			super(pos);
-		}
-
-		@Override
-		public void draw(JPanel panel) {
-			return;
-		}
-		
+		}		
 	}
 	class OneWayStub extends OneWay{
 		public OneWayStub(Position pos, Direction orientation) {
 			super(pos, orientation);
 			// TODO Auto-generated constructor stub
-		}
-		@Override
-		public void draw(JPanel panel) {
-			return;
-		}
-		
+		}		
 	}
 	class LevelStateStub extends Game{
 		LevelStateStub(){
@@ -100,12 +82,6 @@ public class LevelObjectTest extends TestCase {
 			tileMatrix[pos.getX()][pos.getY()] = newTile;
 		}
 		
-		@Override
-		public void draw(JPanel panel) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 	class LevelObjectStub extends GameObject{
 		public LevelObjectStub(Position pos) {
@@ -114,15 +90,8 @@ public class LevelObjectTest extends TestCase {
 		}
 
 		@Override
-		public void destructor(Game state) throws GameOverException {
+		public void destructor(Game state){
 			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void draw(JPanel panel) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}

@@ -9,7 +9,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * @author dario
  *
  */
-public abstract class Game {
+public class Game {
 	
 	protected Tile [][] tileMatrix;
 	Position chaboncitouPos;

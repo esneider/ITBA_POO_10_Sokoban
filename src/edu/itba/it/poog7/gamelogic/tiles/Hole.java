@@ -11,7 +11,7 @@ import edu.itba.it.poog7.gamelogic.Position;
  * 
  * @author champo
  */
-public abstract class Hole extends Tile {
+public class Hole extends Tile {
 
 	/**
 	 * Constructor for Hole tile.

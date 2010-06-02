@@ -11,7 +11,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * @author eordano
  *
  */
-public abstract class Chaboncitou extends GameObject {
+public class Chaboncitou extends GameObject {
 
 	/**
 	 * Simple constructor that delegates everything to his father.

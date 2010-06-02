@@ -5,30 +5,36 @@ package edu.itba.it.poog7.gamelogic;
 
 //import java.util.logging.Level;
 
-public abstract class GameManager {
-
-//	private Game current;
+/**
+ * A kind-of-imperative class in charge of loading levels and interacting with the filesystem.
+ * 
+ * Its heavier-load methods returns instances of Game.
+ * 
+ */
+public class GameManager {
 	
-	public Game getCurrent() {
-//		Game o = null;
-//		try{
-//			o = (Game)current.clone();
-//		}catch(CloneNotSupportedException e){}
-//		return o;
-		return null;
+	public String[] getLevelList() {
+		// TODO: Stub
+		return new String[0];
 	}
 
-	public Game getNext() {
+	public String getNextLevel(String current) {
 		// TODO: stub
 		return null;
 	}
 
-	public Game load(String name) {
+	public Game loadGame(String name) {
 		// TODO: stub
 		return null;
 	}
 	
-	public void save(Game game) {
+	public Game saveGame(Game game) {
 		// TODO
+		return null;
+	}
+	
+	public Game loadLevel(String levelName, String userName){
+		// TODO
+		return null;
 	}
 }

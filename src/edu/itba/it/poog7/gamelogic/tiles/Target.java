@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.itba.it.poog7.gamelogic.tiles;
 
 import java.awt.Color;
@@ -13,7 +10,7 @@ import edu.itba.it.poog7.gamelogic.Position;
  * 
  * @author champo
  */
-public abstract class Target extends Tile {
+public class Target extends Tile {
 
 	Color color;
 

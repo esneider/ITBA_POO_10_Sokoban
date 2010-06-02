@@ -11,7 +11,7 @@ import edu.itba.it.poog7.gamelogic.Position;
  * 
  * @author champo
  */
-public abstract class OneWay extends Tile {
+public class OneWay extends Tile {
 	
 	Direction direction;
 
