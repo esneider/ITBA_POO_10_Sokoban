@@ -3,8 +3,6 @@
  */
 package test.edu.itba.it.poog7.gamelogic.tiles;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
@@ -23,12 +21,7 @@ public class BlankTest extends TileTest {
 	@Override
 	protected void setUp() throws Exception {
 
-		blank = new Blank(new Position(0, 0)) {
-			
-			@Override
-			public void draw(JPanel panel) {
-			}
-		};
+		blank = new Blank(new Position(0, 0));
 		super.setUp();
 	}
 	

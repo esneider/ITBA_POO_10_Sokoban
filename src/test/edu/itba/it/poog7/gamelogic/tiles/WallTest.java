@@ -3,8 +3,6 @@
  */
 package test.edu.itba.it.poog7.gamelogic.tiles;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
@@ -22,14 +20,7 @@ public class WallTest extends TileTest {
 	 */
 	protected void setUp() throws Exception {
 		
-		wall = new Wall(new Position(0, 0)) {
-			
-			@Override
-			public void draw(JPanel panel) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		wall = new Wall(new Position(0, 0));
 		
 		super.setUp();
 	}

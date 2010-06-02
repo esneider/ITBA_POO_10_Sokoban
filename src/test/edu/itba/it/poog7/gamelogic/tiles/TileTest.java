@@ -3,10 +3,7 @@
  */
 package test.edu.itba.it.poog7.gamelogic.tiles;
 
-import javax.swing.JPanel;
-
 import test.edu.itba.it.poog7.gamelogic.LevelElementTest;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
@@ -28,10 +25,6 @@ public class TileTest extends LevelElementTest {
 	protected void setUp() throws Exception {
 		
 		tile = new Tile(new Position(0, 0)) {
-			
-			@Override
-			public void draw(JPanel panel) {
-			}
 			
 			@Override
 			public boolean canMoveTo(Direction dir) {
@@ -64,10 +57,6 @@ public class TileTest extends LevelElementTest {
 		
 		GameObject obj = new GameObject(new Position(0, 0)) {
 			
-			@Override
-			public void draw(JPanel panel) {
-			}
-
 			@Override
 			public void destructor(Game state) {
 			}

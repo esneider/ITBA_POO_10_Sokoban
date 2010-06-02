@@ -5,8 +5,6 @@ package test.edu.itba.it.poog7.gamelogic.tiles;
 
 import java.awt.Color;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
@@ -25,14 +23,7 @@ public class TargetTest extends TileTest {
 	 */
 	protected void setUp() throws Exception {
 		black = new Color(0, 0, 0);
-		target = new Target(new Position(0, 0), black) {
-			
-			@Override
-			public void draw(JPanel panel) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		target = new Target(new Position(0, 0), black);
 		super.setUp();
 	}
 
@@ -69,14 +60,7 @@ public class TargetTest extends TileTest {
 		assertTrue(target.getColor().equals(black));
 		assertFalse(target.getColor().equals(white));
 		
-		Target whiteTarget = new Target(new Position(0, 0), white) {
-			
-			@Override
-			public void draw(JPanel panel) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		Target whiteTarget = new Target(new Position(0, 0), white);
 		
 		assertNotNull(whiteTarget.getColor());
 		assertTrue(whiteTarget.getColor().equals(white));
