@@ -1,14 +1,14 @@
-package edu.itba.it.poog7;
+package edu.itba.it.poog7.view;
 
 import java.awt.Color;
 import java.io.IOException;
 
+import edu.itba.it.gui.ImageUtils;
 import edu.itba.it.poog7.gamelogic.Position;
-import gui.ImageUtils;
 
 
 /**
- * Image class that is a wrapper of {@link ImageUtils}
+ * Image class that wraps {@link ImageUtils}
  * 
  * @author dario
  *

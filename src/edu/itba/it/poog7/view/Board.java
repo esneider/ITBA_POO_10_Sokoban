@@ -1,7 +1,7 @@
-package edu.itba.it.poog7;
+package edu.itba.it.poog7.view;
 
+import edu.itba.it.gui.BoardPanel;
 import edu.itba.it.poog7.gamelogic.Position;
-import gui.BoardPanel;
 
 /**
  * Wrapper of {@link BoardPanel} that implements Image drawing
@@ -30,18 +30,19 @@ public class Board extends BoardPanel{
 	 * 
 	 * @param image  the image
 	 */
-	public void draw(Image image) {
+	public void draw(GameElement elem) {
 		
-		Position pos = image.getPos();
+		Position pos = elem.getPosition();
+		Image img = elem.getImage();
 		
-		if (image.getImage() == null) {
+		if (elem.getImage() == null) {
 			clearImage(pos.getY(), pos.getX());
 			return;
 		}
-		if (image.isTransparent()) {
-			appendImage(pos.getY(), pos.getX(), image.getImage());
+		if (img.isTransparent()) {                    // TODO: Deprecated! We should instead erase things
+			appendImage(pos.getY(), pos.getX(), img.getImage());
 			return;
 		}
-		setImage(pos.getY(), pos.getX(), image.getImage());
+		setImage(pos.getY(), pos.getX(), img.getImage());
 	}
 }

@@ -1,4 +1,4 @@
-package edu.itba.it.poog7;
+package edu.itba.it.poog7.view;
 
 public class Color {
 	private final int r;

@@ -13,10 +13,22 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  */
 public abstract class Chaboncitou extends GameObject {
 
+	/**
+	 * Simple constructor that delegates everything to his father.
+	 * 
+	 * @param pos
+	 */
 	public Chaboncitou(Position pos) {
 		super(pos);
 	}
 	
+	/**
+	 * Check for the ability to move into another square. If the square is occupied by a box, there
+	 * is still a chance that he can move it.
+	 * 
+	 * @param state    The current instance of Game where the Chaboncitou is in.
+	 * @param dir      The direction in which to move.
+	 */
 	public boolean canMove(Game state, Direction dir){
 		if (!super.canMove(state, dir)){
 			return false;
@@ -33,13 +45,11 @@ public abstract class Chaboncitou extends GameObject {
 		return true;
 	}
 	
+	/**
+	 * Refactored into a dark deprecated world?
+	 */
 	@Override
 	public void destructor(Game state) {
 		state.setChaboncitouPos(null);
-	}
-
-	@Override
-	protected GameObject clone() throws CloneNotSupportedException {
-		return super.clone();
 	}
 }

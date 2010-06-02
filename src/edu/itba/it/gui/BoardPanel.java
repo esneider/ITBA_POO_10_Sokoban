@@ -1,4 +1,4 @@
-package gui;
+package edu.itba.it.gui;
 
 import java.awt.Graphics;
 import java.awt.Image;
