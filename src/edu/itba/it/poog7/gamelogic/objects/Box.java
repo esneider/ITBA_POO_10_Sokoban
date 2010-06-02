@@ -1,14 +1,13 @@
 package edu.itba.it.poog7.gamelogic.objects;
 
-import java.awt.Color;
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
+import edu.itba.it.poog7.gamelogic.Color;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
- * The class that represents the color boxes in the game.
+ * The class that represents the colored boxes in the game.
  * 
  * @author eordano
  *
@@ -51,5 +50,14 @@ public class Box extends GameObject {
 	@Override
 	public void destructor(Game state) {
 		state.decRemainingBoxes();
+	}
+
+	/**
+	 * Getter for color
+	 * 
+	 * @return the Color of the box
+	 */
+	public Color getColor() {
+		return color;
 	}
 }
