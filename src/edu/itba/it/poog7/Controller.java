@@ -16,19 +16,19 @@ public class Controller{
 	Game game;
 	
 	Controller(){
-		MainMenu aMenu;
-		aMenu.show();
+		//MainMenu aMenu;
+		//aMenu.show();
 		// TODO: add more things to the MainMenu
 		// TODO: add listeners to trigger new games on clicks on the menu
 	}
 	
 	public String[] getLevels(){
-		return manager.getLevels();
+		return manager.getLevelList();
 	}
 	
-	public void NewGame(String levelName){
+	public void NewGame(String levelName, String userName){
 		//TODO: Kill active game, maybe ask to save game? update highscores?
-		game = manager.loadLevel("levelName");
+		game = manager.loadLevel("levelName", userName);
 		//TODO: Display GameFrame? GameBoard?
 	}
 	

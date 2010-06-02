@@ -59,11 +59,4 @@ public abstract class Tile extends GameElement {
 	 */
 	public abstract boolean canMoveFrom(Direction dir);
 
-	@Override
-	protected GameObject clone() throws CloneNotSupportedException {
-		Tile o = (Tile)super.clone();
-		// ISSUE: LevelObject.clone() is protected so Tile can't call LevelObject.clone()
-//		o.object = (LevelObject)o.object.clone();
-		return o;
-	}
 }
