@@ -4,8 +4,10 @@ import edu.itba.it.poog7.gamelogic.GameManager;
 import edu.itba.it.poog7.gamelogic.Game;
 
 /**
+ * Controller for the 'Model-View-Controller' pattern
+ * <br>
  * Big class to control the application flow.
- * 
+ * <br>
  * In charge of comunicating things in between big objects.
  * 
  * @author eordano
