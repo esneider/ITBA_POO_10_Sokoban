@@ -35,28 +35,36 @@ public class Box extends GameObject {
 	 * @param dir      The direction in which to move.
 	 */
 	public boolean canMove(Game state, Direction dir){
-		if (!super.canMove(state, dir)){
+
+		if (!super.canMove(state, dir)) {
 			return false;
 		}
-		Tile nextTile = state.getTile(pos.getNeighbourPosition(dir));
-		if(nextTile.getObject() != null){
+
+		Tile toTile = state.getTile(pos.getNeighbourPosition(dir));
+		if(toTile.getObject() != null){
 			return false;
 		}
+
 		return true;
 	}
 
 	@Override
     public void move(Game state, Direction dir) {
-        Tile fromTile = state.getTile(pos);
-        if (fromTile instanceof Target && ((Target)fromTile).getColor() == color) {
-            state.decBoxesMatched();
-        }
-        super.move(state, dir);
-        Tile toTile = state.getTile(pos);
-        if (toTile instanceof Target && ((Target)toTile).getColor() == color) {
-            state.incBoxesMatched();
-        }
-    }
+
+		Tile fromTile = state.getTile(pos);
+
+		if (fromTile instanceof Target && ((Target)fromTile).getColor() == color) {
+			state.decBoxesMatched();
+		}
+
+		super.move(state, dir);
+
+		Tile toTile = state.getTile(pos);
+
+		if (toTile instanceof Target && ((Target)toTile).getColor() == color) {
+			state.incBoxesMatched();
+		}
+	}
 
 	/**
 	 * Didn't this got deprecated in the BROTT ? (Big Refactor Of The Tuesday)
