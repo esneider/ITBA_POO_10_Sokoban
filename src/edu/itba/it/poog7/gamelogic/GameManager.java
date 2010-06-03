@@ -74,12 +74,16 @@ public class GameManager {
 		}
 		String newLine;
 		newGame = new Game();
+		
 		while((newLine = readLine(file)) == "");
 		newGame.setLevelName(newLine);
+		
 		while((newLine = readLine(file)) == "");
 		newGame.setUserName(newLine);
+		
 		while((newLine = readLine(file)) == "");
 		newGame.setScore(Integer.parseInt(newLine));
+		
 		while((newLine = readLine(file)) == "");
 		int width, height;
 		width = Integer.parseInt(newLine.split(",")[0]);
@@ -120,8 +124,10 @@ public class GameManager {
 		String newLine;
 		newGame = new Game();
 		newGame.setUserName(userName);
+		
 		while((newLine = readLine(file)) == "");
 		newGame.setLevelName(newLine);
+		
 		while((newLine = readLine(file)) == "");
 		int width, height;
 		width = Integer.parseInt(newLine.split(",")[0]);
@@ -148,6 +154,13 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * Read a line from the file, deletes preceding white spaces, and erases comments starting with #.
+	 * Returns a String "EOF" if the end of the file was reached.
+	 *
+	 * @param file   the file from where to read
+	 * @return       the string read from the file without front whitespace and leading comments
+	 */
 	private String readLine(FileInputStream file) {
 		StringBuffer line = new StringBuffer();
 		int got;
@@ -158,22 +171,27 @@ public class GameManager {
 				}
 				line.append(got);
 			}
-			if (got == -1){
-				return "EOF";
-			}
 		} catch (IOException ioerror){
 			return "EOF";
 		}
 		while (line.charAt(0) == ' ' || line.charAt(0) == '\t') line.deleteCharAt(0);
-		if (line.length() == 0 || line.charAt(0) == '#'){
-			return "";
-		}
+		line.delete(line.indexOf("#", 1), -1);
 		return line.toString();
 	}
 	
+	/**
+	 * Given a line containing something with the regex "(\d,){6}\d", evaluate what kind of
+	 * GameElement it is, and add it to a queue of elements.
+	 * This method doesn't read data from the queues, only inserts data.
+	 * 
+	 * @param newLine        the string from where to read data
+	 * @param tileQueue      a queue of Tile 
+	 * @param objectQueue    a queue of GameObject 
+	 */
 	private void computeLine(String newLine, Queue<Tile> tileQueue, Queue<GameObject> objectQueue) {
 		IOHelper data = new IOHelper(newLine);
-		if (data.getData(2) < 3){ // An object
+		// The only two things that are objects are (1) Chaboncitous or (2) Boxes
+		if (data.getData(2) == 1 || data.getData(2) == 2){
 			objectQueue.add(readObject(data));
 		}
 		else{
@@ -181,6 +199,13 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * Returns a tile, bask on what kind of tile the string gotten says it is. Not a very beautiful
+	 * implementation, should look for something nicer. 
+	 * 
+	 * @param data      a IOHelper with the information gotten.
+	 * @return          a processed Tile from the data 
+	 */
 	private Tile readTile(IOHelper data) {
 		if (data.getData(2) == 3)
 			return newTarget(data);
@@ -193,6 +218,12 @@ public class GameManager {
 		return null;
 	}
 	
+	/**
+	 * Returns an GameObject from the incoming data
+	 *  
+	 * @param data    a IOHelper with information about the object
+	 * @return        a new GameObject of the correct type
+	 */
 	private GameObject readObject(IOHelper data) {
 		if (data.getData(2) == 1)
 			return newChaboncitou(data);
@@ -218,15 +249,19 @@ public class GameManager {
 	}
 
 	private GameObject newChaboncitou(IOHelper data) {
-		// TODO CHECK FOR ANOTHER CHABONCITOU
 		return new Chaboncitou(data.getPosition());
 	}
 
 	private GameObject newBox(IOHelper data) {
-		// TODO INCREMENT NUMBER OF BOXES?
 		return new Box(data.getPosition(), data.getColor());
 	}
 	
+	/**
+	 * Writes a Tile into a PrintStream, according to the convention on file input/output
+	 * 
+	 * @param out
+	 * @param tile
+	 */
 	private void outputTile(PrintStream out, Tile tile) {
 		if (tile instanceof Wall){
 			printTile(out, (Wall)tile);
@@ -273,6 +308,13 @@ public class GameManager {
 		out.println(new IOHelper(tile.getPos(), 6, tile.getDirection().getInt(), new Color(0,0,0)));
 	}
 	
+	/**
+	 * A class useful to get information from and into a file.
+	 * 
+	 * 
+	 * @author eordano
+	 *
+	 */
 	private class IOHelper{
 		int data[];
 		IOHelper(Position pos, int a, int b, Color col){
@@ -286,22 +328,50 @@ public class GameManager {
 					col.getB()
 			};
 		}
+		
+		/**
+		 * A constructor from a string of the regex form "(\d,){6}\d"
+		 * 
+		 * @param S   incoming data to be processed
+		 */
 		IOHelper(String S){
+			// TODO: Validate with regex the incoming information
 			String[] split = S.split(",");
 			data = new int[split.length];
 			for(int i = 0; i < split.length; i++){
 				data[i] = Integer.parseInt(split[i]);
 			}
 		}
+		
+		/**
+		 * Access data of the vector
+		 * 
+		 * @param pos    position in the vector
+		 * @return       the value of data[pos]
+		 */
 		public int getData(int pos){
 			return data[pos];
 		}
+		
+		/**
+		 * Cast into a position of data stored in the first two elements of the data array.
+		 * @return      a Position from the data obtained
+		 */
 		public Position getPosition(){
 			return new Position(data[0], data[1]);
 		}
+		
+		/**
+		 * Get the color element encoded in the string, in the last three elements
+		 * @return      a Color from the data obtained
+		 */
 		public Color getColor(){
 			return new Color(data[4], data[5], data[6]);
 		}
+		
+		/**
+		 * Get a Representation of the data. A new IOHelper could be gotten with this string as constructor.
+		 */
 		public String toString(){
 			String res = "";
 			for(int i = 0; i+1 < data.length; i++){
