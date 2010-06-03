@@ -5,22 +5,25 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
+
 /**
- * All information about a level and its state of playing
+ * Model for the 'Model-View-Controller' pattern
+ * <br>
+ * All information about a game and its state of playing
  * 
  * @author dario
  *
  */
 public class Game {
-	
-	protected Tile [][] tileMatrix;
-	Position chaboncitouPos;
-	String levelName;
-	String levelFileName;
-	String userName;
-	int numMoves;
-	int remainingBoxes;
-	int boxesNotMatched;
+
+	private Tile [][] tileMatrix;
+	private Position chaboncitouPos;
+	private String levelName;
+	private String levelFileName;
+	private String userName;
+	private int numMoves;
+	private int remainingBoxes;
+	private int boxesNotMatched;
 
 	/**
 	 * Instance a new Game
@@ -34,7 +37,8 @@ public class Game {
 	 * @param targets         number of targets
 	 */
 	public Game(String name, String userName, Tile[][] tiles, Position chaboncitouPos,
-						int numMoves, int boxes, int targets){
+				int numMoves, int boxes, int targets){
+
 		this.levelName = name;
 		this.userName = userName;
 		this.tileMatrix = tiles;
@@ -59,6 +63,7 @@ public class Game {
 	 * @return the state of the game
 	 */
 	public GameState getState() {
+
 		if (chaboncitouPos == null) {
 			return GameState.GAMEOVER;
 		}
@@ -74,9 +79,11 @@ public class Game {
 	 * @param dir  direction of movement
 	 */
 	public void moveChaboncitou( Direction dir ) {
+
 		Chaboncitou chaboncitou = (Chaboncitou)getTile(chaboncitouPos).getObject();
 		
 		if (chaboncitou.canMove(this,dir)) {
+			numMoves++;
 			chaboncitou.move(this, dir);
 		}
 	}
@@ -88,6 +95,7 @@ public class Game {
 	 * @return the {@link Tile}
 	 */
 	public Tile getTile( Position pos ) {
+
 		return tileMatrix[pos.getX()][pos.getY()];
 	}
 
@@ -95,20 +103,15 @@ public class Game {
 	 * @return the number of moves since beginning
 	 */
 	public int getNumMoves() {
-		return numMoves;
-	}
 
-	/**
-	 * Increment by one the number of moves since beginning
-	 */
-	public void incNumMoves() {
-		this.numMoves++;
+		return numMoves;
 	}
 
 	/**
 	 * Decrement by one the number of remaining boxes
 	 */
 	public void decRemainingBoxes() {
+
 		this.remainingBoxes--;
 	}
 
@@ -116,6 +119,7 @@ public class Game {
 	 * Increment by one the number of remaining boxes
 	 */
 	public void incRemainingBoxes() {
+
 		this.remainingBoxes++;
 	}
 
@@ -123,6 +127,8 @@ public class Game {
 	 * Increment by one the number of matched boxes
 	 */
 	public void incBoxesMatched() {
+
+		this.remainingBoxes--;
 		this.boxesNotMatched--;
 	}
 
@@ -130,6 +136,8 @@ public class Game {
 	 * Decrement by one the number of matched boxes
 	 */
 	public void decBoxesMatched() {
+
+		this.remainingBoxes++;
 		this.boxesNotMatched++;
 	}
 
@@ -137,6 +145,7 @@ public class Game {
 	 * @return the level name
 	 */
 	public String getLevelName() {
+
 		return levelName;
 	}
 
@@ -146,9 +155,12 @@ public class Game {
 	 * @param pos the position
 	 */
 	public void setChaboncitouPos(Position pos) {
+
 		this.chaboncitouPos = pos;
 	}
-
+	
+	/// ************************************* ///
+	
 	/**
 	 * Getter for the UserName
 	 * 
@@ -210,18 +222,6 @@ public class Game {
 
 	public void setObject(GameObject got) {
 		getTile(got.getPos()).setObject(got);
-	}
-
-	public void setScore(int score) {
-		this.numMoves = score;
-	}
-
-	public int getHeight() {
-		return tileMatrix.length;
-	}
-	
-	public int getWidth(){
-		return tileMatrix[0].length;
 	}
 
 }

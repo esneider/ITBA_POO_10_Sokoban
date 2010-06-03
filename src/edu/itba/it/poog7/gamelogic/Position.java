@@ -1,7 +1,7 @@
-/**
- * 
- */
 package edu.itba.it.poog7.gamelogic;
+
+import edu.itba.it.poog7.gamelogic.Direction;
+import edu.itba.it.poog7.gamelogic.Position;
 
 /**
  * @author champo
@@ -26,51 +26,33 @@ public class Position {
 	
 	public Position getNeighbourPosition(Direction dir) {
 		
-		Position ret;
 		switch (dir) {
-		case DOWN:
-			ret = new Position(x+1, y);
-			break;
-			
-		case UP:
-			ret = new Position(x-1, y);
-			break;
-		
-		case LEFT:
-			ret = new Position(x, y-1);
-			break;
-		
-		case RIGHT:
-			ret = new Position(x, y+1);
-			break;
-
-		default:
-			ret = new Position(x, y);
-			break;
-		}
-		
-		return ret;
+			case DOWN:
+				return new Position(x, y+1);
+			case UP:
+				return new Position(x, y-1);
+			case LEFT:
+				return new Position(x-1, y);
+			case RIGHT:
+				return new Position(x+1, y);
+			default:
+				return new Position(x, y);
+			}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if (obj instanceof Position) {
-			
+
 			Position p = (Position) obj;
 			return p.getX() == x && p.getY() == y;
 		} else {
 			
 			return false;
 		}
-	}
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-
-		return super.clone();
 	}
 }

@@ -1,11 +1,12 @@
 package edu.itba.it.poog7.gamelogic;
 
 public class Color {
+
 	private final int r;
 	private final int g;
 	private final int b;
 	
-	public Color(int r, int g, int b){
+	public Color(int r, int g, int b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
@@ -21,5 +22,10 @@ public class Color {
 
 	public int getB() {
 		return b;
+	}
+	
+	public java.awt.Color getColor() {
+
+		return new java.awt.Color(r, g, b);
 	}
 }
