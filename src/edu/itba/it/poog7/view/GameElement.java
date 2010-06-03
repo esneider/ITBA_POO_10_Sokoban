@@ -9,7 +9,6 @@ import edu.itba.it.poog7.gamelogic.Position;
  *
  */
 public abstract class GameElement implements Drawable {
-	
 	Image img;
 	Position pos;
 	

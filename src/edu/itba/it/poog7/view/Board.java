@@ -26,9 +26,9 @@ public class Board extends BoardPanel{
 	}
 	
 	/**
-	 * Draw an {@link Image}
+	 * Draw the {@link Image} of a {@link GameElement}
 	 * 
-	 * @param image  the image
+	 * @param elem      the element to be drawn
 	 */
 	public void draw(GameElement elem) {
 		

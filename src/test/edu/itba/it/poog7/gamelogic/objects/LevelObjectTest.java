@@ -57,7 +57,7 @@ public class LevelObjectTest extends TestCase {
 	class GameStub extends Game{		
 		public GameStub(String string, Tile[][] tileMatrix, Position pos,
 				int i, int j, int k) {
-			super(string, tileMatrix, pos, i, j, k);
+			super(string, "nobody", tileMatrix, pos, i, j, k);
 		}
 
 		public void setTile(Position pos, Tile newTile){

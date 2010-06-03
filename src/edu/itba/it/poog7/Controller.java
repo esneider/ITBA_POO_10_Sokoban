@@ -32,6 +32,10 @@ public class Controller{
 		//TODO: Display GameFrame? GameBoard?
 	}
 	
+	public void ResetGame(){
+		game = manager.loadLevel(game.getLevelName(), game.getUserName());
+	}
+	
 	public void LoadGame(String savedLevelName){
 		game = manager.loadGame(savedLevelName);
 	}
