@@ -4,6 +4,7 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
@@ -32,15 +33,18 @@ public abstract class GameObject extends GameElement {
      * 
      * @return         a boolean specifying whether the Object can move         
      */
-    public boolean canMove(Game game, Direction dir){
-        Tile fromTile = game.getTile(pos);
-        if (!fromTile.canMoveFrom(dir))
-            return false;
-        Tile toTile = game.getTile(pos.getNeighbourPosition(dir));
-        if (!toTile.canMoveTo(dir))
-            return false;
-        return true;
-    }
+	public boolean canMove(Game game, Direction dir) {
+
+		Tile fromTile = game.getTile(pos);
+		if (!fromTile.canMoveFrom(dir))
+			return false;
+
+		Tile toTile = game.getTile(pos.getNeighbourPosition(dir));
+		if (!toTile.canMoveTo(dir))
+			return false;
+
+		return true;
+	}
     
     /**
      * Move the object into another tile.
@@ -49,13 +53,27 @@ public abstract class GameObject extends GameElement {
      * @param state
      * @param dir
      */
-    public void move(Game state, Direction dir){
-        assert canMove(state, dir);
-        Tile fromTile = state.getTile(this.getPos());
-        fromTile.setObject(null);
-        Tile toTile = state.getTile(this.getPos().getNeighbourPosition(dir));
-        toTile.setObject(this);
-    }
+	public void move(Game state, Direction dir) {
+
+		assert canMove(state, dir);
+
+		Position toPos = pos.getNeighbourPosition(dir);
+		Tile fromTile = state.getTile(pos);
+		Tile toTile   = state.getTile(toPos);
+
+		fromTile.setObject(null);
+
+		if ( toTile.getObject() != null )
+			toTile.getObject().move(state, dir);
+
+		if (toTile instanceof Hole)
+			destructor(state); // almighty GC
+		else{
+			toTile.setObject(this);
+			pos = toPos;
+			generateEvent();
+		}
+	}
 
     /**
      * I think this got Deprecated in the BROTT
