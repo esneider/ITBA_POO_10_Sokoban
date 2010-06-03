@@ -1,9 +1,9 @@
 package edu.itba.it.poog7.gamelogic.tiles;
 
-
-import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Color;
 import edu.itba.it.poog7.gamelogic.Position;
+
+
 
 /**
  * Target tile for boxes.
@@ -30,25 +30,7 @@ public class Target extends Tile {
 	 * 
 	 * @return The tiles color.
 	 */
-	public edu.itba.it.poog7.gamelogic.Color getColor() {
+	public Color getColor() {
 		return color;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canMoveFrom(Direction dir) {
-		
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canMoveTo(Direction dir) {
-		
-		return false;
 	}
 }

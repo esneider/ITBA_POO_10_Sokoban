@@ -5,6 +5,7 @@ import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 
+
 /**
  * Abstract base class for all tiles.
  * 
@@ -39,6 +40,7 @@ public abstract class Tile extends GameElement {
 	 */
 	public void setObject(GameObject object) {
 		this.object = object;
+		generateEvent();
 	}
 	
 	/**
@@ -48,7 +50,9 @@ public abstract class Tile extends GameElement {
 	 * 
 	 * @return True if it can, false otherwise.
 	 */
-	public abstract boolean canMoveTo(Direction dir);
+	public boolean canMoveTo(Direction dir) {
+		return true;
+	}
 	
 	/**
 	 * Tell whether an object can move from this tile in a direction.
@@ -57,6 +61,8 @@ public abstract class Tile extends GameElement {
 	 * 
 	 * @return True if it can, false otherwise.
 	 */
-	public abstract boolean canMoveFrom(Direction dir);
+	public boolean canMoveFrom(Direction dir) {
+		return true;
+	}
 
 }

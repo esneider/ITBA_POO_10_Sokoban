@@ -1,10 +1,7 @@
-/**
- * 
- */
 package edu.itba.it.poog7.gamelogic.tiles;
 
-import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.Direction;
 
 
 /**
@@ -28,7 +25,6 @@ public class Wall extends Tile {
 	 */
 	@Override
 	public boolean canMoveFrom(Direction dir) {
-
 		return false;
 	}
 
@@ -37,7 +33,6 @@ public class Wall extends Tile {
 	 */
 	@Override
 	public boolean canMoveTo(Direction dir) {
-
 		return false;
 	}
 }
