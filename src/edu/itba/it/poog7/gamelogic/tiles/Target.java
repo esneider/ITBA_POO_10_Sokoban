@@ -1,8 +1,8 @@
 package edu.itba.it.poog7.gamelogic.tiles;
 
-import java.awt.Color;
 
 import edu.itba.it.poog7.gamelogic.Direction;
+import edu.itba.it.poog7.gamelogic.Color;
 import edu.itba.it.poog7.gamelogic.Position;
 
 /**
@@ -30,7 +30,7 @@ public class Target extends Tile {
 	 * 
 	 * @return The tiles color.
 	 */
-	public Color getColor() {
+	public edu.itba.it.poog7.gamelogic.Color getColor() {
 		return color;
 	}
 

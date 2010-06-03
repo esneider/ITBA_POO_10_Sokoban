@@ -212,4 +212,16 @@ public class Game {
 		getTile(got.getPos()).setObject(got);
 	}
 
+	public void setScore(int score) {
+		this.numMoves = score;
+	}
+
+	public int getHeight() {
+		return tileMatrix.length;
+	}
+	
+	public int getWidth(){
+		return tileMatrix[0].length;
+	}
+
 }
