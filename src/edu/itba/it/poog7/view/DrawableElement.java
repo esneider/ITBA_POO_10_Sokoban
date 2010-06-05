@@ -26,6 +26,7 @@ public abstract class DrawableElement implements EventListener {
 
 		this.view = view;
 		this.image = new Image(element.getPosition());
+		//FIXME: Theres no such method? Is GameElement missing an extends or an implements?
 		element.subscribeListener(this);
 	}
 

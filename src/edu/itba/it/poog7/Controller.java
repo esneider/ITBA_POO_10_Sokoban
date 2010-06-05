@@ -43,7 +43,7 @@ public class Controller{
 	}
 
 	public void SaveGame(String savedLevelName){
-		manager.saveGame(game);
+		manager.saveGame(game, savedLevelName);
 	}
 	
 	public void HighScores(){

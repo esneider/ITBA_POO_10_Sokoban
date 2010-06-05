@@ -19,17 +19,12 @@ public class View extends JFrame {
 
 	private Board board;
 	private List<DrawableElement> elements = new ArrayList<DrawableElement>();
-
-//	private int width;
-//	private int height;
 	
 	/**
 	 * Instance a {@link View}
 	 */
 	public View(int rows, int columns, int cellSize, int height, int width) {
 
-//		this.width = width;
-//		this.height = height;
 		setLayout(null);
 		setSize(width, height);
 		board = new Board(rows, columns, cellSize );

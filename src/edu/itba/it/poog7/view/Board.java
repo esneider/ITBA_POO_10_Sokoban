@@ -32,8 +32,9 @@ public class Board extends BoardPanel{
 	 */
 	public void draw(Image image) { 
 
-		if (image == null)
+		if (image == null) {
 			return;
+		}
 
 		Position pos = image.getPosition();
 

@@ -22,26 +22,27 @@ import edu.itba.it.poog7.gamelogic.tiles.Target;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
-//import java.util.logging.Level;
+//TODO: Refactor me please!!!! Suggestion: Break it down into Load & Save classes
 
 /**
- * A kind-of-imperative class in charge of loading levels and interacting with the filesystem.
+ * A kind-of-imperative class in charge of loading levels and interacting with
+ * the filesystem.
  * 
  * Its heavier-load methods returns instances of Game.
  * 
  */
 public class GameManager {
 	Game newGame;
-	
+
 	public String[] getLevelList() {
 		File dir = new File("/levels/");
-		File[] files = dir.listFiles(new FileFilter(){
-			public boolean accept(File file){
+		File[] files = dir.listFiles(new FileFilter() {
+			public boolean accept(File file) {
 				return file.getName().endsWith(".txt");
 			}
 		});
 		String[] levels = new String[files.length];
-		for (int i = 0; i < files.length; i++){
+		for (int i = 0; i < files.length; i++) {
 			levels[i] = files[i].getName();
 		}
 		return levels;
@@ -49,163 +50,194 @@ public class GameManager {
 
 	public String getNextLevel(String current) {
 		String[] levelList = getLevelList();
-		if (current == ""){
+		if (current == "") {
 			return levelList[0];
 		}
 		int indexOfCurrent = indexOf(levelList, "current");
-		return levelList[indexOfCurrent+1];
+		return levelList[indexOfCurrent + 1];
 	}
 
 	private int indexOf(String[] levelList, String string) {
-		for(int i = 0; i < levelList.length; i++)
+		for (int i = 0; i < levelList.length; i++)
 			if (levelList[i] == string)
 				return i;
 		return levelList.length;
 	}
 
-	public Game loadGame(String name){
+	public Game loadGame(String name) {
+
+		// TODO: Refactor this method to catch all errors and throw a new
+		// InvalidGameFile exception.
+		// TODO: Remove the god dammed System.out.print
 		FileInputStream file;
-		try{
-			file = new FileInputStream(new File("/levels/"+name));
-		} catch (FileNotFoundException FnF){
+		try {
+			file = new FileInputStream(new File("/levels/" + name));
+		} catch (FileNotFoundException FnF) {
 			System.out.print("Error reading file:\nFile not found.\n");
 			return null;
 		}
 		String newLine;
 		newGame = new Game();
-		
-		while((newLine = readLine(file)) == "");
+
+		while ((newLine = readLine(file)) == "")
+			;
 		newGame.setLevelName(newLine);
-		
-		while((newLine = readLine(file)) == "");
+
+		// TODO: Should this pick up the user name??
+		while ((newLine = readLine(file)) == "")
+			;
 		newGame.setUserName(newLine);
-		
-		while((newLine = readLine(file)) == "");
+
+		while ((newLine = readLine(file)) == "")
+			;
 		newGame.setScore(Integer.parseInt(newLine));
-		
-		while((newLine = readLine(file)) == "");
+
+		while ((newLine = readLine(file)) == "")
+			;
 		int width, height;
 		width = Integer.parseInt(newLine.split(",")[0]);
 		height = Integer.parseInt(newLine.split(",")[1]);
 		newGame.setSize(width, height);
-		
+
 		loadState(file);
 		return newGame;
 	}
 
-	public void saveGame(Game game, String saveFileName){
+	public void saveGame(Game game, String saveFileName) {
+
+		// TODO: Remove the god dammed System.out.print
+		// TODO: Throw an exception or at least return false when the game could
+		// not be saved
 		FileOutputStream file = null;
-		try{
-			file = new FileOutputStream(new File("/levels/"+saveFileName));
+		try {
+			file = new FileOutputStream(new File("/levels/" + saveFileName));
 			PrintStream out = new PrintStream(file);
 			out.println(game.getLevelName());
 			out.println(game.getUserName());
 			out.println(game.getNumMoves());
 			out.println(game.getWidth() + " " + game.getHeight());
-			for(int i = 0; i < game.getHeight(); i++){
-				for(int j = 0; j < game.getWidth(); j++){
-					outputTile(out, game.getTile(new Position(i,j)));
+			for (int i = 0; i < game.getHeight(); i++) {
+				for (int j = 0; j < game.getWidth(); j++) {
+					outputTile(out, game.getTile(new Position(i, j)));
 				}
 			}
-		} catch (IOException aIOEx){
-			System.out.print("Error writing into file:\n"+saveFileName+"\n");
+		} catch (IOException aIOEx) {
+			System.out
+					.print("Error writing into file:\n" + saveFileName + "\n");
 		}
 	}
 
-	public Game loadLevel(String levelName, String userName){
+	public Game loadLevel(String levelName, String userName) {
+
 		FileInputStream file;
-		try{
-			file = new FileInputStream(new File("/levels/"+levelName));
-		} catch (FileNotFoundException FnF){
+		try {
+			file = new FileInputStream(new File("/levels/" + levelName));
+		} catch (FileNotFoundException FnF) {
 			System.out.print("Error reading file:\nFile not found.\n");
 			return null;
 		}
 		String newLine;
 		newGame = new Game();
 		newGame.setUserName(userName);
-		
-		while((newLine = readLine(file)) == "");
+
+		while ((newLine = readLine(file)) == "")
+			;
 		newGame.setLevelName(newLine);
-		
-		while((newLine = readLine(file)) == "");
+
+		while ((newLine = readLine(file)) == "")
+			;
 		int width, height;
 		width = Integer.parseInt(newLine.split(",")[0]);
 		height = Integer.parseInt(newLine.split(",")[1]);
 		newGame.setSize(width, height);
 		newGame.setScore(0);
-		
+
 		loadState(file);
 		return newGame;
 	}
-	
-	private void loadState(FileInputStream file){
-		String newLine; 
+
+	private void loadState(FileInputStream file) {
+		String newLine;
 		Queue<Tile> tileQueue = new LinkedList<Tile>();
 		Queue<GameObject> objectQueue = new LinkedList<GameObject>();
-		while((newLine = readLine(file)) != "EOF"){
+		while ((newLine = readLine(file)) != "EOF") {
 			computeLine(newLine, tileQueue, objectQueue);
 		}
-		while(!tileQueue.isEmpty()){
+		while (!tileQueue.isEmpty()) {
 			newGame.setTile(tileQueue.poll());
 		}
-		while(!objectQueue.isEmpty()){
+		while (!objectQueue.isEmpty()) {
 			newGame.setObject(objectQueue.poll());
 		}
 	}
 
 	/**
-	 * Read a line from the file, deletes preceding white spaces, and erases comments starting with #.
-	 * Returns a String "EOF" if the end of the file was reached.
-	 *
-	 * @param file   the file from where to read
-	 * @return       the string read from the file without front whitespace and leading comments
+	 * Read a line from the file, deletes preceding white spaces, and erases
+	 * comments starting with #. Returns a String "EOF" if the end of the file
+	 * was reached.
+	 * 
+	 * @param file
+	 *            the file from where to read
+	 * @return the string read from the file without front whitespace and
+	 *         leading comments
 	 */
 	private String readLine(FileInputStream file) {
+		
+		//TODO: Refactor this method in to a nested subclass of FileInputStream
 		StringBuffer line = new StringBuffer();
 		int got;
-		try{
-			while((got = file.read()) != -1){
-				if (got == ((int) '\n')){
+		try {
+			while ((got = file.read()) != -1) {
+				if (got == ((int) '\n')) {
 					break;
 				}
 				line.append(got);
 			}
-		} catch (IOException ioerror){
+		} catch (IOException ioerror) {
 			return "EOF";
 		}
-		while (line.charAt(0) == ' ' || line.charAt(0) == '\t') line.deleteCharAt(0);
+		while (line.charAt(0) == ' ' || line.charAt(0) == '\t')
+			line.deleteCharAt(0);
 		line.delete(line.indexOf("#", 1), -1);
 		return line.toString();
 	}
-	
+
 	/**
-	 * Given a line containing something with the regex "(\d,){6}\d", evaluate what kind of
-	 * GameElement it is, and add it to a queue of elements.
-	 * This method doesn't read data from the queues, only inserts data.
+	 * Given a line containing something with the regex "(\d,){6}\d", evaluate
+	 * what kind of GameElement it is, and add it to a queue of elements. This
+	 * method doesn't read data from the queues, only inserts data.
 	 * 
-	 * @param newLine        the string from where to read data
-	 * @param tileQueue      a queue of Tile 
-	 * @param objectQueue    a queue of GameObject 
+	 * @param newLine
+	 *            the string from where to read data
+	 * @param tileQueue
+	 *            a queue of Tile
+	 * @param objectQueue
+	 *            a queue of GameObject
 	 */
-	private void computeLine(String newLine, Queue<Tile> tileQueue, Queue<GameObject> objectQueue) {
+	private void computeLine(String newLine, Queue<Tile> tileQueue,
+			Queue<GameObject> objectQueue) {
 		IOHelper data = new IOHelper(newLine);
-		// The only two things that are objects are (1) Chaboncitous or (2) Boxes
-		if (data.getData(2) == 1 || data.getData(2) == 2){
+		// The only two things that are objects are (1) Chaboncitous or (2)
+		// Boxes
+		if (data.getData(2) == 1 || data.getData(2) == 2) {
 			objectQueue.add(readObject(data));
-		}
-		else{
+		} else {
 			tileQueue.add(readTile(data));
 		}
 	}
 
 	/**
-	 * Returns a tile, bask on what kind of tile the string gotten says it is. Not a very beautiful
-	 * implementation, should look for something nicer. 
+	 * Returns a tile, bask on what kind of tile the string gotten says it is.
+	 * Not a very beautiful implementation, should look for something nicer.
 	 * 
-	 * @param data      a IOHelper with the information gotten.
-	 * @return          a processed Tile from the data 
+	 * @param data
+	 *            a IOHelper with the information gotten.
+	 * @return a processed Tile from the data
 	 */
 	private Tile readTile(IOHelper data) {
+		
+		//TODO: Just switch it, just switch it (8)
+		//TODO: Havent the factory methods became useless?
 		if (data.getData(2) == 3)
 			return newTarget(data);
 		if (data.getData(2) == 4)
@@ -216,12 +248,13 @@ public class GameManager {
 			return newOneWay(data);
 		return null;
 	}
-	
+
 	/**
 	 * Returns an GameObject from the incoming data
-	 *  
-	 * @param data    a IOHelper with information about the object
-	 * @return        a new GameObject of the correct type
+	 * 
+	 * @param data
+	 *            a IOHelper with information about the object
+	 * @return a new GameObject of the correct type
 	 */
 	private GameObject readObject(IOHelper data) {
 		if (data.getData(2) == 1)
@@ -232,7 +265,8 @@ public class GameManager {
 	}
 
 	private OneWay newOneWay(IOHelper data) {
-		return new OneWay(data.getPosition(), Direction.getTurn(data.getData(4)));
+		return new OneWay(data.getPosition(), Direction
+				.getTurn(data.getData(4)));
 	}
 
 	private Tile newHole(IOHelper data) {
@@ -254,130 +288,138 @@ public class GameManager {
 	private GameObject newBox(IOHelper data) {
 		return new Box(data.getPosition(), data.getColor());
 	}
-	
+
 	/**
-	 * Writes a Tile into a PrintStream, according to the convention on file input/output
+	 * Writes a Tile into a PrintStream, according to the convention on file
+	 * input/output
 	 * 
 	 * @param out
 	 * @param tile
 	 */
 	private void outputTile(PrintStream out, Tile tile) {
-		if (tile instanceof Wall){
-			printTile(out, (Wall)tile);
+		if (tile instanceof Wall) {
+			printTile(out, (Wall) tile);
 		}
-		if (tile instanceof Hole){
-			printTile(out, (Hole)tile);
+		if (tile instanceof Hole) {
+			printTile(out, (Hole) tile);
 		}
-		if (tile instanceof Target){
-			printTile(out, (Target)tile);
+		if (tile instanceof Target) {
+			printTile(out, (Target) tile);
 		}
-		if (tile instanceof OneWay){
-			printTile(out, (OneWay)tile);
+		if (tile instanceof OneWay) {
+			printTile(out, (OneWay) tile);
 		}
-		if (tile.getObject() != null){
+		if (tile.getObject() != null) {
 			printObject(out, tile.getObject());
 		}
 	}
 
 	private void printObject(PrintStream out, GameObject object) {
-		if (object instanceof Chaboncitou){
-			printChaboncitou(out, (Chaboncitou)object);
+		if (object instanceof Chaboncitou) {
+			printChaboncitou(out, (Chaboncitou) object);
 		}
-		if (object instanceof Box){
-			printBox(out, (Box)object);
+		if (object instanceof Box) {
+			printBox(out, (Box) object);
 		}
 	}
 
 	private void printChaboncitou(PrintStream out, Chaboncitou object) {
-		out.println(new IOHelper(object.getPos(), 1, 0, new Color(0,0,0)));
+		out.println(new IOHelper(object.getPos(), 1, 0, new Color(0, 0, 0)));
 	}
+
 	private void printBox(PrintStream out, Box object) {
 		out.println(new IOHelper(object.getPos(), 2, 0, object.getColor()));
 	}
+
 	private void printTile(PrintStream out, Target tile) {
 		out.println(new IOHelper(tile.getPos(), 3, 0, tile.getColor()));
 	}
+
 	private void printTile(PrintStream out, Wall tile) {
-		out.println(new IOHelper(tile.getPos(), 4, 0, new Color(0,0,0)));
+		out.println(new IOHelper(tile.getPos(), 4, 0, new Color(0, 0, 0)));
 	}
+
 	private void printTile(PrintStream out, Hole tile) {
-		out.println(new IOHelper(tile.getPos(), 5, 0, new Color(0,0,0)));
+		out.println(new IOHelper(tile.getPos(), 5, 0, new Color(0, 0, 0)));
 	}
+
 	private void printTile(PrintStream out, OneWay tile) {
-		out.println(new IOHelper(tile.getPos(), 6, tile.getDirection().getInt(), new Color(0,0,0)));
+		out.println(new IOHelper(tile.getPos(), 6,
+				tile.getDirection().getInt(), new Color(0, 0, 0)));
 	}
-	
+
 	/**
 	 * A class useful to get information from and into a file.
 	 * 
 	 * 
 	 * @author eordano
-	 *
+	 * 
 	 */
-	private class IOHelper{
+	private class IOHelper {
 		int data[];
-		IOHelper(Position pos, int a, int b, Color col){
-			data = new int[]{
-					pos.getX(),
-					pos.getY(),
-					a,
-					b,
-					col.getR(),
-					col.getG(),
-					col.getB()
-			};
+
+		IOHelper(Position pos, int a, int b, Color col) {
+			data = new int[] { pos.getX(), pos.getY(), a, b, col.getR(),
+					col.getG(), col.getB() };
 		}
-		
+
 		/**
 		 * A constructor from a string of the regex form "(\d,){6}\d"
 		 * 
-		 * @param S   incoming data to be processed
+		 * @param S
+		 *            incoming data to be processed
 		 */
-		IOHelper(String S){
+		IOHelper(String S) {
 			// TODO: Validate with regex the incoming information
 			String[] split = S.split(",");
 			data = new int[split.length];
-			for(int i = 0; i < split.length; i++){
+			for (int i = 0; i < split.length; i++) {
 				data[i] = Integer.parseInt(split[i]);
 			}
 		}
-		
+
 		/**
 		 * Access data of the vector
 		 * 
-		 * @param pos    position in the vector
-		 * @return       the value of data[pos]
+		 * @param pos
+		 *            position in the vector
+		 * @return the value of data[pos]
 		 */
-		public int getData(int pos){
+		public int getData(int pos) {
 			return data[pos];
 		}
-		
+
 		/**
-		 * Cast into a position of data stored in the first two elements of the data array.
-		 * @return      a Position from the data obtained
+		 * Cast into a position of data stored in the first two elements of the
+		 * data array.
+		 * 
+		 * @return a Position from the data obtained
 		 */
-		public Position getPosition(){
+		public Position getPosition() {
 			return new Position(data[0], data[1]);
 		}
-		
+
 		/**
-		 * Get the color element encoded in the string, in the last three elements
-		 * @return      a Color from the data obtained
+		 * Get the color element encoded in the string, in the last three
+		 * elements
+		 * 
+		 * @return a Color from the data obtained
 		 */
-		public Color getColor(){
+		public Color getColor() {
 			return new Color(data[4], data[5], data[6]);
 		}
-		
+
 		/**
-		 * Get a Representation of the data. A new IOHelper could be gotten with this string as constructor.
+		 * Get a Representation of the data. A new IOHelper could be gotten with
+		 * this string as constructor.
 		 */
-		public String toString(){
+		public String toString() {
 			String res = "";
-			for(int i = 0; i+1 < data.length; i++){
+			for (int i = 0; i + 1 < data.length; i++) {
 				res += data[i] + ",";
 			}
-			res += data[data.length-1];
-			return res; 
+			res += data[data.length - 1];
+			return res;
 		}
 	}
 }

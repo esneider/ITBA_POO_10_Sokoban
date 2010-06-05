@@ -202,7 +202,9 @@ public class Game {
 		this.userName = userName;
 	}
 	/**
-	 * Resize the board. WARNING: This will erase all previous information that the board had.
+	 * Resize the board. 
+	 * 
+	 * WARNING: This will erase all previous information that the board had.
 	 * 
 	 * @param width    the new width of the board
 	 * @param height   the new height of the board
