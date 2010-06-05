@@ -1,7 +1,7 @@
 package edu.itba.it.poog7.view;
 
-import edu.itba.it.poog7.gamelogic_.Position;
 import edu.itba.it.gui.BoardPanel;
+import edu.itba.it.poog7.gamelogic.Position;
 
 /**
  * Wrapper of {@link BoardPanel} that implements Image drawing
@@ -35,7 +35,7 @@ public class Board extends BoardPanel{
 		if (image == null)
 			return;
 
-		Position pos = image.getPos();
+		Position pos = image.getPosition();
 
 		if (image.getImage() == null) {
 			clearImage(pos.getY(), pos.getX());

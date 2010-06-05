@@ -1,8 +1,7 @@
 package edu.itba.it.poog7.view;
 
 import edu.itba.it.poog7.event.EventListener;
-import edu.itba.it.poog7.gamelogic_.GameElement;
-import edu.itba.it.poog7.gamelogic_.Position;
+import edu.itba.it.poog7.gamelogic.Position;
 
 /**
  * Listener of a {@link GameElement}, that draws it when it changes
@@ -12,7 +11,7 @@ import edu.itba.it.poog7.gamelogic_.Position;
  * @author dario
  *
  */
-public abstract class DrawableElement implements EventListener{
+public abstract class DrawableElement implements EventListener {
 
 	protected Image image;
 	protected View view;
@@ -26,7 +25,7 @@ public abstract class DrawableElement implements EventListener{
 	protected DrawableElement(View view, GameElement element) {
 
 		this.view = view;
-		this.image = new Image(element.getPos());
+		this.image = new Image(element.getPosition());
 		element.subscribeListener(this);
 	}
 
@@ -36,7 +35,7 @@ public abstract class DrawableElement implements EventListener{
 		if (e == null) {
 			view.removeElement(this);
 		}else{
-			image.setPos((Position)e);
+			image.setPosition((Position)e);
 			view.getBoard().draw(image);
 		}
 	}

@@ -1,7 +1,7 @@
 package edu.itba.it.poog7;
 
-import edu.itba.it.poog7.gamelogic.GameManager;
 import edu.itba.it.poog7.gamelogic.Game;
+import edu.itba.it.poog7.gamelogic.GameManager;
 
 /**
  * Controller for the 'Model-View-Controller' pattern

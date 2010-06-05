@@ -2,8 +2,9 @@ package edu.itba.it.poog7.view.objects;
 
 import java.io.IOException;
 
-import edu.itba.it.poog7.gamelogic_.objects.Chaboncitou;
-import edu.itba.it.poog7.view.*;
+import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
+import edu.itba.it.poog7.view.Board;
+import edu.itba.it.poog7.view.DrawableElement;
 
 /**
  * {@link DrawableElement} corresponding to {@link Chaboncitou}
@@ -20,7 +21,7 @@ public class DChaboncitou extends DrawableElement {
 	 * @throws IOException  if there is an error while opening the image file
 	 */
 	public DChaboncitou(Board board, Chaboncitou chaboncitou) throws IOException {
-		super(board,chaboncitou);
+		super(board, chaboncitou);
 		image.setImage("resources/smile.png");
 		image.setTransparent(true);
 	}

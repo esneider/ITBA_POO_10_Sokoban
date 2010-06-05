@@ -13,7 +13,6 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import edu.itba.it.poog7.gamelogic.Color;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;

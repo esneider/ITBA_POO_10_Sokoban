@@ -1,6 +1,7 @@
 package edu.itba.it.poog7.view;
 
-import edu.itba.it.poog7.gamelogic_.Position;
+import edu.itba.it.poog7.gamelogic.Position;
+
 
 /**
  * Abstract class to draw things representable in a tile on screen.

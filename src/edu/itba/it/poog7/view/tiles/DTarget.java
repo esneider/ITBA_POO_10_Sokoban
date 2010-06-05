@@ -2,8 +2,8 @@ package edu.itba.it.poog7.view.tiles;
 
 import java.io.IOException;
 
-import edu.itba.it.poog7.gamelogic_.tiles.Target;
-import edu.itba.it.poog7.view.*;
+import edu.itba.it.poog7.view.Board;
+import edu.itba.it.poog7.view.DrawableElement;
 
 /**
  * {@link DrawableElement} corresponding to {@link Target}

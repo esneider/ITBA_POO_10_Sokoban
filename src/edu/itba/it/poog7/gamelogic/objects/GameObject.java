@@ -1,8 +1,8 @@
 package edu.itba.it.poog7.gamelogic.objects;
 
-import edu.itba.it.poog7.gamelogic.Direction; 
-import edu.itba.it.poog7.gamelogic.GameElement;
+import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
+import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;

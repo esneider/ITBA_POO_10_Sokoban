@@ -2,8 +2,9 @@ package edu.itba.it.poog7.view.objects;
 
 import java.io.IOException;
 
-import edu.itba.it.poog7.gamelogic_.objects.Box;
-import edu.itba.it.poog7.view.*;
+import edu.itba.it.poog7.gamelogic.objects.Box;
+import edu.itba.it.poog7.view.Board;
+import edu.itba.it.poog7.view.DrawableElement;
 
 /**
  * {@link DrawableElement} corresponding to {@link Box}
@@ -20,7 +21,7 @@ public class DBox extends DrawableElement {
 	 * @throws IOException  if there is an error when opening the image file
 	 */
 	public DBox(Board board, Box box) throws IOException {
-		super(board,box);
+		super(board, box);
 		image.setImage("resources/box.png");
 		image.dye(box.getColor());
 		image.setTransparent(true);

@@ -3,10 +3,9 @@
  */
 package test.edu.itba.it.poog7.gamelogic;
 
+import junit.framework.TestCase;
 import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
-
-import junit.framework.TestCase;
 
 /**
  * @author champo

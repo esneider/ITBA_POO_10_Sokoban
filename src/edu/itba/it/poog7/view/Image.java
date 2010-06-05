@@ -2,10 +2,9 @@ package edu.itba.it.poog7.view;
 
 import java.io.IOException;
 
-import edu.itba.it.poog7.gamelogic_.Color;
-import edu.itba.it.poog7.gamelogic_.Position;
-
 import edu.itba.it.gui.ImageUtils;
+import edu.itba.it.poog7.gamelogic.Color;
+import edu.itba.it.poog7.gamelogic.Position;
 
 
 /**
@@ -103,7 +102,7 @@ public class Image {
 	 * 
 	 * @return the {@link Position}
 	 */
-	public Position getPos() {
+	public Position getPosition() {
 
 		return pos;
 	}
@@ -113,7 +112,7 @@ public class Image {
 	 * 
 	 * @param pos  the {@link Position}
 	 */
-	public void setPos(Position pos) {
+	public void setPosition(Position pos) {
 
 		this.pos = pos;
 	}

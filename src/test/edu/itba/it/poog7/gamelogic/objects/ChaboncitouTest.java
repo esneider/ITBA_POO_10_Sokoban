@@ -1,12 +1,12 @@
 package test.edu.itba.it.poog7.gamelogic.objects;
 
+import edu.itba.it.poog7.gamelogic.Color;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
-import edu.itba.it.poog7.gamelogic.Color;
 
 public class ChaboncitouTest extends LevelObjectTest {
 	public ChaboncitouTest(String arg0) {

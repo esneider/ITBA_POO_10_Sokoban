@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import edu.itba.it.poog7.gamelogic_.Color;
+import edu.itba.it.poog7.gamelogic.Color;
 
 /**
  * View for the 'Model-View-Controller' pattern

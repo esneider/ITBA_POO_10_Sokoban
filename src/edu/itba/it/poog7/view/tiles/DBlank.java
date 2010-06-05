@@ -2,8 +2,9 @@ package edu.itba.it.poog7.view.tiles;
 
 import java.io.IOException;
 
-import edu.itba.it.poog7.gamelogic_.tiles.Blank;
-import edu.itba.it.poog7.view.*;
+import edu.itba.it.poog7.gamelogic.tiles.Blank;
+import edu.itba.it.poog7.view.Board;
+import edu.itba.it.poog7.view.DrawableElement;
 
 /**
  * {@link DrawableElement} corresponding to {@link Blank}
@@ -20,6 +21,6 @@ public class DBlank extends DrawableElement {
 	 * @throws IOException if there is an error while opening the image file
 	 */
 	public DBlank(Board board, Blank blank) throws IOException {
-		super(board,blank);
+		super(board, blank);
 	}
 }
