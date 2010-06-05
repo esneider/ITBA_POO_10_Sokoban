@@ -42,11 +42,11 @@ public class LevelObjectTest extends TestCase {
 	public void testObject() throws Exception{
 		obj = new GameObjectStub(new Position (1, 2));
 		state.getTile(new Position(1, 2)).setObject(obj);
-		assertTrue(obj.canMove(state, Direction.LEFT));
-		assertTrue(obj.canMove(state, Direction.RIGHT));
+		assertTrue(obj.canMove(state, Direction.UP));
+		assertTrue(obj.canMove(state, Direction.DOWN));
 
-		assertFalse(obj.canMove(state, Direction.UP));
-		assertFalse(obj.canMove(state, Direction.DOWN));
+		assertFalse(obj.canMove(state, Direction.RIGHT));
+		assertFalse(obj.canMove(state, Direction.LEFT));
 	}
 	
 	/**
@@ -54,18 +54,13 @@ public class LevelObjectTest extends TestCase {
 	 * 
 	 * @author eordano
 	 */
-	class GameStub extends Game{		
+	class GameStub extends Game {		
 		public GameStub(String string, Tile[][] tileMatrix, Position pos,
 				int i, int j, int k) {
 			super(string, "nobody", tileMatrix, pos, i, j, k);
 		}
-
-		public void setTile(Position pos, Tile newTile){
-			tileMatrix[pos.getX()][pos.getY()] = newTile;
-		}
-		
 	}
-	class GameObjectStub extends GameObject{
+	class GameObjectStub extends GameObject {
 		public GameObjectStub(Position position) {
 			super(position);
 		}

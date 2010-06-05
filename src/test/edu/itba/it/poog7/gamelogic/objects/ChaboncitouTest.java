@@ -27,7 +27,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove1() throws Exception{
-		assertTrue(chabon.canMove(state, Direction.RIGHT));
+		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}	
 	/**
 	 * Second movement case. A player moves a box.
@@ -36,7 +36,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 */
 	public void testCanMove2() throws Exception{
 		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0, 0, 0)));
-		assertTrue(chabon.canMove(state, Direction.RIGHT));
+		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	public void testCanMove3() throws Exception{
 		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0,0,0)));
 		state.getTile(new Position(1,3)).setObject(new Box(new Position(1, 3), new Color(0,0,0)));
-		assertFalse(chabon.canMove(state, Direction.RIGHT));
+		assertFalse(chabon.canMove(state, Direction.DOWN));
 	}
 	
 	/**
@@ -57,8 +57,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 */
 	public void testCanMove4() throws Exception{
 		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0,0,0)));
-		state.setTile(new Position(1, 2), new OneWay(new Position(1, 2),	Direction.RIGHT));
-		assertTrue(chabon.canMove(state, Direction.RIGHT));
+		state.setTile(new OneWay(new Position(1, 2), Direction.DOWN));
+		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}
 	
 	/**
@@ -69,8 +69,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 */
 	public void testCanMove5() throws Exception{
 		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0,0,0)));
-		state.setTile(new Position(1, 2), new OneWay(new Position(1, 2),	Direction.UP));
-		assertFalse(chabon.canMove(state, Direction.RIGHT));
+		state.setTile(new OneWay(new Position(1, 2), Direction.UP));
+		assertFalse(chabon.canMove(state, Direction.DOWN));
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove6() throws Exception{
-		state.setTile(new Position(1,2), new Wall(new Position(1, 2)));
+		state.setTile(new Wall(new Position(1, 2)));
 		assertFalse(chabon.canMove(state, Direction.LEFT));
 		assertFalse(chabon.canMove(state, Direction.RIGHT));
 		assertFalse(chabon.canMove(state, Direction.UP));
@@ -92,8 +92,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove7() throws Exception{
-		state.setTile(new Position(1, 1), new OneWay(new Position(1, 1), Direction.RIGHT));
-		assertTrue(chabon.canMove(state, Direction.RIGHT));
+		state.setTile(new OneWay(new Position(1, 1), Direction.DOWN));
+		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove8() throws Exception{
-		state.setTile(new Position(1, 2), new OneWay(new Position(1, 2), Direction.UP));
-		assertFalse(chabon.canMove(state, Direction.RIGHT));
+		state.setTile(new OneWay(new Position(1, 2), Direction.UP));
+		assertFalse(chabon.canMove(state, Direction.DOWN));
 	}
 }

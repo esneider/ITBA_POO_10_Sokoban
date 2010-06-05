@@ -56,20 +56,20 @@ public class PositionTest extends TestCase {
 		
 		//TODO: This just doesnt feel right
 		result = pos.getNeighbourPosition(Direction.UP);
-		assertFalse(pos.getX() == result.getX());
-		assertEquals(pos.getY(), result.getY());
+		assertEquals(pos.getX(), result.getX());
+		assertFalse(pos.getY() == result.getY());
 		
 		result = pos.getNeighbourPosition(Direction.DOWN);
+		assertEquals(pos.getX(), result.getX());
+		assertFalse(pos.getY() == result.getY());
+		
+		result = pos.getNeighbourPosition(Direction.LEFT);
 		assertFalse(pos.getX() == result.getX());
 		assertEquals(pos.getY(), result.getY());
 		
-		result = pos.getNeighbourPosition(Direction.LEFT);
-		assertEquals(pos.getX(), result.getX());
-		assertFalse(pos.getY() == result.getY());
-		
 		result = pos.getNeighbourPosition(Direction.RIGHT);
-		assertEquals(pos.getX(), result.getX());
-		assertFalse(pos.getY() == result.getY());
+		assertFalse(pos.getX() == result.getX());
+		assertEquals(pos.getY(), result.getY());
 	}
 
 	/**
