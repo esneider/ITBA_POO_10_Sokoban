@@ -8,7 +8,7 @@ package edu.itba.it.poog7.gamelogic;
  * we use: up, down, left, right
  */
 public enum Direction {
-	UP(0), RIGHT(1), DOWN(2), LEFT(3);
+	UP(2), RIGHT(3), DOWN(0), LEFT(1), INVALID(-1);
 
 	private final int dir;
 
@@ -37,10 +37,11 @@ public enum Direction {
 	public static Direction getTurn(int turn) {
 		
 		switch (turn) {
-			case 0:	return UP;
-			case 1: return RIGHT;
-			case 2: return DOWN;
-			default: return LEFT;
+			case 0:	return DOWN;
+			case 1: return LEFT;
+			case 2: return UP;
+			case 3: return RIGHT;
+			default: return INVALID;
 		}
 	}
 }

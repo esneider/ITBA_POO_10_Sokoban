@@ -279,6 +279,9 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 			if ((e.getModifiers() & KeyEvent.SHIFT_DOWN_MASK) != 0){
 				resetGame();
 			}
+			break;
+		default:
+			break;
 		}
 	}
 

@@ -26,13 +26,13 @@ public class DOneWay extends DrawableElement {
 		image.setImage("resources/path.png");
 		switch (oneWay.getDirection()) {
 			case RIGHT:
-				image.rotate(1);
+				image.rotate(3);
 				break;
-			case DOWN:
+			case UP:
 				image.rotate(2);
 				break;
 			case LEFT:
-				image.rotate(3);
+				image.rotate(1);
 				break;
 		}
 	}

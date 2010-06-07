@@ -346,7 +346,7 @@ public class GameManager extends EventDispatcher {
 	}
 
 	protected OneWay newOneWay(Game game, IOHelper data) throws CouldNotLoadFileException {
-		return new OneWay(data.getPosition(), Direction.getTurn(data.getData(4)));
+		return new OneWay(data.getPosition(), data.getDirection());
 	}
 
 	protected GameTile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
@@ -420,6 +420,14 @@ public class GameManager extends EventDispatcher {
 		 */
 		public int getData(int pos) {
 			return data[pos];
+		}
+		
+		/**
+		 * Access direction of the element
+		 * TODO: AWFUL HACK
+		 */
+		public Direction getDirection(){
+			return Direction.getTurn(data[3]);
 		}
 
 		/**
