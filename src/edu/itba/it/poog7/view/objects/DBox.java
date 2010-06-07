@@ -3,6 +3,8 @@ package edu.itba.it.poog7.view.objects;
 import java.io.IOException;
 
 import edu.itba.it.poog7.gamelogic.objects.Box;
+import edu.itba.it.poog7.view.Board;
+import edu.itba.it.poog7.view.DrawableElement;
 import edu.itba.it.poog7.view.View;
 
 /**

@@ -6,6 +6,7 @@ package edu.itba.it.poog7.view.objects;
 import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventListener;
 import edu.itba.it.poog7.gamelogic.GameElement;
+import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
 import edu.itba.it.poog7.view.DrawableElement;
 import edu.itba.it.poog7.view.View;

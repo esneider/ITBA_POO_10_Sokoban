@@ -3,6 +3,7 @@ package edu.itba.it.poog7.view.tiles;
 import java.io.IOException;
 
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
+import edu.itba.it.poog7.view.Board;
 import edu.itba.it.poog7.view.DrawableElement;
 import edu.itba.it.poog7.view.View;
 

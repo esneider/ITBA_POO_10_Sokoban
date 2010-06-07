@@ -3,8 +3,8 @@ package edu.itba.it.poog7.view;
 import java.io.IOException;
 
 import edu.itba.it.gui.ImageUtils;
-import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 
 
 /**
