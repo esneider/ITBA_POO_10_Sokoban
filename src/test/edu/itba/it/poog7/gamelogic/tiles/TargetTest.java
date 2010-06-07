@@ -4,9 +4,9 @@
 package test.edu.itba.it.poog7.gamelogic.tiles;
 
 
-import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
 
 /**
