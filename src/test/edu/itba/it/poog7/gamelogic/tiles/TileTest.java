@@ -5,7 +5,6 @@ package test.edu.itba.it.poog7.gamelogic.tiles;
 
 import test.edu.itba.it.poog7.gamelogic.LevelElementTest;
 import edu.itba.it.poog7.gamelogic.Direction;
-import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
@@ -57,9 +56,6 @@ public class TileTest extends LevelElementTest {
 		
 		GameObject obj = new GameObject(new Position(0, 0)) {
 			
-			@Override
-			public void destructor(Game state) {
-			}
 		};
 		
 		tile.setObject(obj);

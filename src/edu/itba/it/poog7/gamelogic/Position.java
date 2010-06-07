@@ -8,19 +8,40 @@ public class Position {
 	final private int x;
 	final private int y;
 
+	/**
+	 * Constructor for a new position
+	 * 
+	 * @param x
+	 *            the x coordinate
+	 * @param y
+	 *            the y coordinate
+	 */
 	public Position(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * @return the x component of this position
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * @return the y component of this position
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Get the neighbor of this position.
+	 * 
+	 * @param dir
+	 *            the {@link Direction} we are looking for
+	 * @return a new Position with the {@link Position} of the Neighbor
+	 */
 	public Position getNeighbourPosition(Direction dir) {
 
 		switch (dir) {
@@ -51,5 +72,10 @@ public class Position {
 
 			return false;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return x + "," + y;
 	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.view.Board;
 import edu.itba.it.poog7.view.DrawableElement;
+import edu.itba.it.poog7.view.View;
 
 /**
  * {@link DrawableElement} corresponding to {@link OneWay}
@@ -15,13 +16,13 @@ import edu.itba.it.poog7.view.DrawableElement;
 public class DOneWay extends DrawableElement {
 
 	/**
-	 * @param board   the {@link Board} in which to draw
+	 * @param view   the {@link Board} in which to draw
 	 * @param oneWay  the corresponding {@link OneWay}
 	 * 
 	 * @throws IOException if there is an error while opening the image file
 	 */
-	public DOneWay(Board board, OneWay oneWay) throws IOException {
-		super(board,oneWay);
+	public DOneWay(View view, OneWay oneWay) throws IOException {
+		super(view, oneWay);
 		image.setImage("resources/path.png");
 		switch (oneWay.getDirection()) {
 			case RIGHT:

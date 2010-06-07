@@ -4,7 +4,8 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
-import edu.itba.it.poog7.gamelogic.tiles.Hole;
+import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
+import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
@@ -13,11 +14,13 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  * 
  */
 public abstract class GameObject extends GameElement {
+	private boolean destroyed = false;
+
 	/**
 	 * Make a new GameObject. This method just calls the one in the parent
 	 * class.
 	 * 
-	 * @param pos
+	 * @param pos The initial position.
 	 */
 	public GameObject(Position pos) {
 		super(pos);
@@ -55,8 +58,8 @@ public abstract class GameObject extends GameElement {
 	 * Move the object into another tile. Just in case, there is an assertion to
 	 * warn if the canMove() method wasn't called.
 	 * 
-	 * @param state
-	 * @param dir
+	 * @param state The game state.
+	 * @param dir The direction to move in.
 	 */
 	public void move(Game state, Direction dir) {
 
@@ -72,21 +75,20 @@ public abstract class GameObject extends GameElement {
 			toTile.getObject().move(state, dir);
 		}
 
-		if (toTile instanceof Hole) {
-			destructor(state); // almighty GC
-		} else {
-			toTile.setObject(this);
-			pos = toPos;
-			generateEvent();
+		toTile.setObject(this);
+		
+		pos = toPos;
+		if (!destroyed) {
+			generateEvent(new StateUpdateEvent(this));
 		}
 	}
 
 	/**
-	 * I think this got Deprecated in the BROTT
-	 * 
-	 * @param state
+	 * Destruct the object.
 	 */
-	public void destructor(Game state) {
-		generateEvent(null);
+	public void destructor() {
+
+		destroyed = true;
+		generateEvent(new DestroyedEvent(this));
 	}
 }

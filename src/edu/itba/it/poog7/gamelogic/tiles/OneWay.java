@@ -1,7 +1,9 @@
 package edu.itba.it.poog7.gamelogic.tiles;
 
 import edu.itba.it.poog7.gamelogic.Direction;
+import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 
 
 /**
@@ -49,5 +51,10 @@ public class OneWay extends Tile {
 	public boolean canMoveTo(Direction dir) {
 		
 		return dir == direction;
+	}
+
+	@Override
+	public String toString() {
+		return pos+","+ElementType.ONEWAY.getInt()+","+direction.getInt()+","+RGBColor.black;
 	}
 }

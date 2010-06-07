@@ -16,10 +16,6 @@ public class LevelObjectTest extends TestCase {
 	GameStub state;
 	GameObject obj;
 	
-	public LevelObjectTest(String arg0) {
-		super(arg0);
-	}
-
 	protected void setUp() throws Exception {
 		super.setUp();
 		Tile tileMatrix[][] = new Tile[3][5];
@@ -32,13 +28,17 @@ public class LevelObjectTest extends TestCase {
 		tileMatrix[1][1] = new Blank(new Position(1,1));
 		tileMatrix[1][2] = new Blank(new Position(1,2));
 		tileMatrix[1][3] = new Blank(new Position(1,3));	
-		state = new GameStub("file", tileMatrix, null, 0, 0, 0);
+		state = new GameStub("file", tileMatrix, 0, 0, 0);
 	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 	
+	/**
+	 * Test that the game object can move correctly.
+	 * @throws Exception
+	 */
 	public void testObject() throws Exception{
 		obj = new GameObjectStub(new Position (1, 2));
 		state.getTile(new Position(1, 2)).setObject(obj);
@@ -55,19 +55,32 @@ public class LevelObjectTest extends TestCase {
 	 * @author eordano
 	 */
 	class GameStub extends Game {		
-		public GameStub(String string, Tile[][] tileMatrix, Position pos,
+		/**
+		 * Constructor.
+		 * 
+		 * @param string A string.
+		 * @param tileMatrix The tile matrix that represents the game board.
+		 * @param i Number of movements made.
+		 * @param j Number of boxes.
+		 * @param k Number of targets.
+		 */
+		public GameStub(String string, Tile[][] tileMatrix, 
 				int i, int j, int k) {
-			super(string, "nobody", tileMatrix, pos, i, j, k);
+			init(string, string, "nobody", tileMatrix, i, j, k);
 		}
 	}
+	/**
+	 * @author dario
+	 *
+	 */
 	class GameObjectStub extends GameObject {
+		/**
+		 * Constructor.
+		 * 
+		 * @param position The objects initial position.
+		 */
 		public GameObjectStub(Position position) {
 			super(position);
-		}
-		
-		@Override
-		public void destructor(Game state){
-			// TODO Auto-generated method stub
 		}
 		
 	}

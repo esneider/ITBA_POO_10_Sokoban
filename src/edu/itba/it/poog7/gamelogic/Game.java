@@ -1,102 +1,169 @@
 package edu.itba.it.poog7.gamelogic;
 
+import edu.itba.it.poog7.event.Event;
+import edu.itba.it.poog7.event.EventDispatcher;
+import edu.itba.it.poog7.event.EventListener;
+import edu.itba.it.poog7.gamelogic.event.GameOverEvent;
+import edu.itba.it.poog7.gamelogic.event.MoveChaboncitouEvent;
+import edu.itba.it.poog7.gamelogic.event.ScoreChangedEvent;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
-import edu.itba.it.poog7.gamelogic.objects.GameObject;
-import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
-
 /**
- * Model for the 'Model-View-Controller' pattern
- * <br>
+ * Model for the 'Model-View-Controller' pattern <br>
  * All information about a game and its state of playing
  * 
  * @author dario
- *
+ * 
  */
-public class Game {
+public class Game extends EventDispatcher {
 
-	private Tile [][] tileMatrix;
-	private Position chaboncitouPos;
-	private String levelName;
-	private String levelFileName;
-	private String userName;
-	private int numMoves;
-	private int remainingBoxes;
-	private int boxesNotMatched;
+	protected Tile[][] tileMatrix;
+	protected String levelName;
+	protected String levelFileName;
+	protected String userName;
+	protected int numMoves;
+	protected int remainingBoxes;
+	protected int boxesNotMatched;
 
 	/**
-	 * Instance a new Game
+	 * Instance a empty game
 	 * 
-	 * @param name            name of the level
-	 * @param userName        name of the User
-	 * @param tiles           matrix of tiles (board)
-	 * @param chaboncitouPos  position of the chaboncitou
-	 * @param numMoves        number of moves already done
-	 * @param boxes           number of boxes
-	 * @param targets         number of targets
 	 */
-	public Game(String name, String userName, Tile[][] tiles, Position chaboncitouPos,
-				int numMoves, int boxes, int targets){
+	public Game() {
+
+	}
+
+	/**
+	 * Initialize a new Game
+	 * 
+	 * @param name
+	 *            name of the level
+	 * @param fileName
+	 *            name of the level file
+	 * @param userName
+	 *            name of the User
+	 * @param tiles
+	 *            matrix of tiles (board)
+	 * @param numMoves
+	 *            number of moves already done
+	 * @param boxes
+	 *            number of boxes
+	 * @param targets
+	 *            number of targets
+	 */
+	public void init(String name, String fileName, String userName, Tile[][] tiles, int numMoves, int boxes, int targets) {
 
 		this.levelName = name;
+		this.levelFileName = fileName;
 		this.userName = userName;
 		this.tileMatrix = tiles;
-		this.chaboncitouPos = chaboncitouPos;
 		this.numMoves = numMoves;
 		this.remainingBoxes = boxes;
 		this.boxesNotMatched = targets;
-	}
-	
-	/**
-	 * Instance a empty game
-	 */
-	public Game(){
-		
-	}
-
-	/**
-	 * Get the state of the game
-	 * 
-	 * @see GameState
-	 * 
-	 * @return the state of the game
-	 */
-	public GameState getState() {
-
-		if (chaboncitouPos == null) {
-			return GameState.GAMEOVER;
-		}
-		if (remainingBoxes == 0 && boxesNotMatched == 0) {
-			return GameState.FINISHED;
-		}
-		return GameState.PLAYING;
 	}
 
 	/**
 	 * Move the {@link Chaboncitou}
 	 * 
-	 * @param dir  direction of movement
+	 * @param dir
+	 *            direction of movement
 	 */
-	public void moveChaboncitou( Direction dir ) {
+	public void moveChaboncitou(Direction dir) {
 
-		Chaboncitou chaboncitou = (Chaboncitou)getTile(chaboncitouPos).getObject();
-		
-		if (chaboncitou.canMove(this,dir)) {
-			numMoves++;
-			chaboncitou.move(this, dir);
-		}
+		generateEvent(new MoveChaboncitouEvent(this, dir));
 	}
 
 	/**
 	 * Get the {@link Tile} in a given position
 	 * 
-	 * @param pos  the position
+	 * @param pos
+	 *            the position
 	 * @return the {@link Tile}
 	 */
-	public Tile getTile( Position pos ) {
+	public Tile getTile(Position pos) {
 
 		return tileMatrix[pos.getX()][pos.getY()];
+	}
+
+	private Game self = this;
+
+	/**
+	 * Get an event listener for when chaboncitou moves.
+	 * 
+	 * @return the event listener.
+	 */
+	public EventListener getChaboncitouMovedListener() {
+
+		return new EventListener() {
+			@Override
+			public void eventTriggered(Event e) {
+				numMoves++;
+				generateEvent(new ScoreChangedEvent(self));
+			}
+		};
+	}
+
+	/**
+	 * Get an event listener for when a target matches with a box.
+	 * 
+	 * @return the event listener.
+	 */
+	public EventListener getTargetMatchedListener() {
+
+		return new EventListener() {
+			@Override
+			public void eventTriggered(Event e) {
+				remainingBoxes--;
+				boxesNotMatched--;
+			}
+		};
+	}
+
+	/**
+	 * Get an event listener for when a target lost its matching box.
+	 * 
+	 * @return the event listener.
+	 */
+	public EventListener getTargetUnmatchedListener() {
+
+		return new EventListener() {
+			@Override
+			public void eventTriggered(Event e) {
+				remainingBoxes++;
+				boxesNotMatched++;
+			}
+		};
+	}
+
+	/**
+	 * Get an event listener for when a box is destroyed.
+	 * 
+	 * @return The event listener.
+	 */
+	public EventListener getBoxDestroyedListener() {
+
+		return new EventListener() {
+			@Override
+			public void eventTriggered(Event e) {
+				remainingBoxes--;
+			}
+		};
+	}
+
+	/**
+	 * Get an event listener for when chaboncitou is destroyed.
+	 * 
+	 * @return The event listener.
+	 */
+	public EventListener getChaboncitouDestroyedListener() {
+
+		return new EventListener() {
+			@Override
+			public void eventTriggered(Event e) {
+				generateEvent(new GameOverEvent(self));
+			}
+		};
 	}
 
 	/**
@@ -108,40 +175,6 @@ public class Game {
 	}
 
 	/**
-	 * Decrement by one the number of remaining boxes
-	 */
-	public void decRemainingBoxes() {
-
-		this.remainingBoxes--;
-	}
-
-	/**
-	 * Increment by one the number of remaining boxes
-	 */
-	public void incRemainingBoxes() {
-
-		this.remainingBoxes++;
-	}
-
-	/**
-	 * Increment by one the number of matched boxes
-	 */
-	public void incBoxesMatched() {
-
-		this.remainingBoxes--;
-		this.boxesNotMatched--;
-	}
-
-	/**
-	 * Decrement by one the number of matched boxes
-	 */
-	public void decBoxesMatched() {
-
-		this.remainingBoxes++;
-		this.boxesNotMatched++;
-	}
-
-	/**
 	 * @return the level name
 	 */
 	public String getLevelName() {
@@ -150,80 +183,37 @@ public class Game {
 	}
 
 	/**
-	 * Set the reference to the {@link Chaboncitou} position
-	 * 
-	 * @param pos the position
-	 */
-	public void setChaboncitouPos(Position pos) {
-
-		this.chaboncitouPos = pos;
-	}
-	
-	/// ************************************* ///
-	
-	/**
 	 * Getter for the UserName
 	 * 
-	 * @return    the name of the player
+	 * @return the name of the player
 	 */
 	public String getUserName() {
 		return userName;
 	}
-	/**
-	 * Setter for the UserName
-	 * 
-	 * @return
-	 */
-	public void getUserName(String userName) {
-		this.userName = userName;
-	}
 
-	public void setLevelName(String levelName) {
-		this.levelName = levelName;
-	}
-	
+	/**
+	 * Get name of the level file.
+	 * 
+	 * @return the file name.
+	 */
 	public String getLevelFileName() {
 		return levelFileName;
 	}
 
-	public void setLevelFileName(String levelFileName) {
-		this.levelFileName = levelFileName;
-	}
-
+	/**
+	 * Get the tile matrix.
+	 * 
+	 * @return the tile matrix.
+	 */
 	public Tile[][] getTileMatrix() {
 		return tileMatrix;
 	}
 
-	public Position getChaboncitouPos() {
-		return chaboncitouPos;
+	public int getWidth() {
+		return tileMatrix.length;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public int getHeight() {
+		return tileMatrix.length == 0 ? 0 : tileMatrix[0].length;
 	}
-	/**
-	 * Resize the board. 
-	 * 
-	 * WARNING: This will erase all previous information that the board had.
-	 * 
-	 * @param width    the new width of the board
-	 * @param height   the new height of the board
-	 */
-	public void setSize(int width, int height) {
-		tileMatrix = new Tile[width][height];
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
-				tileMatrix[i][j] = new Blank(new Position(i,j));
-			}
-		}
-	}
-
-	public void setTile(Tile got) {
-		tileMatrix[got.getPos().getX()][got.getPos().getY()] = got;
-	}
-
-	public void setObject(GameObject got) {
-		getTile(got.getPos()).setObject(got);
-	}
-
 }

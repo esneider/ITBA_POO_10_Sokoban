@@ -1,6 +1,6 @@
 package test.edu.itba.it.poog7.gamelogic.objects;
 
-import edu.itba.it.poog7.gamelogic.Color;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.Box;
@@ -8,11 +8,14 @@ import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
+/**
+ * @author dario
+ *
+ */
 public class ChaboncitouTest extends LevelObjectTest {
-	public ChaboncitouTest(String arg0) {
-		super(arg0);
-	}
-
+	/**
+	 * The {@link Chaboncitou} being tested. 
+	 */
 	Chaboncitou chabon;
 	
 	public void setUp() throws Exception {
@@ -35,7 +38,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove2() throws Exception{
-		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0, 0, 0)));
+		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new RGBColor(0, 0, 0)));
 		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}
 	
@@ -45,8 +48,8 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove3() throws Exception{
-		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0,0,0)));
-		state.getTile(new Position(1,3)).setObject(new Box(new Position(1, 3), new Color(0,0,0)));
+		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new RGBColor(0,0,0)));
+		state.getTile(new Position(1,3)).setObject(new Box(new Position(1, 3), new RGBColor(0,0,0)));
 		assertFalse(chabon.canMove(state, Direction.DOWN));
 	}
 	
@@ -56,7 +59,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove4() throws Exception{
-		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0,0,0)));
+		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new RGBColor(0,0,0)));
 		state.setTile(new OneWay(new Position(1, 2), Direction.DOWN));
 		assertTrue(chabon.canMove(state, Direction.DOWN));
 	}
@@ -68,7 +71,7 @@ public class ChaboncitouTest extends LevelObjectTest {
 	 * @throws Exception
 	 */
 	public void testCanMove5() throws Exception{
-		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new Color(0,0,0)));
+		state.getTile(new Position(1,2)).setObject(new Box(new Position(1, 2), new RGBColor(0,0,0)));
 		state.setTile(new OneWay(new Position(1, 2), Direction.UP));
 		assertFalse(chabon.canMove(state, Direction.DOWN));
 	}

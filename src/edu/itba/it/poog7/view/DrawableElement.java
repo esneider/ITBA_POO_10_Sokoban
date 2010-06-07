@@ -1,17 +1,20 @@
 package edu.itba.it.poog7.view;
 
+import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventListener;
+import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 
 /**
  * Listener of a {@link GameElement}, that draws it when it changes
  * 
- * @see  edu.itba.it.poog7.event.EventListener
+ * @see edu.itba.it.poog7.event.EventListener
  * 
  * @author dario
- *
+ * 
  */
-public abstract class DrawableElement implements EventListener {
+public abstract class DrawableElement {
 
 	protected Image image;
 	protected View view;
@@ -19,25 +22,29 @@ public abstract class DrawableElement implements EventListener {
 	/**
 	 * Instance a {@link DrawableElement}
 	 * 
-	 * @param board    the {@link Board} in which to draw
-	 * @param element  the {@link Position} in the board
+	 * @param board
+	 *            the {@link Board} in which to draw
+	 * @param element
+	 *            the {@link Position} in the board
 	 */
-	protected DrawableElement(View view, GameElement element) {
+	protected DrawableElement(View myView, GameElement element) {
 
-		this.view = view;
-		this.image = new Image(element.getPosition());
-		//FIXME: Theres no such method? Is GameElement missing an extends or an implements?
-		element.subscribeListener(this);
+		view = myView;
+		image = new Image(element.getPosition());
+		element.subscribeListener(StateUpdateEvent.class, new EventListener() {
+
+			@Override
+			public void eventTriggered(Event e) {
+				image.setPosition(((GameElement) e.getDispatcher()).getPosition());
+				draw();
+			}
+		});
 	}
 
-	@Override
-	public void eventTriggered(Object e) {
-
-		if (e == null) {
-			view.removeElement(this);
-		}else{
-			image.setPosition((Position)e);
+	public void draw() {
+		if (view.getBoard() != null) {
 			view.getBoard().draw(image);
+			view.repaint();
 		}
 	}
 }

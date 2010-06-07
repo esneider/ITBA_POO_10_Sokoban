@@ -1,6 +1,8 @@
 package edu.itba.it.poog7.gamelogic.tiles;
 
+import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 
 
 /**
@@ -18,5 +20,9 @@ public class Blank extends Tile {
 	public Blank(Position pos) {
 		super(pos);
 	}
-	
+
+	@Override
+	public String toString() {
+		return pos+","+ElementType.BLANK.getInt()+",0,"+RGBColor.black;
+	}
 }

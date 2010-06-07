@@ -3,9 +3,10 @@ package edu.itba.it.poog7.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import edu.itba.it.poog7.gamelogic.Color;
+import edu.itba.it.poog7.gamelogic.RGBColor;
+import edu.itba.it.poog7.view.tiles.DBlank;
 
 /**
  * View for the 'Model-View-Controller' pattern
@@ -13,7 +14,7 @@ import edu.itba.it.poog7.gamelogic.Color;
  * @author dario
  *
  */
-public class View extends JFrame {
+public class View extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,17 +24,33 @@ public class View extends JFrame {
 	/**
 	 * Instance a {@link View}
 	 */
-	public View(int rows, int columns, int cellSize, int height, int width) {
+	public View(int height, int width) {
 
-		setLayout(null);
 		setSize(width, height);
-		board = new Board(rows, columns, cellSize );
-		board.setBackground( new Color(255,255,255).getColor());
-		add(board);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
 	}
 
+	/**
+	 * Set (or reset if already set) the board settings.
+	 * 
+	 * @param rows
+	 * @param columns
+	 * @param cellSize
+	 */
+	public void setBoardSize(int rows, int columns, int cellSize) {
+		
+		if (board != null) {
+			remove(board);
+		}
+		board = new Board(rows, columns, cellSize );
+		board.setBackground( new RGBColor(255,255,255).getColor());
+		add(board);
+		
+		for (DrawableElement e : elements) {
+			if (!(e instanceof DBlank)) {
+				e.draw();
+			}
+		}
+	}
 	/**
 	 * Add a {@link DrawableElement}
 	 * 

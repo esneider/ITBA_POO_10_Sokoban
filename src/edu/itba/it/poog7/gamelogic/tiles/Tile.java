@@ -3,6 +3,7 @@ package edu.itba.it.poog7.gamelogic.tiles;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 
 
@@ -36,11 +37,11 @@ public abstract class Tile extends GameElement {
 	/**
 	 * Set an level object to this tile
 	 * 
-	 * @param object
+	 * @param object The object being set.
 	 */
 	public void setObject(GameObject object) {
 		this.object = object;
-		generateEvent();
+		generateEvent(new StateUpdateEvent(this));
 	}
 	
 	/**

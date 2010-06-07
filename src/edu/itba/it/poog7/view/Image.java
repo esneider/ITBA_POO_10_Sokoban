@@ -3,7 +3,7 @@ package edu.itba.it.poog7.view;
 import java.io.IOException;
 
 import edu.itba.it.gui.ImageUtils;
-import edu.itba.it.poog7.gamelogic.Color;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.Position;
 
 
@@ -24,7 +24,7 @@ public class Image {
 	 *
 	 * @param pos  position of the image
 	 */
-	Image(Position pos) {
+	public Image(Position pos) {
 
 		this.pos = pos;
 		this.image = null;
@@ -56,9 +56,9 @@ public class Image {
 	/**
 	 * Change the hue of the image
 	 * 
-	 * @param color  the target {@link Color}
+	 * @param color  the target {@link RGBColor}
 	 */
-	public void dye(Color color) {
+	public void dye(RGBColor color) {
 
 		image = ImageUtils.dye(image, color.getColor());
 	}

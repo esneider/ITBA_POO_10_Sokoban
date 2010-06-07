@@ -15,5 +15,5 @@ public interface EventListener {
 	 * 
 	 * @param e  the event
 	 */
-	public void eventTriggered(Object e);
+	public void eventTriggered(Event e);
 }

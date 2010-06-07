@@ -1,8 +1,13 @@
 package edu.itba.it.poog7.gamelogic.objects;
 
+import edu.itba.it.poog7.event.Event;
+import edu.itba.it.poog7.event.EventListener;
 import edu.itba.it.poog7.gamelogic.Direction;
+import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.RGBColor;
+import edu.itba.it.poog7.gamelogic.event.MoveChaboncitouEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
@@ -15,7 +20,7 @@ public class Chaboncitou extends GameObject {
 	/**
 	 * Simple constructor that delegates everything to his father.
 	 * 
-	 * @param pos
+	 * @param pos The initial position.
 	 */
 	public Chaboncitou(Position pos) {
 		super(pos);
@@ -45,13 +50,27 @@ public class Chaboncitou extends GameObject {
 	}
 	
 	/**
-	 * Refactored into a dark deprecated world?
-	 * 
-	 * This went away in the BROTT
+	 * @return Get the event listener for move.
 	 */
+	public EventListener getMoveListener() {
+		
+		return new EventListener() {
+			
+			@Override
+			public void eventTriggered(Event e) {
+				
+				MoveChaboncitouEvent event = (MoveChaboncitouEvent) e;
+				Game game = (Game) e.getDispatcher();
+				Direction dir = event.getDirection();
+				if (canMove(game, dir)) {
+					move(game, dir);
+				}
+			}
+		};
+	}
+
 	@Override
-	public void destructor(Game state) {
-		super.destructor(state);
-		state.setChaboncitouPos(null);
+	public String toString() {
+		return pos+","+ElementType.CHABONCITOU+",0,"+RGBColor.black;
 	}
 }

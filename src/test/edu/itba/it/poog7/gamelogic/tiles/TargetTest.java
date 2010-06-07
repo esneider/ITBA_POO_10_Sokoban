@@ -4,7 +4,7 @@
 package test.edu.itba.it.poog7.gamelogic.tiles;
 
 
-import edu.itba.it.poog7.gamelogic.Color;
+import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
@@ -16,13 +16,13 @@ import edu.itba.it.poog7.gamelogic.tiles.Target;
 public class TargetTest extends TileTest {
 
 	private Target target;
-	private Color black;
+	private RGBColor black;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void setUp() throws Exception {
-		black = new Color(0, 0, 0);
+		black = new RGBColor(0, 0, 0);
 		target = new Target(new Position(0, 0), black);
 		super.setUp();
 	}
@@ -54,7 +54,7 @@ public class TargetTest extends TileTest {
 	 */
 	public void testGetColor() {
 		
-		Color white = new Color(255, 255, 255);
+		RGBColor white = new RGBColor(255, 255, 255);
 		
 		assertNotNull(target.getColor());
 		assertTrue(target.getColor().equals(black));

@@ -21,6 +21,9 @@ public class BoardPanel extends JPanel {
 	/**
 	 * Crea un nuevo panel con una cantidad determinada de filas y columnas. El parametro cellSize
 	 * indica el ancho y alto en pixels de las celdas.
+	 * @param rows cantidad de filas
+	 * @param columns cantidad de columnas
+	 * @param cellSize ancho y alto de las celdas
 	 */
 	public BoardPanel(int rows, int columns, int cellSize) {
 		this.rows = rows;

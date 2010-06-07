@@ -33,7 +33,7 @@ public class LevelElementTest extends TestCase {
 			
 		};
 		
-		assertEquals(pos, element.getPos());
+		assertEquals(pos, element.getPosition());
 	}
 
 }
