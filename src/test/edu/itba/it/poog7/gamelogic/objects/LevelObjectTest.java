@@ -6,6 +6,7 @@ import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
+import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
@@ -67,6 +68,10 @@ public class LevelObjectTest extends TestCase {
 		public GameStub(String string, Tile[][] tileMatrix, 
 				int i, int j, int k) {
 			init(string, string, "nobody", tileMatrix, i, j, k);
+		}
+
+		public void setTile(Tile theTile) {
+			tileMatrix[theTile.getPosition().getX()][theTile.getPosition().getY()] = theTile;
 		}
 	}
 	/**
