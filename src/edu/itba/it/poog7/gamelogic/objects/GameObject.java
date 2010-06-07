@@ -4,8 +4,8 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.event.DestroyedEvent;
 import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
-import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
