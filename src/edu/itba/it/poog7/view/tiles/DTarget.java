@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventListener;
+import edu.itba.it.poog7.gamelogic.event.TargetMatchedEvent;
+import edu.itba.it.poog7.gamelogic.event.TargetUnmatchedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
-import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
-import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 import edu.itba.it.poog7.view.Board;
 import edu.itba.it.poog7.view.DrawableElement;
 import edu.itba.it.poog7.view.Image;
