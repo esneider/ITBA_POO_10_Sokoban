@@ -4,9 +4,9 @@ import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventDispatcher;
 import edu.itba.it.poog7.event.EventListener;
 import edu.itba.it.poog7.gamelogic.event.GameOverEvent;
-import edu.itba.it.poog7.gamelogic.event.MoveChaboncitouEvent;
 import edu.itba.it.poog7.gamelogic.event.ScoreChangedEvent;
 import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
+import edu.itba.it.poog7.gamelogic.objects.event.MoveChaboncitouEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**

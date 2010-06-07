@@ -3,10 +3,10 @@ package edu.itba.it.poog7.gamelogic.tiles;
 import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
-import edu.itba.it.poog7.gamelogic.event.TargetMatchedEvent;
-import edu.itba.it.poog7.gamelogic.event.TargetUnmatchedEvent;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 
 
 /**

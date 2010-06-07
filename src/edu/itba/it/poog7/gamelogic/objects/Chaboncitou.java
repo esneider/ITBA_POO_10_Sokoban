@@ -7,7 +7,7 @@ import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
-import edu.itba.it.poog7.gamelogic.event.MoveChaboncitouEvent;
+import edu.itba.it.poog7.gamelogic.objects.event.MoveChaboncitouEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Tile;
 
 /**
