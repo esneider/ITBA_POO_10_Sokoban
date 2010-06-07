@@ -11,7 +11,7 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
  * 
  * @author champo
  */
-public class OneWay extends Tile {
+public class OneWay extends GameTile {
 	
 	Direction direction;
 

@@ -1,7 +1,7 @@
 package edu.itba.it.poog7.gamelogic;
 
 public enum ElementType {
-	CHABONCITOU(1), BOX(2), TARGET(3), WALL(4), HOLE(5), ONEWAY(6), BLANK(7);
+	CHARACTER(1), BOX(2), TARGET(3), WALL(4), HOLE(5), ONEWAY(6), BLANK(7);
 	
 	private final int dir;
 
@@ -16,7 +16,7 @@ public enum ElementType {
 	public static ElementType getType(int type) {
 		
 		switch (type) {
-			case 1:	return CHABONCITOU;
+			case 1:	return CHARACTER;
 			case 2: return BOX;
 			case 3: return TARGET;
 			case 4: return WALL;

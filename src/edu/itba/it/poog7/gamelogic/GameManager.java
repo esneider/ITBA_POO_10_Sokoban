@@ -18,13 +18,13 @@ import edu.itba.it.poog7.event.EventDispatcher;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
-import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
+import edu.itba.it.poog7.gamelogic.objects.Character;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
-import edu.itba.it.poog7.gamelogic.tiles.Tile;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
 /**
@@ -112,7 +112,7 @@ public class GameManager extends EventDispatcher {
 		out.println(game.getUserName());
 		out.println(game.getNumMoves());
 
-		Tile[][] tileMatrix = game.getTileMatrix();
+		GameTile[][] tileMatrix = game.getTileMatrix();
 
 		Position maxPos = new Position(tileMatrix.length, tileMatrix.length == 0 ? 0 : tileMatrix[0].length);
 
@@ -120,10 +120,10 @@ public class GameManager extends EventDispatcher {
 
 		for (int y = 0; y < maxPos.getY(); y++) {
 			for (int x = 0; x < maxPos.getX(); x++) {
-				Tile tile = game.getTile(new Position(x, y));
-				out.println(tile);
-				if (tile.getObject() != null)
-					out.println(tile.getObject());
+				GameTile gameTile = game.getTile(new Position(x, y));
+				out.println(gameTile);
+				if (gameTile.getObject() != null)
+					out.println(gameTile.getObject());
 			}
 		}
 	}
@@ -146,12 +146,12 @@ public class GameManager extends EventDispatcher {
 
 		Counter boxCount = new Counter();
 		Counter targetCount = new Counter();
-		Counter chaboncitouCount = new Counter();
+		Counter characterCount = new Counter();
 		String newLine;
 		String levelName;
 		Position maxPos;
 		Game game;
-		Tile[][] tileMatrix;
+		GameTile[][] tileMatrix;
 
 		game = new Game();
 
@@ -171,18 +171,18 @@ public class GameManager extends EventDispatcher {
 			throw new CouldNotLoadFileException("The file is corrupted");
 		}
 
-		tileMatrix = new Tile[maxPos.getX()][maxPos.getY()];
+		tileMatrix = new GameTile[maxPos.getX()][maxPos.getY()];
 
-		Queue<Tile> tileQueue = new LinkedList<Tile>();
+		Queue<GameTile> tileQueue = new LinkedList<GameTile>();
 		Queue<GameObject> objectQueue = new LinkedList<GameObject>();
 
 		// Get info and put it into the queue
 		while ((newLine = readLine(file)) != null) {
-			computeLine(game, newLine, tileQueue, objectQueue, boxCount, targetCount, chaboncitouCount);
+			computeLine(game, newLine, tileQueue, objectQueue, boxCount, targetCount, characterCount);
 		}
 
-		if (chaboncitouCount.getCount() != 1) {
-			throw new CouldNotLoadFileException("Level corrupted: wrong number of chaboncitous.");
+		if (characterCount.getCount() != 1) {
+			throw new CouldNotLoadFileException("Level corrupted: wrong number of characters.");
 		}
 		// Spawn Tiles and Objects
 		while (!tileQueue.isEmpty()) {
@@ -206,17 +206,17 @@ public class GameManager extends EventDispatcher {
 		return game;
 	}
 
-	private void setObject(GameObject poll, Tile[][] tileMatrix) throws CouldNotLoadFileException {
+	private void setObject(GameObject poll, GameTile[][] tileMatrix) throws CouldNotLoadFileException {
 
 		Position pos = poll.getPosition();
-		Tile theTile = tileMatrix[pos.getX()][pos.getY()];
+		GameTile theTile = tileMatrix[pos.getX()][pos.getY()];
 
-		if (poll instanceof Chaboncitou) {
+		if (poll instanceof Character) {
 			if (theTile instanceof Hole) {
 				throw new CouldNotLoadFileException("Level corrupted: Infinite Black Hole Bug.");
 			}
 			if (theTile instanceof Wall) {
-				throw new CouldNotLoadFileException("Level corrupted: Chaboncitou over a Wall.");
+				throw new CouldNotLoadFileException("Level corrupted: Character over a Wall.");
 			}
 		}
 
@@ -226,7 +226,7 @@ public class GameManager extends EventDispatcher {
 		theTile.setObject(poll);
 	}
 
-	private void setTile(Tile poll, Tile[][] tileMatrix) throws CouldNotLoadFileException {
+	private void setTile(GameTile poll, GameTile[][] tileMatrix) throws CouldNotLoadFileException {
 
 		Position pos = poll.getPosition();
 		if (tileMatrix[pos.getX()][pos.getY()] != null) {
@@ -275,21 +275,21 @@ public class GameManager extends EventDispatcher {
 	 * @param newLine
 	 *            the string from where to read data
 	 * @param tileQueue
-	 *            a queue of Tile
+	 *            a queue of GameTile
 	 * @param objectQueue
 	 *            a queue of GameObject
 	 * @throws Exception
 	 */
-	private void computeLine(Game game, String newLine, Queue<Tile> tileQueue, Queue<GameObject> objectQueue,
-			Counter boxCount, Counter targetCount, Counter chaboncitouCount) throws CouldNotLoadFileException {
+	private void computeLine(Game game, String newLine, Queue<GameTile> tileQueue, Queue<GameObject> objectQueue,
+			Counter boxCount, Counter targetCount, Counter characterCount) throws CouldNotLoadFileException {
 
 		IOHelper data = new IOHelper(newLine);
 
-		// The only two things that are objects are Chaboncitous or Boxes (1-2)
+		// The only two things that are objects are Characters or Boxes (1-2)
 		switch (ElementType.getType(data.getData(2))) {
-		case CHABONCITOU:
+		case CHARACTER:
 		case BOX:
-			objectQueue.add(readObject(game, data, boxCount, chaboncitouCount));
+			objectQueue.add(readObject(game, data, boxCount, characterCount));
 			break;
 		default:
 			tileQueue.add(readTile(game, data, targetCount));
@@ -303,10 +303,10 @@ public class GameManager extends EventDispatcher {
 	 * 
 	 * @param data
 	 *            a IOHelper with the information gotten.
-	 * @return a processed Tile from the data
+	 * @return a processed GameTile from the data
 	 * @throws CouldNotLoadFileException
 	 */
-	private Tile readTile(Game game, IOHelper data, Counter targetCount) throws CouldNotLoadFileException {
+	private GameTile readTile(Game game, IOHelper data, Counter targetCount) throws CouldNotLoadFileException {
 
 		switch (ElementType.getType(data.getData(2))) {
 		case TARGET:
@@ -328,15 +328,15 @@ public class GameManager extends EventDispatcher {
 	 * 
 	 * @param data
 	 *            a IOHelper with information about the object
-	 * @param chaboncitouCount
+	 * @param characterCount
 	 * @return a new GameObject of the correct type
 	 */
-	private GameObject readObject(Game game, IOHelper data, Counter boxCount, Counter chaboncitouCount)
+	private GameObject readObject(Game game, IOHelper data, Counter boxCount, Counter characterCount)
 			throws CouldNotLoadFileException {
 		switch (ElementType.getType(data.getData(2))) {
-		case CHABONCITOU:
-			chaboncitouCount.increment();
-			return newChaboncitou(game, data);
+		case CHARACTER:
+			characterCount.increment();
+			return newCharacter(game, data);
 		case BOX:
 			boxCount.increment();
 			return newBox(game, data);
@@ -349,27 +349,27 @@ public class GameManager extends EventDispatcher {
 		return new OneWay(data.getPosition(), Direction.getTurn(data.getData(4)));
 	}
 
-	protected Tile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
+	protected GameTile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
 		return new Hole(data.getPosition());
 	}
 
-	protected Tile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
+	protected GameTile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
 		return new Wall(data.getPosition());
 	}
 
-	protected Tile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
+	protected GameTile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
 		return new Target(data.getPosition(), data.getColor());
 	}
 
-	protected GameObject newChaboncitou(Game game, IOHelper data) throws CouldNotLoadFileException {
-		return new Chaboncitou(data.getPosition());
+	protected GameObject newCharacter(Game game, IOHelper data) throws CouldNotLoadFileException {
+		return new Character(data.getPosition());
 	}
 
 	protected GameObject newBox(Game game, IOHelper data) throws CouldNotLoadFileException {
 		return new Box(data.getPosition(), data.getColor());
 	}
 
-	protected Tile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
+	protected GameTile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
 		return new Blank(pos);
 	}
 

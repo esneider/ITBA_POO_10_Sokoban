@@ -14,7 +14,7 @@ import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
  * 
  * @author champo
  */
-public class Target extends Tile {
+public class Target extends GameTile {
 
 	RGBColor color;
 

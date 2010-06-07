@@ -10,7 +10,7 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
  * 
  * @author champo
  */
-public class Blank extends Tile {
+public class Blank extends GameTile {
 
 	/**
 	 * Constructor for Blank tile.

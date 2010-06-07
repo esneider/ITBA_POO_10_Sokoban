@@ -11,7 +11,7 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
  * 
  * @author champo
  */
-public class Wall extends Tile {
+public class Wall extends GameTile {
 
 	/**
 	 * Instance a new Wall tile.

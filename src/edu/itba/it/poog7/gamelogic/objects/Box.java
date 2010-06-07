@@ -5,7 +5,7 @@ import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
-import edu.itba.it.poog7.gamelogic.tiles.Tile;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 
 /**
  * The class that represents the colored boxes in the game.
@@ -43,7 +43,7 @@ public class Box extends GameObject {
 			return false;
 		}
 
-		Tile toTile = state.getTile(pos.getNeighbourPosition(dir));
+		GameTile toTile = state.getTile(pos.getNeighbourPosition(dir));
 		if(toTile.getObject() != null){
 			return false;
 		}

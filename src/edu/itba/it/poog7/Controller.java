@@ -256,7 +256,7 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	/**
 	 * Watch for keys being pressed: <br />
 	 * 
-	 * - Arrow keys for the Chaboncitou
+	 * - Arrow keys for the Character
 	 * - Ctrl+R to restart the game
 	 */
 	@Override
@@ -264,16 +264,16 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_LEFT:
-			game.moveChaboncitou(Direction.LEFT);
+			game.moveCharacter(Direction.LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
-			game.moveChaboncitou(Direction.RIGHT);
+			game.moveCharacter(Direction.RIGHT);
 			break;
 		case KeyEvent.VK_UP:
-			game.moveChaboncitou(Direction.UP);
+			game.moveCharacter(Direction.UP);
 			break;
 		case KeyEvent.VK_DOWN:
-			game.moveChaboncitou(Direction.DOWN);
+			game.moveCharacter(Direction.DOWN);
 			break;
 		case KeyEvent.VK_R:
 			if ((e.getModifiers() & KeyEvent.SHIFT_DOWN_MASK) != 0){

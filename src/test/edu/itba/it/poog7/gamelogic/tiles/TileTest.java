@@ -7,7 +7,7 @@ import test.edu.itba.it.poog7.gamelogic.LevelElementTest;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
-import edu.itba.it.poog7.gamelogic.tiles.Tile;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 
 /**
  * @author champo
@@ -15,7 +15,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  */
 public class TileTest extends LevelElementTest {
 
-	private Tile tile;
+	private GameTile gameTile;
 
 	/**
 	 * {@inheritDoc}
@@ -23,7 +23,7 @@ public class TileTest extends LevelElementTest {
 	@Override
 	protected void setUp() throws Exception {
 		
-		tile = new Tile(new Position(0, 0)) {
+		gameTile = new GameTile(new Position(0, 0)) {
 			
 			@Override
 			public boolean canMoveTo(Direction dir) {
@@ -40,28 +40,28 @@ public class TileTest extends LevelElementTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Tile#getObject()}.
+	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.GameTile#getObject()}.
 	 */
 	public void testGetObject() {
 		
-		assertNull(tile.getObject());
+		assertNull(gameTile.getObject());
 	}
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Tile#setObject(edu.itba.it.poog7.gamelogic.objects.GameObject)}.
+	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.GameTile#setObject(edu.itba.it.poog7.gamelogic.objects.GameObject)}.
 	 */
 	public void testSetObject() {
 		
-		assertNull(tile.getObject());
+		assertNull(gameTile.getObject());
 		
 		GameObject obj = new GameObject(new Position(0, 0)) {
 			
 		};
 		
-		tile.setObject(obj);
+		gameTile.setObject(obj);
 		
-		assertNotNull(tile.getObject());
-		assertEquals(obj, tile.getObject());
+		assertNotNull(gameTile.getObject());
+		assertEquals(obj, gameTile.getObject());
 	}
 
 }

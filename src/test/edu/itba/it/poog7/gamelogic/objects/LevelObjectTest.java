@@ -6,7 +6,7 @@ import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
-import edu.itba.it.poog7.gamelogic.tiles.Tile;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
 /**
@@ -18,7 +18,7 @@ public class LevelObjectTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		Tile tileMatrix[][] = new Tile[3][5];
+		GameTile tileMatrix[][] = new GameTile[3][5];
 		// Make a simple room
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 5; j++){
@@ -64,12 +64,12 @@ public class LevelObjectTest extends TestCase {
 		 * @param j Number of boxes.
 		 * @param k Number of targets.
 		 */
-		public GameStub(String string, Tile[][] tileMatrix, 
+		public GameStub(String string, GameTile[][] tileMatrix, 
 				int i, int j, int k) {
 			init(string, string, "nobody", tileMatrix, i, j, k);
 		}
 
-		public void setTile(Tile theTile) {
+		public void setTile(GameTile theTile) {
 			tileMatrix[theTile.getPosition().getX()][theTile.getPosition().getY()] = theTile;
 		}
 	}

@@ -9,20 +9,20 @@ import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
-import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
+import edu.itba.it.poog7.gamelogic.objects.Character;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
-import edu.itba.it.poog7.gamelogic.objects.event.MoveChaboncitouEvent;
+import edu.itba.it.poog7.gamelogic.objects.event.MoveCharacterEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
-import edu.itba.it.poog7.gamelogic.tiles.Tile;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 import edu.itba.it.poog7.view.objects.DBox;
-import edu.itba.it.poog7.view.objects.DChaboncitou;
+import edu.itba.it.poog7.view.objects.DCharacter;
 import edu.itba.it.poog7.view.tiles.DBlank;
 import edu.itba.it.poog7.view.tiles.DHole;
 import edu.itba.it.poog7.view.tiles.DOneWay;
@@ -81,24 +81,24 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	}
 
 	@Override
-	protected GameObject newChaboncitou(Game game, IOHelper data)
+	protected GameObject newCharacter(Game game, IOHelper data)
 			throws CouldNotLoadFileException {
-		Chaboncitou newChaboncitou = (Chaboncitou) super.newChaboncitou(game, data);
+		Character newCharacter = (Character) super.newCharacter(game, data);
 		
-		newChaboncitou.subscribeListener(DestroyedEvent.class, game.getChaboncitouDestroyedListener());
-		game.subscribeListener(MoveChaboncitouEvent.class, newChaboncitou.getMoveListener());
+		newCharacter.subscribeListener(DestroyedEvent.class, game.getCharacterDestroyedListener());
+		game.subscribeListener(MoveCharacterEvent.class, newCharacter.getMoveListener());
 		
 		try {
-			view.addElement(new DChaboncitou(view, newChaboncitou));
+			view.addElement(new DCharacter(view, newCharacter));
 		} catch (IOException e) {
 			throw new CouldNotLoadFileException("Could not load resource file");
 		}
 
-		return newChaboncitou;
+		return newCharacter;
 	}
 
 	@Override
-	protected Tile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
+	protected GameTile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
 		Hole newHole = (Hole) super.newHole(game, data);
 
 		try {
@@ -124,7 +124,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	}
 
 	@Override
-	protected Tile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
+	protected GameTile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
 		Target newTarget = (Target) super.newTarget(game, data);
 		newTarget.subscribeListener(TargetMatchedEvent.class, game.getTargetMatchedListener());
 		newTarget.subscribeListener(TargetUnmatchedEvent.class, game.getTargetUnmatchedListener());
@@ -139,7 +139,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	}
 
 	@Override
-	protected Tile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
+	protected GameTile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
 		Wall newWall = (Wall) super.newWall(game, data);
 
 		try {
@@ -152,7 +152,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	}
 
 	@Override
-	protected Tile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
+	protected GameTile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
 		Blank newBlank = (Blank) super.newBlank(game, pos);
 
 		try {

@@ -12,7 +12,7 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
  * 
  * @author champo
  */
-public abstract class Tile extends GameElement {
+public abstract class GameTile extends GameElement {
 	
 	GameObject object;
 	
@@ -21,7 +21,7 @@ public abstract class Tile extends GameElement {
 	 * 
 	 * @param pos The position the tile is in.
 	 */
-	public Tile(Position pos) {
+	public GameTile(Position pos) {
 		super(pos);
 	}
 

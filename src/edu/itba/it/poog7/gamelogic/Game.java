@@ -5,9 +5,9 @@ import edu.itba.it.poog7.event.EventDispatcher;
 import edu.itba.it.poog7.event.EventListener;
 import edu.itba.it.poog7.gamelogic.event.GameOverEvent;
 import edu.itba.it.poog7.gamelogic.event.ScoreChangedEvent;
-import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
-import edu.itba.it.poog7.gamelogic.objects.event.MoveChaboncitouEvent;
-import edu.itba.it.poog7.gamelogic.tiles.Tile;
+import edu.itba.it.poog7.gamelogic.objects.Character;
+import edu.itba.it.poog7.gamelogic.objects.event.MoveCharacterEvent;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 
 /**
  * Model for the 'Model-View-Controller' pattern <br>
@@ -18,7 +18,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Tile;
  */
 public class Game extends EventDispatcher {
 
-	protected Tile[][] tileMatrix;
+	protected GameTile[][] tileMatrix;
 	protected String levelName;
 	protected String levelFileName;
 	protected String userName;
@@ -52,7 +52,7 @@ public class Game extends EventDispatcher {
 	 * @param targets
 	 *            number of targets
 	 */
-	public void init(String name, String fileName, String userName, Tile[][] tiles, int numMoves, int boxes, int targets) {
+	public void init(String name, String fileName, String userName, GameTile[][] tiles, int numMoves, int boxes, int targets) {
 
 		this.levelName = name;
 		this.levelFileName = fileName;
@@ -64,24 +64,24 @@ public class Game extends EventDispatcher {
 	}
 
 	/**
-	 * Move the {@link Chaboncitou}
+	 * Move the {@link Character}
 	 * 
 	 * @param dir
 	 *            direction of movement
 	 */
-	public void moveChaboncitou(Direction dir) {
+	public void moveCharacter(Direction dir) {
 
-		generateEvent(new MoveChaboncitouEvent(this, dir));
+		generateEvent(new MoveCharacterEvent(this, dir));
 	}
 
 	/**
-	 * Get the {@link Tile} in a given position
+	 * Get the {@link GameTile} in a given position
 	 * 
 	 * @param pos
 	 *            the position
-	 * @return the {@link Tile}
+	 * @return the {@link GameTile}
 	 */
-	public Tile getTile(Position pos) {
+	public GameTile getTile(Position pos) {
 
 		return tileMatrix[pos.getX()][pos.getY()];
 	}
@@ -89,11 +89,11 @@ public class Game extends EventDispatcher {
 	private Game self = this;
 
 	/**
-	 * Get an event listener for when chaboncitou moves.
+	 * Get an event listener for when character moves.
 	 * 
 	 * @return the event listener.
 	 */
-	public EventListener getChaboncitouMovedListener() {
+	public EventListener getCharacterMovedListener() {
 
 		return new EventListener() {
 			@Override
@@ -152,11 +152,11 @@ public class Game extends EventDispatcher {
 	}
 
 	/**
-	 * Get an event listener for when chaboncitou is destroyed.
+	 * Get an event listener for when a character is destroyed.
 	 * 
 	 * @return The event listener.
 	 */
-	public EventListener getChaboncitouDestroyedListener() {
+	public EventListener getCharacterDestroyedListener() {
 
 		return new EventListener() {
 			@Override
@@ -205,7 +205,7 @@ public class Game extends EventDispatcher {
 	 * 
 	 * @return the tile matrix.
 	 */
-	public Tile[][] getTileMatrix() {
+	public GameTile[][] getTileMatrix() {
 		return tileMatrix;
 	}
 

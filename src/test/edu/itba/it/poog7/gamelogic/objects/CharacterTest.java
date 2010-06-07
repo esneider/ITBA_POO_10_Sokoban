@@ -4,7 +4,7 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.objects.Box;
-import edu.itba.it.poog7.gamelogic.objects.Chaboncitou;
+import edu.itba.it.poog7.gamelogic.objects.Character;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
@@ -12,15 +12,15 @@ import edu.itba.it.poog7.gamelogic.tiles.Wall;
  * @author dario
  *
  */
-public class ChaboncitouTest extends LevelObjectTest {
+public class CharacterTest extends LevelObjectTest {
 	/**
-	 * The {@link Chaboncitou} being tested. 
+	 * The {@link Character} being tested. 
 	 */
-	Chaboncitou chabon;
+	Character chabon;
 	
 	public void setUp() throws Exception {
 		super.setUp();
-		chabon = new Chaboncitou(new Position(1, 1));
+		chabon = new Character(new Position(1, 1));
 		state.getTile(new Position(1,1)).setObject(chabon);
 	}
 

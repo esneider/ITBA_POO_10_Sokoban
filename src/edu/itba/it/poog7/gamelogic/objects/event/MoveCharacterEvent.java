@@ -8,7 +8,7 @@ import edu.itba.it.poog7.gamelogic.Direction;
  * @author dario
  *
  */
-public class MoveChaboncitouEvent extends Event{
+public class MoveCharacterEvent extends Event{
 
 	private Direction dir;
 	
@@ -16,7 +16,7 @@ public class MoveChaboncitouEvent extends Event{
 	 * @param dispatcher The dispatcher firing this event.
 	 * @param dir The direction to move in.
 	 */
-	public MoveChaboncitouEvent(EventDispatcher dispatcher, Direction dir) {
+	public MoveCharacterEvent(EventDispatcher dispatcher, Direction dir) {
 		super(dispatcher);
 		this.dir = dir;
 	}
