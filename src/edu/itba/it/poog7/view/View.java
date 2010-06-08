@@ -1,11 +1,11 @@
 package edu.itba.it.poog7.view;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.view.tiles.DBlank;
 
 /**
@@ -42,7 +42,9 @@ public class View extends JPanel {
 			remove(board);
 		}
 		board = new Board(rows, columns, cellSize );
-		board.setBackground( new RGBColor(255,255,255).getColor());
+		board.setBackground(Color.white);
+		
+		setSize(board.getSize());
 		add(board);
 		
 		for (DrawableElement e : elements) {

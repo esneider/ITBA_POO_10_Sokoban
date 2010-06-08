@@ -3,8 +3,6 @@ package edu.itba.it.poog7.view;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import javax.swing.JPanel;
-
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
@@ -32,11 +30,16 @@ import edu.itba.it.poog7.view.tiles.DWall;
 public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
 	private static final int CELL_SIZE = 30;
-	private JPanel panel;
 	private View view;
 
-	public void setPanel(JPanel panel) {
-		this.panel = panel;
+	/**
+	 * Getter for the last view created
+	 * 
+	 * @return the view created
+	 */
+	public View getView(){
+		
+		return view;
 	}
 
 	@Override
@@ -48,20 +51,6 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 		
 		view.setBoardSize(game.getHeight(), game.getWidth(), CELL_SIZE);
 		
-		int width, height;
-		width = game.getHeight() * CELL_SIZE;
-		height = game.getWidth() * CELL_SIZE;
-		
-		int margenX, margenY;
-		margenX = (panel.getWidth()-width)/2;
-		margenY = (panel.getHeight()-height)/2;
-		
-		panel.removeAll();
-		panel.setVisible(true);
-		panel.setBounds(margenX, margenY, width, height);
-		view.setBounds(0, 0, width, height);
-		panel.add(view);
-
 		return game;
 	}
 

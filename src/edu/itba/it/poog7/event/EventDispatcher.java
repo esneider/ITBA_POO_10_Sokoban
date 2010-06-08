@@ -25,7 +25,8 @@ public class EventDispatcher {
 	 * @param eListener
 	 *            the {@link Event}
 	 */
-	public void subscribeListener(Class<? extends Event> e, EventListener eListener) {
+	public void subscribeListener(Class<? extends Event> e,
+			EventListener eListener) {
 
 		String eName = e.getName();
 
