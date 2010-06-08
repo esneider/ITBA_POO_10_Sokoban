@@ -50,7 +50,7 @@ public class Controller implements ActionListener, KeyListener {
 	Controller() {
 		frame = new MainFrame();
 		frame.addKeyListener(this);
-		frame.setOutsiderListener(this);
+		frame.addOutsiderListener(this);
 		
 		manager = new GameManager();
 
