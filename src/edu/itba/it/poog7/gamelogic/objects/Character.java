@@ -64,9 +64,6 @@ public class Character extends GameObject {
 				Direction dir = event.getDirection();
 				if (canMove(game, dir)) {
 					move(game, dir);
-					// TODO: ERASE THIS DEBUG LINE
-					// FIXME
-					System.out.println("Me muevo en dir "+dir.getInt());
 				}
 			}
 		};
@@ -74,6 +71,6 @@ public class Character extends GameObject {
 
 	@Override
 	public String toString() {
-		return pos+","+ElementType.CHARACTER+",0,"+RGBColor.black;
+		return pos+","+ElementType.CHARACTER.getInt()+",0,"+RGBColor.black;
 	}
 }

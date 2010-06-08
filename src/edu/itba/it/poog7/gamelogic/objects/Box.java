@@ -70,15 +70,7 @@ public class Box extends GameObject {
 		}
 		
 		super.move(state, dir);
-		
-		GameTile newTile = state.getTile(pos);
-		if (newTile instanceof Target) {
-
-			if (((Target) newTile).getColor().equals(color)) {
-			
-				generateEvent(new TargetMatchedEvent(this));
-			}
-		}
+		checkMatched(state);
 	}
 	
 	/**
@@ -93,5 +85,20 @@ public class Box extends GameObject {
 	@Override
 	public String toString() {
 		return pos+","+ElementType.BOX.getInt()+",0,"+color;
+	}
+
+	/**
+	 * Check whether this Box is matched with a proper target.
+	 */
+	public void checkMatched(Game state) {
+		
+		GameTile tile = state.getTile(pos);
+		if (tile instanceof Target) {
+
+			if (((Target) tile).getColor().equals(color)) {
+			
+				generateEvent(new TargetMatchedEvent(this));
+			}
+		}
 	}
 }

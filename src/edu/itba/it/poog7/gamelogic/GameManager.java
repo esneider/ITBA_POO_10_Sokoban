@@ -75,7 +75,7 @@ public class GameManager {
 
 		int index = Arrays.binarySearch(levelList, current);
 
-		if (index + 1 == levelList.length) {
+		if (index < 0 || index + 1 == levelList.length) {
 			throw new NoMoreLevelsException();
 		}
 		return levelList[index + 1];
@@ -105,7 +105,6 @@ public class GameManager {
 		}
 
 		return loadState(file, fileName, userName, score);
-
 	}
 
 	public void saveGame(Game game, String saveFileName) throws FileNotFoundException {
@@ -124,9 +123,15 @@ public class GameManager {
 		for (int y = 0; y < maxPos.getY(); y++) {
 			for (int x = 0; x < maxPos.getX(); x++) {
 				GameTile gameTile = game.getTile(new Position(x, y));
-				out.println(gameTile);
-				if (gameTile.getObject() != null)
+				
+				if (!(gameTile instanceof Blank)) {
+					
+					out.println(gameTile);
+				}
+				if (gameTile.getObject() != null) {
+					
 					out.println(gameTile.getObject());
+				}
 			}
 		}
 		
@@ -207,6 +212,18 @@ public class GameManager {
 		}
 
 		game.init(levelName, fileName, userName, tileMatrix, score, boxCount.getCount(), targetCount.getCount());
+		
+		for (GameTile[] tiles : game.getTileMatrix()) {
+			
+			for (GameTile tile : tiles) {
+				
+				GameObject object = tile.getObject();
+				if (null != object && object instanceof Box) {
+					
+					((Box) object).checkMatched(game);
+				}
+			}
+		}
 
 		return game;
 	}

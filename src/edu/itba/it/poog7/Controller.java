@@ -73,13 +73,13 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 			@Override
 			public void call(){
-				final PromptBox name = new PromptBox("Ingrese nombre de usuario");
+				final PromptBox name = new PromptBox("Input the player name: ");
 				name.setCallback(new getFunction() {
 					
 					@Override
 					public void call() {
 
-						newGame(getLevels()[0], name.getValue());
+						newGame(name.getValue());
 						name.dispose();
 					}
 				});
@@ -91,13 +91,13 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-				final PromptBox fileName = new PromptBox("Ingrese el nombre del archivo");
+				final PromptBox fileName = new PromptBox("Input the file name: ");
 				fileName.setCallback(new getFunction() {
 					
 					@Override
 					public void call() {
 
-						loadGame(fileName.getValue());
+						loadSavedGame(fileName.getValue());
 						fileName.dispose();
 					}
 				});
@@ -109,7 +109,12 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-				final PromptBox fileName = new PromptBox("Ingrese el nombre del archivo");
+				if (null == game) {
+					new MessageBox("Error", "You cant save a file if youre not playing.");
+					return;
+				}
+				
+				final PromptBox fileName = new PromptBox("Input the file name: ");
 				fileName.setCallback(new getFunction() {
 					
 					@Override
@@ -153,34 +158,48 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * Get the list of levels.
-	 * 
-	 * @return Array of level names.
-	 */
-	public String[] getLevels(){
-		try{
-			return manager.getLevelList();
-		} catch (FileNotFoundException e){
-			new MessageBox("Error", "No se encontraron niveles.\n"+e);
-			resetPanel();
-
-			return null;
-		}
-	}
-
-	/**
 	 * Create a new game for a given level.
 	 * 
 	 * @param levelName The name of the level name.
 	 * @param userName The user name that is playing.
 	 */
-	public void newGame(String levelName, String userName) {
+	public void newGame(String userName) {
 		if (null != game) {
 			
 			resetPanel();
 			game = null;
 		}
 
+		loadNextLevel("", userName);
+	}
+
+	/**
+	 * Load the level after a given one.
+	 * @param currentLevel The name of the level thats previous to the level to load.
+	 * @param userName The name of the user playing.
+	 */
+	private void loadNextLevel(String currentLevel, String userName) {
+
+		try {
+			loadGame(manager.getNextLevel(currentLevel), userName);
+		} catch (FileNotFoundException e) {
+			
+			new MessageBox("Error", "The levels folder doesn't exist.");
+		} catch (NoMoreLevelsException e) {
+			
+			new MessageBox("Campeon!!", "¡Sos un titan man! ¡¡Ganaste el juego!!");
+			resetPanel();
+			game = null;
+		}
+	}
+
+	/**
+	 * Load a game level.
+	 * 
+	 * @param levelName The name of the level to load.
+	 * @param userName The name of the user playing the level.
+	 */
+	private void loadGame(String levelName, String userName) {
 		try {
 			game = manager.loadLevel(levelName, userName);
 			
@@ -191,8 +210,8 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		} catch (CouldNotLoadFileException e) {
 			
 			resetPanel();
-			new MessageBox("Error", "No levels were found.\n"+e);
-		}
+			new MessageBox("Error", "The level could not be loaded");
+		} 
 	}
 
 	/**
@@ -203,8 +222,7 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		String userName = game.getUserName();
 		
 		resetPanel();
-		
-		newGame(levelFileName, userName);
+		loadGame(levelFileName, userName);
 		
 		gamePanel.repaint();
 	}
@@ -214,7 +232,7 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	 * 
 	 * @param savedLevelName The name of the saved game file.
 	 */
-	public void loadGame(String savedLevelName) {
+	public void loadSavedGame(String savedLevelName) {
 		
 		if (null != game) {
 			
@@ -263,20 +281,8 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 					
 					new MessageBox("Error", "Could not save your highscore. Sorry dude!");
 				}
-				
-				try {
-					
-					String nextLevel = manager.getNextLevel(game.getLevelFileName());
-					newGame(nextLevel, game.getUserName());
-				} catch (FileNotFoundException ex) {
 
-					new MessageBox("Error", "Could not load level.");
-				} catch (NoMoreLevelsException ex) {
-
-					new MessageBox("Campeon!!", "¡Sos un titan man! ¡¡Ganaste el juego!!");
-					resetPanel();
-					game = null;
-				}
+				loadNextLevel(game.getLevelFileName(), game.getUserName());
 			}
 		};
 	}
