@@ -1,8 +1,7 @@
 package edu.itba.it.poog7.gamelogic.exception;
 
 /**
- * @author dario
- *
+ * This exception indicates that the game data was corrupted.
  */
 public class InvalidFileException extends Exception {
 

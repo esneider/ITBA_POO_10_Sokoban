@@ -89,6 +89,7 @@ public class Box extends GameObject {
 
 	/**
 	 * Check whether this Box is matched with a proper target.
+	 * @param state a reference to the game in which this box is
 	 */
 	public void checkMatched(Game state) {
 		

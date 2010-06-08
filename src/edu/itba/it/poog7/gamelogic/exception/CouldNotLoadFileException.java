@@ -4,8 +4,8 @@
 package edu.itba.it.poog7.gamelogic.exception;
 
 /**
- * @author dario
- * 
+ * This exception is thrown when a file wasn't loaded correctly or had invalid
+ * game data.
  */
 public class CouldNotLoadFileException extends Exception {
 
@@ -17,7 +17,7 @@ public class CouldNotLoadFileException extends Exception {
 	 * Construct.
 	 * 
 	 * @param string
-	 *            The exceptions message.
+	 *            The exception's message.
 	 */
 	public CouldNotLoadFileException(String string) {
 		this.description = string;

@@ -38,6 +38,15 @@ public class GameManager {
 
 	String[] levelList;
 
+	/**
+	 * Get a list of valid levels in the directory "levels"
+	 * 
+	 * TODO: validate levels
+	 * 
+	 * @return a array of Strings with the filenames of the games
+	 * @throws FileNotFoundException
+	 *             when the folder levels was not found
+	 */
 	public String[] getLevelList() throws FileNotFoundException {
 
 		File dir = new File("levels/");
@@ -63,13 +72,26 @@ public class GameManager {
 		return levels;
 	}
 
-	public String getNextLevel(String current) throws FileNotFoundException, NoMoreLevelsException {
+	/**
+	 * Given a level, return the next in the list of levels
+	 * 
+	 * @param current
+	 *            the title of the current level
+	 * @return the title of the next level
+	 * @throws FileNotFoundException
+	 *             when there was a problem loading the next level (file
+	 *             missing)
+	 * @throws NoMoreLevelsException
+	 *             if the level is the last
+	 */
+	public String getNextLevel(String current) throws FileNotFoundException,
+			NoMoreLevelsException {
 
 		if (current == "") {
 			levelList = getLevelList();
 			return levelList[0];
 		}
-		
+
 		if (null == levelList) {
 			levelList = getLevelList();
 		}
@@ -82,6 +104,15 @@ public class GameManager {
 		return levelList[index + 1];
 	}
 
+	/**
+	 * Create a new game from a saved file
+	 * 
+	 * @param fileName
+	 *            the name of the saved file
+	 * @return a new instance of Game
+	 * @throws CouldNotLoadFileException
+	 *             if the file is an invalid game data file
+	 */
 	public Game loadGame(String fileName) throws CouldNotLoadFileException {
 
 		BufferedReader file;
@@ -89,7 +120,8 @@ public class GameManager {
 		try {
 			file = new BufferedReader(new FileReader(new File(fileName)));
 		} catch (FileNotFoundException e) {
-			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
+			throw new CouldNotLoadFileException(
+					"Could not load folder 'levels'.");
 		}
 
 		int score;
@@ -108,21 +140,32 @@ public class GameManager {
 		return loadState(file, fileName, userName, score);
 	}
 
+	/**
+	 * Save a game played
+	 * 
+	 * @param game
+	 *            the game being played
+	 * @param saveFileName
+	 *            where to save the state of the game
+	 * @throws IOException
+	 *             if it can't write into the file
+	 */
 	public void saveGame(Game game, String saveFileName) throws IOException {
 
 		BufferedWriter out = new BufferedWriter(new FileWriter(saveFileName));
 		out.write(game.getUserName());
 		out.newLine();
-		
-		out.write(""+game.getNumMoves());
+
+		out.write("" + game.getNumMoves());
 		out.newLine();
-		
+
 		out.write(game.getLevelName());
 		out.newLine();
 
 		GameTile[][] tileMatrix = game.getTileMatrix();
 
-		Position maxPos = new Position(tileMatrix.length, tileMatrix.length == 0 ? 0 : tileMatrix[0].length);
+		Position maxPos = new Position(tileMatrix.length,
+				tileMatrix.length == 0 ? 0 : tileMatrix[0].length);
 
 		out.write(maxPos.toString());
 		out.newLine();
@@ -130,38 +173,61 @@ public class GameManager {
 		for (int y = 0; y < maxPos.getY(); y++) {
 			for (int x = 0; x < maxPos.getX(); x++) {
 				GameTile gameTile = game.getTile(new Position(x, y));
-				
+
 				if (!(gameTile instanceof Blank)) {
-					
+
 					out.write(gameTile.toString());
 					out.newLine();
 				}
 				if (gameTile.getObject() != null) {
-					
+
 					out.write(gameTile.getObject().toString());
 					out.newLine();
 				}
 			}
 		}
-		
+
 		out.close();
 	}
 
-	public Game loadLevel(String fileName, String userName) throws CouldNotLoadFileException {
+	/**
+	 * Loads a level from its stored file
+	 * 
+	 * @param fileName
+	 *            the name of the file that has the level
+	 * @param userName
+	 *            the name of the new user
+	 * @return a new instance of a game
+	 * @throws CouldNotLoadFileException
+	 */
+	public Game loadLevel(String fileName, String userName)
+			throws CouldNotLoadFileException {
 
 		BufferedReader file;
 
 		try {
 			file = new BufferedReader(new FileReader("levels/" + fileName));
 		} catch (FileNotFoundException e) {
-			throw new CouldNotLoadFileException("Could not load the file '" + fileName);
+			throw new CouldNotLoadFileException("Could not load the file '"
+					+ fileName);
 		}
 
 		return loadState(file, fileName, userName, 0);
 	}
 
-	protected Game loadState(BufferedReader file, String fileName, String userName, int score)
-			throws CouldNotLoadFileException {
+	/**
+	 * This is used by both loadGame and loadLevel. As they have to do the same
+	 * work, we do it in here.
+	 * 
+	 * @param file a open file from where to read data
+	 * @param fileName the name of that file
+	 * @param userName the name of the user
+	 * @param score the initial score of the game
+	 * @return a new instance of game
+	 * @throws CouldNotLoadFileException
+	 */
+	protected Game loadState(BufferedReader file, String fileName,
+			String userName, int score) throws CouldNotLoadFileException {
 
 		Counter boxCount = new Counter();
 		Counter targetCount = new Counter();
@@ -183,7 +249,8 @@ public class GameManager {
 			if (s.length != 2) {
 				throw new CouldNotLoadFileException("The file is corrupted");
 			}
-			maxPos = new Position(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
+			maxPos = new Position(Integer.parseInt(s[0]), Integer
+					.parseInt(s[1]));
 		} catch (NumberFormatException e) {
 			throw new CouldNotLoadFileException("The file is corrupted");
 		} catch (NullPointerException e) {
@@ -197,11 +264,13 @@ public class GameManager {
 
 		// Get info and put it into the queue
 		while ((newLine = readLine(file)) != null) {
-			computeLine(game, newLine, tileQueue, objectQueue, boxCount, targetCount, characterCount);
+			computeLine(game, newLine, tileQueue, objectQueue, boxCount,
+					targetCount, characterCount);
 		}
 
 		if (characterCount.getCount() != 1) {
-			throw new CouldNotLoadFileException("Level corrupted: wrong number of characters.");
+			throw new CouldNotLoadFileException(
+					"Level corrupted: wrong number of characters.");
 		}
 		// Spawn Tiles and Objects
 		while (!tileQueue.isEmpty()) {
@@ -220,15 +289,16 @@ public class GameManager {
 			setObject(objectQueue.poll(), tileMatrix);
 		}
 
-		game.init(levelName, fileName, userName, tileMatrix, score, boxCount.getCount(), targetCount.getCount());
-		
+		game.init(levelName, fileName, userName, tileMatrix, score, boxCount
+				.getCount(), targetCount.getCount());
+
 		for (GameTile[] tiles : game.getTileMatrix()) {
-			
+
 			for (GameTile tile : tiles) {
-				
+
 				GameObject object = tile.getObject();
 				if (null != object && object instanceof Box) {
-					
+
 					((Box) object).checkMatched(game);
 				}
 			}
@@ -237,31 +307,37 @@ public class GameManager {
 		return game;
 	}
 
-	private void setObject(GameObject poll, GameTile[][] tileMatrix) throws CouldNotLoadFileException {
+	private void setObject(GameObject poll, GameTile[][] tileMatrix)
+			throws CouldNotLoadFileException {
 
 		Position pos = poll.getPosition();
 		GameTile theTile = tileMatrix[pos.getX()][pos.getY()];
 
 		if (poll instanceof Character) {
 			if (theTile instanceof Hole) {
-				throw new CouldNotLoadFileException("Level corrupted: Infinite Black Hole Bug.");
+				throw new CouldNotLoadFileException(
+						"Level corrupted: Infinite Black Hole Bug.");
 			}
 			if (theTile instanceof Wall) {
-				throw new CouldNotLoadFileException("Level corrupted: Character over a Wall.");
+				throw new CouldNotLoadFileException(
+						"Level corrupted: Character over a Wall.");
 			}
 		}
 
 		if (theTile.getObject() != null) {
-			throw new CouldNotLoadFileException("Level corrupted: Two objects in the same position.");
+			throw new CouldNotLoadFileException(
+					"Level corrupted: Two objects in the same position.");
 		}
 		theTile.setObject(poll);
 	}
 
-	private void setTile(GameTile poll, GameTile[][] tileMatrix) throws CouldNotLoadFileException {
+	private void setTile(GameTile poll, GameTile[][] tileMatrix)
+			throws CouldNotLoadFileException {
 
 		Position pos = poll.getPosition();
 		if (tileMatrix[pos.getX()][pos.getY()] != null) {
-			throw new CouldNotLoadFileException("Level corrupted: Two tiles in the same position");
+			throw new CouldNotLoadFileException(
+					"Level corrupted: Two tiles in the same position");
 		}
 		tileMatrix[pos.getX()][pos.getY()] = poll;
 	}
@@ -276,7 +352,8 @@ public class GameManager {
 	 * @return the string read from the file without front whitespace and
 	 *         leading comments
 	 */
-	private String readLine(BufferedReader file) throws CouldNotLoadFileException {
+	private String readLine(BufferedReader file)
+			throws CouldNotLoadFileException {
 		String str;
 
 		do {
@@ -311,8 +388,10 @@ public class GameManager {
 	 *            a queue of GameObject
 	 * @throws Exception
 	 */
-	private void computeLine(Game game, String newLine, Queue<GameTile> tileQueue, Queue<GameObject> objectQueue,
-			Counter boxCount, Counter targetCount, Counter characterCount) throws CouldNotLoadFileException {
+	private void computeLine(Game game, String newLine,
+			Queue<GameTile> tileQueue, Queue<GameObject> objectQueue,
+			Counter boxCount, Counter targetCount, Counter characterCount)
+			throws CouldNotLoadFileException {
 
 		IOHelper data = new IOHelper(newLine);
 
@@ -337,7 +416,8 @@ public class GameManager {
 	 * @return a processed GameTile from the data
 	 * @throws CouldNotLoadFileException
 	 */
-	private GameTile readTile(Game game, IOHelper data, Counter targetCount) throws CouldNotLoadFileException {
+	private GameTile readTile(Game game, IOHelper data, Counter targetCount)
+			throws CouldNotLoadFileException {
 
 		switch (ElementType.getType(data.getData(2))) {
 		case TARGET:
@@ -362,8 +442,8 @@ public class GameManager {
 	 * @param characterCount
 	 * @return a new GameObject of the correct type
 	 */
-	private GameObject readObject(Game game, IOHelper data, Counter boxCount, Counter characterCount)
-			throws CouldNotLoadFileException {
+	private GameObject readObject(Game game, IOHelper data, Counter boxCount,
+			Counter characterCount) throws CouldNotLoadFileException {
 		switch (ElementType.getType(data.getData(2))) {
 		case CHARACTER:
 			characterCount.increment();
@@ -376,37 +456,120 @@ public class GameManager {
 		}
 	}
 
-	protected OneWay newOneWay(Game game, IOHelper data) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new "one way only" tile
+	 * 
+	 * @param game
+	 *            the game where to instance the tile
+	 * @param data
+	 *            the information about the tile
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected OneWay newOneWay(Game game, IOHelper data)
+			throws CouldNotLoadFileException {
 		return new OneWay(data.getPosition(), data.getDirection());
 	}
 
-	protected GameTile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new Hole tile
+	 * 
+	 * @param game
+	 *            the game where to instance the tile
+	 * @param data
+	 *            the information about the tile
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected GameTile newHole(Game game, IOHelper data)
+			throws CouldNotLoadFileException {
 		return new Hole(data.getPosition());
 	}
 
-	protected GameTile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new Wall tile
+	 * 
+	 * @param game
+	 *            the game where to instance the tile
+	 * @param data
+	 *            the information about the tile
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected GameTile newWall(Game game, IOHelper data)
+			throws CouldNotLoadFileException {
 		return new Wall(data.getPosition());
 	}
 
-	protected GameTile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new Target tile
+	 * 
+	 * @param game
+	 *            the game where to instance the tile
+	 * @param data
+	 *            the information about the tile
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected GameTile newTarget(Game game, IOHelper data)
+			throws CouldNotLoadFileException {
 		return new Target(data.getPosition(), data.getColor());
 	}
 
-	protected GameObject newCharacter(Game game, IOHelper data) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new Character object
+	 * 
+	 * @param game
+	 *            the game where to instance the character
+	 * @param data
+	 *            the information about the character (position)
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected GameObject newCharacter(Game game, IOHelper data)
+			throws CouldNotLoadFileException {
 		return new Character(data.getPosition());
 	}
 
-	protected GameObject newBox(Game game, IOHelper data) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new Box
+	 * 
+	 * @param game
+	 *            the game where to instance the box
+	 * @param data
+	 *            the information about the box
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected GameObject newBox(Game game, IOHelper data)
+			throws CouldNotLoadFileException {
 		return new Box(data.getPosition(), data.getColor());
 	}
 
-	protected GameTile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
+	/**
+	 * Instance a new blank tile
+	 * 
+	 * @param game
+	 *            the game where to instance the blank tile
+	 * @param pos
+	 *            the information about the tile, where is it
+	 * @return the instance created
+	 * @throws CouldNotLoadFileException
+	 */
+	protected GameTile newBlank(Game game, Position pos)
+			throws CouldNotLoadFileException {
 		return new Blank(pos);
 	}
 
 	/**
-	 * A useful class to get information from and into a file.
-	 * 
+	 * A useful class to get information from and into a file. <br/>
+	 * A IOHelper translates information from raw data into something more
+	 * accessible for the methods of this class. <br/>
+	 * It receives a string that has to be of the regex form (\d,){6}\d => that
+	 * means 7 numbers separated by comas. The first two are translated into
+	 * {row, column}; the third one represents the ElementType of the element
+	 * being read, the fourth is how is it rotated and the last three numbers
+	 * represent the RGB color of the element.
 	 * 
 	 * @author eordano
 	 * 
@@ -415,8 +578,17 @@ public class GameManager {
 		private static final int lineItems = 7;
 		int data[];
 
+		/**
+		 * A IOHelper
+		 * 
+		 * @param pos
+		 * @param type
+		 * @param rotations
+		 * @param col
+		 */
 		IOHelper(Position pos, int type, int rotations, RGBColor col) {
-			data = new int[] { pos.getX(), pos.getY(), type, rotations, col.getR(), col.getG(), col.getB() };
+			data = new int[] { pos.getX(), pos.getY(), type, rotations,
+					col.getR(), col.getG(), col.getB() };
 		}
 
 		/**
@@ -452,18 +624,19 @@ public class GameManager {
 		public int getData(int pos) {
 			return data[pos];
 		}
-		
+
 		/**
-		 * Access direction of the element
-		 * TODO: AWFUL HACK
+		 * Access direction of the element. This is stored in the fourth
+		 * position
 		 */
-		public Direction getDirection(){
+		public Direction getDirection() {
 			return Direction.getTurn(data[3]);
 		}
 
 		/**
 		 * Cast into a position of data stored in the first two elements of the
-		 * data array.
+		 * data array. The position of a element is stored in the first two
+		 * numbers obtained from a line.
 		 * 
 		 * @return a Position from the data obtained
 		 */
@@ -473,7 +646,7 @@ public class GameManager {
 
 		/**
 		 * Get the color element encoded in the string, in the last three
-		 * elements
+		 * elements.
 		 * 
 		 * @return a Color from the data obtained
 		 */
@@ -494,6 +667,11 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * This is a small class made to pass a integer from function to function.
+	 * We are interested in it's final value and we are only incrementing it.
+	 * 
+	 */
 	private class Counter {
 		private int count;
 

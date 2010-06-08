@@ -213,10 +213,20 @@ public class Game extends EventDispatcher {
 		return tileMatrix;
 	}
 
+	/**
+	 * Getter for the Width of the game
+	 * 
+	 * @return the amount of columns of the game
+	 */
 	public int getWidth() {
 		return tileMatrix.length;
 	}
 
+	/**
+	 * Getter for the height of the game
+	 * 
+	 * @return the amount of rows of the game
+	 */
 	public int getHeight() {
 		return tileMatrix.length == 0 ? 0 : tileMatrix[0].length;
 	}

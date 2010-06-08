@@ -9,9 +9,7 @@ import javax.swing.JPanel;
 import edu.itba.it.poog7.view.tiles.DBlank;
 
 /**
- * View for the 'Model-View-Controller' pattern
- * 
- * @author dario
+ * A view of the board.
  * 
  */
 public class View extends JPanel {
@@ -24,6 +22,9 @@ public class View extends JPanel {
 
 	/**
 	 * Instance a {@link View}
+	 * 
+	 * @param height the amount of columns of the map 
+	 * @param width the amount of rows of the map
 	 */
 	public View(int height, int width) {
 		this.height = height;
@@ -85,7 +86,10 @@ public class View extends JPanel {
 
 		return board;
 	}
-
+	
+	/**
+	 * Erase all the board
+	 */
 	public void clearImage() {
 
 		for (int i = 0; i < width; i++) {

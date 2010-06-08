@@ -1,8 +1,7 @@
 package edu.itba.it.poog7.gamelogic.exception;
 
 /**
- * @author dario
- * 
+ * In case a file couldn't be saved, this exception is thrown.
  */
 public class CouldNotSaveFileException extends Exception {
 

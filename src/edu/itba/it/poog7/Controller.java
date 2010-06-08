@@ -59,6 +59,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
+
 				String name = JOptionPane.showInputDialog("What's your name?");
 				newGame(name);
 			}
@@ -111,6 +112,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
+
 				highScores();
 			}
 
@@ -119,7 +121,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-				frame.setNoGame();
+
 				resetGame();
 			}
 
@@ -218,13 +220,15 @@ public class Controller implements ActionListener, KeyListener {
 	public void resetGame() {
 		String levelFileName = game.getLevelFileName();
 		String userName = game.getUserName();
-		
+
 		frame.setNoGame();
 		loadGame(levelFileName, userName);
 	}
 
 	/**
-	 * @return
+	 * Listener for GameOvers.
+	 * 
+	 * @return a listener if the game is over
 	 */
 	private EventListener getGameFinishedListener() {
 

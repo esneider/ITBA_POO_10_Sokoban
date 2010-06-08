@@ -4,13 +4,13 @@ import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventDispatcher;
 
 /**
- * @author dario
- *
+ * When a Box gets on top of a Target, this event is triggered
  */
 public class TargetMatchedEvent extends Event {
-	
+
 	/**
-	 * @param dispatcher The dispatcher that fired the event.
+	 * @param dispatcher
+	 *            The dispatcher that fired the event.
 	 */
 	public TargetMatchedEvent(EventDispatcher dispatcher) {
 		super(dispatcher);
