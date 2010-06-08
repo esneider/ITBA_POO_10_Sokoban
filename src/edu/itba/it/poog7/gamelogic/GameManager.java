@@ -190,7 +190,7 @@ public class GameManager {
 			throw new CouldNotLoadFileException("The file is corrupted");
 		}
 
-		tileMatrix = new GameTile[maxPos.getX()][maxPos.getY()];
+		tileMatrix = new GameTile[maxPos.getY()][maxPos.getX()];
 
 		Queue<GameTile> tileQueue = new LinkedList<GameTile>();
 		Queue<GameObject> objectQueue = new LinkedList<GameObject>();

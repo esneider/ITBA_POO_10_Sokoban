@@ -51,7 +51,7 @@ public class Controller implements ActionListener, KeyListener {
 		frame = new MainFrame();
 		frame.addKeyListener(this);
 		frame.addOutsiderListener(this);
-		
+
 		manager = new GameManager();
 
 		map = new HashMap<String, getFunction>();
@@ -64,7 +64,7 @@ public class Controller implements ActionListener, KeyListener {
 			}
 
 		});
-		final FileFilter sokoFilter = new FileFilter(){
+		final FileFilter sokoFilter = new FileFilter() {
 			@Override
 			public boolean accept(File f) {
 				return f.getName().endsWith(".sok") || f.isDirectory();
@@ -73,18 +73,18 @@ public class Controller implements ActionListener, KeyListener {
 			@Override
 			public String getDescription() {
 				return "Sokoban Saved File Game (.sok)";
-			}			    	
-	    };
+			}
+		};
 		map.put("Load Game", new getFunction() {
 
 			@Override
 			public void call() {
 				JFileChooser chooser = new JFileChooser();
-			    chooser.setFileFilter(sokoFilter);
-			    int returnVal = chooser.showOpenDialog(frame);
-			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			    	loadSavedGame(chooser.getSelectedFile().getPath());
-			    }
+				chooser.setFileFilter(sokoFilter);
+				int returnVal = chooser.showOpenDialog(frame);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					loadSavedGame(chooser.getSelectedFile().getPath());
+				}
 			}
 
 		});
@@ -93,17 +93,17 @@ public class Controller implements ActionListener, KeyListener {
 			@Override
 			public void call() {
 				JFileChooser chooser = new JFileChooser();
-			    chooser.setFileFilter(sokoFilter);
-			    int returnVal = chooser.showSaveDialog(frame);
-			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			    	String path = chooser.getSelectedFile().getPath();
-			    	
-			    	if (!path.endsWith(".sok")) {
-			    		
-			    		path += ".sok";
-			    	}
-			    	saveGame(path);
-			    }
+				chooser.setFileFilter(sokoFilter);
+				int returnVal = chooser.showSaveDialog(frame);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					String path = chooser.getSelectedFile().getPath();
+
+					if (!path.endsWith(".sok")) {
+
+						path += ".sok";
+					}
+					saveGame(path);
+				}
 			}
 
 		});
@@ -119,7 +119,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-
+				frame.setNoGame();
 				resetGame();
 			}
 
@@ -137,74 +137,79 @@ public class Controller implements ActionListener, KeyListener {
 	/**
 	 * Create a new game for a given level.
 	 * 
-	 * @param levelName The name of the level name.
-	 * @param userName The user name that is playing.
+	 * @param levelName
+	 *            The name of the level name.
+	 * @param userName
+	 *            The user name that is playing.
 	 */
 	public void newGame(String userName) {
+		frame.setNoGame();
 		loadNextLevel("", userName);
 	}
 
 	/**
 	 * Load the level after a given one.
-	 * @param currentLevel The name of the level thats previous to the level to load.
-	 * @param userName The name of the user playing.
+	 * 
+	 * @param currentLevel
+	 *            The name of the level thats previous to the level to load.
+	 * @param userName
+	 *            The name of the user playing.
 	 */
 	private void loadNextLevel(String currentLevel, String userName) {
-
 		try {
 			loadGame(manager.getNextLevel(currentLevel), userName);
 		} catch (FileNotFoundException e) {
-			
-			frame.setNoGame();
 			new MessageBox("Error", "The levels folder doesn't exist.", true);
-		} catch (NoMoreLevelsException e) {
-			
 			frame.setNoGame();
-			new MessageBox("Campeon!!", "¡Sos un titan man! ¡¡Ganaste el juego!!", false);
+		} catch (NoMoreLevelsException e) {
+			new MessageBox("Campeon!!",
+					"¡Sos un titan man! ¡¡Ganaste el juego!!", false);
 		}
 	}
 
 	/**
 	 * Load a game level.
 	 * 
-	 * @param levelName The name of the level to load.
-	 * @param userName The name of the user playing the level.
+	 * @param levelName
+	 *            The name of the level to load.
+	 * @param userName
+	 *            The name of the user playing the level.
 	 */
 	private void loadGame(String levelName, String userName) {
-		
 		try {
 			game = manager.loadLevel(levelName, userName);
-			
+
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
-			game.subscribeListener(GameFinishedEvent.class, getGameFinishedListener());
-			
+			game.subscribeListener(GameFinishedEvent.class,
+					getGameFinishedListener());
+
+			frame.setNoGame();
 			frame.setGame(manager.getView());
 		} catch (CouldNotLoadFileException e) {
-			
-			frame.setNoGame();
 			new MessageBox("Error", "The level could not be loaded", true);
-		} 
+			frame.setNoGame();
+		}
 	}
-	
+
 	/**
 	 * Load a saved game.
 	 * 
-	 * @param savedLevelName The name of the saved game file.
+	 * @param savedLevelName
+	 *            The name of the saved game file.
 	 */
 	public void loadSavedGame(String savedLevelName) {
-
-		try{
+		frame.setNoGame();
+		try {
 			game = manager.loadGame(savedLevelName);
-			
+
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
-			game.subscribeListener(GameFinishedEvent.class, getGameFinishedListener());
+			game.subscribeListener(GameFinishedEvent.class,
+					getGameFinishedListener());
 
 			frame.setGame(manager.getView());
-		} catch (CouldNotLoadFileException e){
-
-			frame.setNoGame();
+		} catch (CouldNotLoadFileException e) {
 			new MessageBox("Error", "Could not load level.", true);
-		}	
+		}
 	}
 
 	/**
@@ -213,7 +218,8 @@ public class Controller implements ActionListener, KeyListener {
 	public void resetGame() {
 		String levelFileName = game.getLevelFileName();
 		String userName = game.getUserName();
-
+		
+		frame.setNoGame();
 		loadGame(levelFileName, userName);
 	}
 

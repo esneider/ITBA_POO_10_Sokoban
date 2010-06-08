@@ -45,18 +45,14 @@ public class MainFrame extends JFrame {
 		pane.setLayout(overlay);
 
 		background = new Background();
-		add(background, 0);
 		setVisible(true);
 		setSize(new Dimension(SCREEN_SIDE, SCREEN_SIDE));
 		setNoGame();
 	}
 
 	public void setNoGame() {
-
-		if (view != null) {
-			view.setVisible(false);
-			view = null;
-		}
+		pane.removeAll();
+		pane.add(background, 0);
 		menu.savegame.setEnabled(false);
 		menu.restart.setEnabled(false);
 	}
@@ -67,8 +63,11 @@ public class MainFrame extends JFrame {
 
 		int margenX = (pane.getWidth() - view.getWidth()) / 2;
 		int margenY = (pane.getHeight() - view.getHeight()) / 2;
-
-		pane.add(view, 1);
+		
+		pane.removeAll();
+		pane.add(view, 0);
+		pane.add(background, 1);
+		
 		view.setBounds(margenX, margenY, view.getWidth(), view.getHeight());
 
 		menu.savegame.setEnabled(true);
