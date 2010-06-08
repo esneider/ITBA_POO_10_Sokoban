@@ -4,14 +4,13 @@
 package edu.itba.it.poog7.gamelogic;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -111,21 +110,22 @@ public class GameManager {
 
 	public void saveGame(Game game, String saveFileName) throws IOException {
 
-		FileWriter out = new FileWriter(saveFileName){
-			@Override
-			public void write(String line) throws IOException{
-				super.write(line+"\n");
-			}
-		};
+		BufferedWriter out = new BufferedWriter(new FileWriter(saveFileName));
 		out.write(game.getUserName());
-		out.write(game.getNumMoves());
+		out.newLine();
+		
+		out.write(""+game.getNumMoves());
+		out.newLine();
+		
 		out.write(game.getLevelName());
+		out.newLine();
 
 		GameTile[][] tileMatrix = game.getTileMatrix();
 
 		Position maxPos = new Position(tileMatrix.length, tileMatrix.length == 0 ? 0 : tileMatrix[0].length);
 
 		out.write(maxPos.toString());
+		out.newLine();
 
 		for (int y = 0; y < maxPos.getY(); y++) {
 			for (int x = 0; x < maxPos.getX(); x++) {
@@ -134,10 +134,12 @@ public class GameManager {
 				if (!(gameTile instanceof Blank)) {
 					
 					out.write(gameTile.toString());
+					out.newLine();
 				}
 				if (gameTile.getObject() != null) {
 					
 					out.write(gameTile.getObject().toString());
+					out.newLine();
 				}
 			}
 		}

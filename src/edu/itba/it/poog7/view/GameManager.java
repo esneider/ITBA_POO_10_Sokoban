@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
+import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Character;
@@ -78,6 +79,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 		Character newCharacter = (Character) super.newCharacter(game, data);
 		
 		newCharacter.subscribeListener(DestroyedEvent.class, game.getCharacterDestroyedListener());
+		newCharacter.subscribeListener(StateUpdateEvent.class, game.getCharacterMovedListener());
 		game.subscribeListener(MoveCharacterEvent.class, newCharacter.getMoveListener());
 		
 		try {
