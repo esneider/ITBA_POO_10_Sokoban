@@ -26,5 +26,16 @@
 	        </batchtest>
 		</junit>
 	</target>
+
+    <target name="dist" depends="build,test">
+        <jar destfile="Sokoban7.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="edu.itba.it.poog7.Controller" />
+            </manifest>
+            <fileset dir="resources">
+                <include name="*" />
+            </fileset>
+        </jar>
+    </target>
 	
 </project>

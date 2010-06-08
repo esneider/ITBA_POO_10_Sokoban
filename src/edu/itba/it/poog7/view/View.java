@@ -12,20 +12,22 @@ import edu.itba.it.poog7.view.tiles.DBlank;
  * View for the 'Model-View-Controller' pattern
  * 
  * @author dario
- *
+ * 
  */
 public class View extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private Board board;
+	private int width, height;
 	private List<DrawableElement> elements = new ArrayList<DrawableElement>();
-	
+
 	/**
 	 * Instance a {@link View}
 	 */
 	public View(int height, int width) {
-
+		this.height = height;
+		this.width = width;
 		setSize(width, height);
 	}
 
@@ -37,26 +39,28 @@ public class View extends JPanel {
 	 * @param cellSize
 	 */
 	public void setBoardSize(int rows, int columns, int cellSize) {
-		
+
 		if (board != null) {
 			remove(board);
 		}
-		board = new Board(rows, columns, cellSize );
+		board = new Board(rows, columns, cellSize);
 		board.setBackground(Color.white);
-		
+
 		setSize(board.getSize());
 		add(board);
-		
+
 		for (DrawableElement e : elements) {
 			if (!(e instanceof DBlank)) {
 				e.draw();
 			}
 		}
 	}
+
 	/**
 	 * Add a {@link DrawableElement}
 	 * 
-	 * @param element  the {@link DrawableElement}
+	 * @param element
+	 *            the {@link DrawableElement}
 	 */
 	public void addElement(DrawableElement element) {
 
@@ -66,10 +70,11 @@ public class View extends JPanel {
 	/**
 	 * Remove a {@link DrawableElement}
 	 * 
-	 * @param element  the {@link DrawableElement}
+	 * @param element
+	 *            the {@link DrawableElement}
 	 */
 	public void removeElement(DrawableElement element) {
-	
+
 		this.elements.remove(element);
 	}
 
@@ -79,5 +84,14 @@ public class View extends JPanel {
 	public Board getBoard() {
 
 		return board;
+	}
+
+	public void clearImage() {
+
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				board.clearImage(i, j);
+			}
+		}
 	}
 }

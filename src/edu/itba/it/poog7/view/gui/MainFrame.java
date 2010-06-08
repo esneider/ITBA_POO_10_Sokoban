@@ -21,7 +21,7 @@ import edu.itba.it.poog7.view.View;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 10098415897L;
-	private static final int SCREEN_SIDE = 600;
+	private static final int SCREEN_SIDE = 640;
 	MyMenu menu;
 	View view;
 	Container pane;
@@ -53,6 +53,11 @@ public class MainFrame extends JFrame {
 	public void setNoGame() {
 		pane.removeAll();
 		pane.add(background, 0);
+		
+		if (view != null){
+			view.clearImage();
+		}
+		
 		menu.savegame.setEnabled(false);
 		menu.restart.setEnabled(false);
 	}
