@@ -9,6 +9,8 @@ import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -86,7 +88,7 @@ public class GameManager {
 		BufferedReader file;
 
 		try {
-			file = new BufferedReader(new FileReader(new File("levels/" + fileName)));
+			file = new BufferedReader(new FileReader(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
 		}
@@ -107,18 +109,23 @@ public class GameManager {
 		return loadState(file, fileName, userName, score);
 	}
 
-	public void saveGame(Game game, String saveFileName) throws FileNotFoundException {
+	public void saveGame(Game game, String saveFileName) throws IOException {
 
-		PrintStream out = new PrintStream(new FileOutputStream(new File("levels/" + saveFileName)));
-		out.println(game.getUserName());
-		out.println(game.getNumMoves());
-		out.println(game.getLevelName());
+		FileWriter out = new FileWriter(saveFileName){
+			@Override
+			public void write(String line) throws IOException{
+				super.write(line+"\n");
+			}
+		};
+		out.write(game.getUserName());
+		out.write(game.getNumMoves());
+		out.write(game.getLevelName());
 
 		GameTile[][] tileMatrix = game.getTileMatrix();
 
 		Position maxPos = new Position(tileMatrix.length, tileMatrix.length == 0 ? 0 : tileMatrix[0].length);
 
-		out.println(maxPos);
+		out.write(maxPos.toString());
 
 		for (int y = 0; y < maxPos.getY(); y++) {
 			for (int x = 0; x < maxPos.getX(); x++) {
@@ -126,11 +133,11 @@ public class GameManager {
 				
 				if (!(gameTile instanceof Blank)) {
 					
-					out.println(gameTile);
+					out.write(gameTile.toString());
 				}
 				if (gameTile.getObject() != null) {
 					
-					out.println(gameTile.getObject());
+					out.write(gameTile.getObject().toString());
 				}
 			}
 		}

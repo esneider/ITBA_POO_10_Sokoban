@@ -27,6 +27,7 @@ public class MainFrame extends JFrame{
 	public MainFrame(){
 		super("Sokoban");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    setResizable(false);
 		
 		// This is the container of the Frame
 		pane = getContentPane();
@@ -59,8 +60,6 @@ public class MainFrame extends JFrame{
 		
 		view = aView;
 
-		System.out.println(view.getWidth() + " - " + view.getHeight());
-		System.out.println(pane.getWidth() + " - " + pane.getHeight());
 		int margenX = (pane.getWidth()-view.getWidth())/2;
 		int margenY = (pane.getHeight()-view.getHeight())/2;
 		

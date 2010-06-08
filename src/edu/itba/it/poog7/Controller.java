@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventListener;
@@ -61,11 +64,27 @@ public class Controller implements ActionListener, KeyListener {
 			}
 
 		});
+		final FileFilter sokoFilter = new FileFilter(){
+			@Override
+			public boolean accept(File f) {
+				return f.getName().endsWith(".sok") || f.isDirectory();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Sokoban Saved File Game (.sok)";
+			}			    	
+	    };
 		map.put("Load Game", new getFunction() {
 
 			@Override
 			public void call() {
-				// TODO: Ask for a file
+				JFileChooser chooser = new JFileChooser();
+			    chooser.setFileFilter(sokoFilter);
+			    int returnVal = chooser.showOpenDialog(frame);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	loadGame(chooser.getSelectedFile().getPath());
+			    }
 			}
 
 		});
@@ -73,7 +92,12 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-				// TODO: Ask for a file
+				JFileChooser chooser = new JFileChooser();
+			    chooser.setFileFilter(sokoFilter);
+			    int returnVal = chooser.showSaveDialog(frame);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	saveGame(chooser.getSelectedFile().getPath()+".sok");
+			    }
 			}
 
 		});
@@ -85,7 +109,7 @@ public class Controller implements ActionListener, KeyListener {
 			}
 
 		});
-		map.put("Restart", new getFunction() {
+		map.put("Restart Game", new getFunction() {
 
 			@Override
 			public void call() {
@@ -127,10 +151,12 @@ public class Controller implements ActionListener, KeyListener {
 	 *            The user name that is playing.
 	 */
 	public void newGame(String levelName, String userName) {
+		if(game != null){
+			frame.setNoGame();
+		}
 		try {
 			game = manager.loadLevel(levelName, userName);
 			frame.setGame(manager.getView());
-			System.out.println("Se inicializó el juego");
 
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
 			game.subscribeListener(GameFinishedEvent.class,
@@ -174,7 +200,7 @@ public class Controller implements ActionListener, KeyListener {
 		} catch (CouldNotLoadFileException e) {
 
 			frame.setNoGame();
-			new MessageBox("Error", "Could not load level.\n" + e, true);
+			new MessageBox("Error", "Could not load level.\n" + e.getMessage(), true);
 		}
 	}
 
