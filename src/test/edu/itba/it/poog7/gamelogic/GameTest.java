@@ -8,12 +8,15 @@ import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.event.GameFinishedEvent;
+import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Character;
 import edu.itba.it.poog7.gamelogic.objects.event.MoveCharacterEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 
 public class GameTest extends TestCase {
 	Game aGame;
@@ -24,11 +27,13 @@ public class GameTest extends TestCase {
 
 		GameTile[][] tiles = new GameTile[1][3];
 		character = new Character(new Position(0, 0));
+		character.subscribeListener(StateUpdateEvent.class, aGame
+				.getCharacterMovedListener());
 
 		tiles[0][0] = new Blank(new Position(0, 0));
 		tiles[0][1] = new Blank(new Position(0, 1));
 		tiles[0][2] = new Target(new Position(0, 2), new RGBColor(0, 0, 0));
-		aGame.init("1", "2", "3", tiles, 0, 0, 1); // 0 score, 1 boxes
+		aGame.init("1", "2", "3", tiles, 0, 1, 1); // 0 score, 1 boxes
 		// (different testcases
 		// use one box, 1 target
 	}
@@ -63,6 +68,10 @@ public class GameTest extends TestCase {
 		// Set up a Box under the Character
 		Box blackBox = new Box(new Position(0, 1), new RGBColor(0, 0, 0));
 		aGame.getTile(new Position(0, 1)).setObject(blackBox);
+		blackBox.subscribeListener(TargetMatchedEvent.class, aGame
+				.getTargetMatchedListener());
+		blackBox.subscribeListener(TargetUnmatchedEvent.class, aGame
+				.getTargetUnmatchedListener());
 
 		character.getMoveListener().eventTriggered(
 				new MoveCharacterEvent(aGame, Direction.DOWN));
@@ -78,6 +87,10 @@ public class GameTest extends TestCase {
 		// Set up a Box under the Character
 		Box blackBox = new Box(new Position(0, 1), new RGBColor(0, 0, 0));
 		aGame.getTile(new Position(0, 1)).setObject(blackBox);
+		blackBox.subscribeListener(TargetMatchedEvent.class, aGame
+				.getTargetMatchedListener());
+		blackBox.subscribeListener(TargetUnmatchedEvent.class, aGame
+				.getTargetUnmatchedListener());
 
 		int who[];
 		who = new int[] { 0 };
@@ -102,6 +115,10 @@ public class GameTest extends TestCase {
 		// Set up a Box under the Character
 		Box notSoBlackBox = new Box(new Position(0, 1), new RGBColor(0, 255, 0));
 		aGame.getTile(new Position(0, 1)).setObject(notSoBlackBox);
+		notSoBlackBox.subscribeListener(TargetMatchedEvent.class, aGame
+				.getTargetMatchedListener());
+		notSoBlackBox.subscribeListener(TargetUnmatchedEvent.class, aGame
+				.getTargetUnmatchedListener());
 
 		int who[];
 		who = new int[] { 0 };
@@ -127,6 +144,7 @@ public class GameTest extends TestCase {
 		int[] who;
 
 		public void eventTriggered(Event e) {
+			System.out.println("Gane");
 			who[0] = 1;
 		}
 

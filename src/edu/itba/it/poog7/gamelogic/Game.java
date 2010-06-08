@@ -3,6 +3,7 @@ package edu.itba.it.poog7.gamelogic;
 import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventDispatcher;
 import edu.itba.it.poog7.event.EventListener;
+import edu.itba.it.poog7.gamelogic.event.GameFinishedEvent;
 import edu.itba.it.poog7.gamelogic.event.GameOverEvent;
 import edu.itba.it.poog7.gamelogic.event.ScoreChangedEvent;
 import edu.itba.it.poog7.gamelogic.objects.Character;
@@ -52,7 +53,8 @@ public class Game extends EventDispatcher {
 	 * @param targets
 	 *            number of targets
 	 */
-	public void init(String name, String fileName, String userName, GameTile[][] tiles, int numMoves, int boxes, int targets) {
+	public void init(String name, String fileName, String userName,
+			GameTile[][] tiles, int numMoves, int boxes, int targets) {
 
 		this.levelName = name;
 		this.levelFileName = fileName;
@@ -116,7 +118,9 @@ public class Game extends EventDispatcher {
 			public void eventTriggered(Event e) {
 				remainingBoxes--;
 				boxesNotMatched--;
-				System.out.println("Remaining: "+remainingBoxes+" boxesNotMatched: "+boxesNotMatched);
+				if (remainingBoxes == 0 && boxesNotMatched == 0){
+					generateEvent(new GameFinishedEvent(Game.this));
+				}
 			}
 		};
 	}
