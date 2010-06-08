@@ -14,10 +14,10 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
 import edu.itba.it.poog7.gamelogic.objects.event.MoveCharacterEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
-import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
@@ -70,6 +70,9 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 		Box newBox = (Box) super.newBox(game, data);
 		newBox.subscribeListener(DestroyedEvent.class, game
 				.getBoxDestroyedListener());
+		
+		newBox.subscribeListener(TargetMatchedEvent.class, game.getTargetMatchedListener());
+		newBox.subscribeListener(TargetUnmatchedEvent.class, game.getTargetUnmatchedListener());
 
 		try {
 			view.addElement(new DBox(view, newBox));
@@ -126,8 +129,6 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	@Override
 	protected GameTile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
 		Target newTarget = (Target) super.newTarget(game, data);
-		newTarget.subscribeListener(TargetMatchedEvent.class, game.getTargetMatchedListener());
-		newTarget.subscribeListener(TargetUnmatchedEvent.class, game.getTargetUnmatchedListener());
 
 		try {
 			view.addElement(new DTarget(view, newTarget));

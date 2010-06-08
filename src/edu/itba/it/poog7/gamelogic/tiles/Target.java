@@ -3,10 +3,6 @@ package edu.itba.it.poog7.gamelogic.tiles;
 import edu.itba.it.poog7.gamelogic.ElementType;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
-import edu.itba.it.poog7.gamelogic.objects.Box;
-import edu.itba.it.poog7.gamelogic.objects.GameObject;
-import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
-import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 
 /**
  * Target tile for boxes.
@@ -37,26 +33,6 @@ public class Target extends GameTile {
 	 */
 	public RGBColor getColor() {
 		return color;
-	}
-
-	@Override
-	public void setObject(GameObject object) {
-		
-		if ((this.object != null) && this.object instanceof Box) {
-			if (((Box) this.object).getColor().equals(this.getColor())) {
-				System.out.println("Dispare un evento de target unmatched!");
-				generateEvent(new TargetUnmatchedEvent(this));
-			}
-		}
-
-		if (object instanceof Box) {
-			if (((Box) this.object).getColor().equals(this.getColor())) {
-				System.out.println("Dispare un evento de target matched!");
-				generateEvent(new TargetMatchedEvent(this));
-			}
-		}
-
-		super.setObject(object);
 	}
 
 	@Override

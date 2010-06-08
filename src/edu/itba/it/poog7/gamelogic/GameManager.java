@@ -14,17 +14,16 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import edu.itba.it.poog7.event.EventDispatcher;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Character;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
+import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
-import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
 /**
@@ -34,7 +33,7 @@ import edu.itba.it.poog7.gamelogic.tiles.Wall;
  * Its heavier-load methods returns instances of Game.
  * 
  */
-public class GameManager extends EventDispatcher {
+public class GameManager {
 
 	String[] levelList;
 

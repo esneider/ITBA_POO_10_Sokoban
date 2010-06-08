@@ -2,9 +2,14 @@ package edu.itba.it.poog7.view.objects;
 
 import java.io.IOException;
 
+import edu.itba.it.poog7.event.Event;
+import edu.itba.it.poog7.event.EventListener;
 import edu.itba.it.poog7.gamelogic.objects.Box;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 import edu.itba.it.poog7.view.Board;
 import edu.itba.it.poog7.view.DrawableElement;
+import edu.itba.it.poog7.view.Image;
 import edu.itba.it.poog7.view.View;
 
 /**
@@ -14,6 +19,9 @@ import edu.itba.it.poog7.view.View;
  *
  */
 public class DBox extends DObject {
+
+	private Image normalImage;
+	private Image brightImage;
 
 	/**
 	 * @param view  the {@link Board} in which to draw
@@ -26,5 +34,31 @@ public class DBox extends DObject {
 		image.setImage("resources/box.png");
 		image.dye(box.getColor());
 		image.setTransparent(true);
+		
+		normalImage = image;
+		
+		brightImage = new Image(box.getPosition());
+		brightImage.setImage("resources/box.png");
+		brightImage.increaseBrightness();
+		brightImage.setTransparent(true);
+		
+		box.subscribeListener(TargetMatchedEvent.class, new EventListener() {
+			
+			@Override
+			public void eventTriggered(Event e) {
+
+				image = brightImage;
+				draw();
+			}
+		});
+		
+		box.subscribeListener(TargetUnmatchedEvent.class, new EventListener() {
+			
+			@Override
+			public void eventTriggered(Event e) {
+				image = normalImage;
+				draw();
+			}
+		});
 	}
 }

@@ -6,6 +6,9 @@ import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
 import edu.itba.it.poog7.gamelogic.tiles.GameTile;
+import edu.itba.it.poog7.gamelogic.tiles.Target;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
+import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 
 /**
  * The class that represents the colored boxes in the game.
@@ -51,6 +54,33 @@ public class Box extends GameObject {
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void move(Game state, Direction dir) {
+		
+		GameTile oldTile = state.getTile(pos);
+		if (oldTile instanceof Target) {
+
+			if (((Target) oldTile).getColor().equals(color)) {
+			
+				generateEvent(new TargetUnmatchedEvent(this));
+			}
+		}
+		
+		super.move(state, dir);
+		
+		GameTile newTile = state.getTile(pos);
+		if (newTile instanceof Target) {
+
+			if (((Target) newTile).getColor().equals(color)) {
+			
+				generateEvent(new TargetMatchedEvent(this));
+			}
+		}
+	}
+	
 	/**
 	 * Getter for color
 	 * 
