@@ -51,7 +51,7 @@ Dentro de un objeto \textbf{Game} debe existir un conjunto de \textbf{GameTile}s
 
 La comunicación interna entre objetos de \textbf{gamelogic} varía entre pasaje de mensajes y lanzamiento de \textbf{Event}s. Este modelo es una implementación del patrón \textbf{\emph{Observer}} en la que objetos que implementan la interfaz \textbf{EventListener} se suscriben a un \textbf{EventDispatcher}, encargado de notificar cada vez que un \textbf{Event} es lanzado.
 
-La comunicación al exterior acerca de cambios de estado del juego se realiza puramente a través de este tipo de eventos. Movimiento de objetos, notificaciones de que el juego terminó, cambio del puntaje, son ejemplos de las notificaciones que nuestro \emph{backend} emite. Es responsabilidad del frontend responder a estos eventos. Por otro lado, el \emph{backend} no escucha a eventos externos, sólo responde a pasaje de mensajes.
+La comunicación al exterior acerca de cambios de estado del juego se realiza puramente a través de este tipo de eventos. Movimiento de objetos, notificaciones de que el juego terminó, cambio del puntaje, son ejemplos de las notificaciones que nuestro \emph{backend} emite. Es responsabilidad del frontend responder a estos eventos. Por otro lado, el \emph{backend} no escucha a eventos externos, sólo responde a pasaje de mensajes. Sí escucha a eventos internos, lo que se describirá posteriormente.
 
 \subsection{Movimiento de \textbf{GameObject}s}
 
@@ -69,7 +69,7 @@ Este evento contiene una referencia a \textbf{Game} y dispara el método \emph{c
 
 Estas comprobaciones son realizadas por pasaje de mensajes y no de eventos, debido a que todas necesitan devolver un valor y por simplicidad no agregamos funciones de \emph{callback}.
 
-Se utiliza un evento \textbf{moveCharacterEvent} interno para realizar esto para evitar que la instancia de \textbf{Game} mantenga información adicional acerca del \textbf{Character}. De este modo, \textbf{Game} sólo tiene una matriz de \textbf{GameTile}s.
+Se utiliza un evento \textbf{moveCharacterEvent} interno para realizar esto para evitar que la instancia de \textbf{Game} mantenga información adicional acerca del \textbf{Character}. De este modo, \textbf{Game} sólo tiene una matriz de \textbf{GameTile}s. Esto fué decidido para evitar referencias desde el Game hacia el \textbf{Character}, para no dar saltos dentro del árbol de clases.
 
 \subsection{Lógica del Estado del Juego}
 
@@ -104,5 +104,29 @@ Distintas clases del \emph{backend} sirven a la lógica del juego:
     \item \textbf{ElementType}: un enumerador para corresponder cada tipo de \textbf{GameObject} con un entero.
 	\item \textbf{Highscores}: clase encargada de guardar los mejores puntajes dado el nombre del archivo del nivel.
 \end{itemize}
+
+\section{Desafíos Encontrados}
+
+\subsection{Modelado Inicial}
+
+Nos llevó varias horas ponernos de acuerdo en cómo representar los elementos del juego en una manera que se pudiera distinguir bien el \emph{backend} del \emph{frontend}. En un diseño original que estaba claramente fallado, el \emph{frontend} era una herramienta fundamental que necesitaba el \emph{backend} para generar nuevos juegos. Con esto no había independencia entre el backend y el frontend.
+
+Heredamos de este modelado inicial el patrón \emph{\textbf{Factory}}, pero con una mejor independencia: la clase \textbf{GameManager} que construye \textbf{Game} y el resto de los \textbf{GameElements} fué dividida de manera tal que cualquier etapa de la formación del juego pueda ser sobreescrita y/o extendida por una clase hija.
+
+\subsection{Diseño del Frontend}
+
+Al adoptar el modelo MVC, nuestros modelos de \emph{backend} debían tener clases "hermanas" que las compusieran. En un principio, estuvimos tentados por la opción "imperativa", hacer un mapeo de los \emph{Strings} con los nombres de las clases del \emph{backend} hacia imágenes, con casteos para obtener más datos, como el color de las cajas. Abandonamos esta idea por parecernos una mala práctica y nos mantuvimos dentro del paradigma orientado a objetos.
+
+La correcta separación entre la \emph{Vista} y el \emph{Controlador} requirió también de un refactoreo entero de ambos, debido a que nos aceleramos a intentar "tener algo andando".
+
+\subsection{Implementación}
+
+A medida que debíamos pasar del diseño a la programación, nos encontrabamos cada día con nuevos obstáculos: debates sobre si hacemos esto de tal o cual manera fueron muy abundantes durante el proceso y encontramos que varias decisiones requirieron que volviéramos a replantear nuestro diseño en un par de ocaciones.
+
+En momentos, cuando encontramos un \emph{bug} importante durante la implementación, escribimos un \emph{Unit Test} para mostrar cómo debía ser la funcionalidad y corregir el código para que estas pruebas no fallaran. Esto probó ser muy eficiente y necesitar escribir el \emph{test} nos ayudaba a entender aún más claramente el funcionamiento del flujo de nuestro diseño.
+
+\subsection{Trabajo en Equipo}
+
+Luego del diseño inicial, fué cuestión de dividir bien el trabajo y en horas gran parte del juego estaba andando correctamente. 
 
 \end{document}
