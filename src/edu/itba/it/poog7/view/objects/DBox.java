@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventListener;
+import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
@@ -39,6 +40,7 @@ public class DBox extends DObject {
 		
 		brightImage = new Image(box.getPosition());
 		brightImage.setImage("resources/box.png");
+		brightImage.dye(box.getColor());
 		brightImage.increaseBrightness();
 		brightImage.setTransparent(true);
 		
@@ -60,5 +62,15 @@ public class DBox extends DObject {
 				draw();
 			}
 		});
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void setPosition(GameElement element) {
+		
+		super.setPosition(element);
+		brightImage.setPosition(element.getPosition());
 	}
 }

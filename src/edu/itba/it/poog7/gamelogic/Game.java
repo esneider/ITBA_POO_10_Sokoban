@@ -88,8 +88,6 @@ public class Game extends EventDispatcher {
 		return tileMatrix[pos.getX()][pos.getY()];
 	}
 
-	private Game self = this;
-
 	/**
 	 * Get an event listener for when character moves.
 	 * 
@@ -101,7 +99,7 @@ public class Game extends EventDispatcher {
 			@Override
 			public void eventTriggered(Event e) {
 				numMoves++;
-				generateEvent(new ScoreChangedEvent(self));
+				generateEvent(new ScoreChangedEvent(Game.this));
 			}
 		};
 	}
@@ -118,6 +116,7 @@ public class Game extends EventDispatcher {
 			public void eventTriggered(Event e) {
 				remainingBoxes--;
 				boxesNotMatched--;
+
 				if (remainingBoxes == 0 && boxesNotMatched == 0){
 					generateEvent(new GameFinishedEvent(Game.this));
 				}
@@ -166,7 +165,7 @@ public class Game extends EventDispatcher {
 		return new EventListener() {
 			@Override
 			public void eventTriggered(Event e) {
-				generateEvent(new GameOverEvent(self));
+				generateEvent(new GameOverEvent(Game.this));
 			}
 		};
 	}

@@ -42,7 +42,9 @@ public class PromptBox extends JFrame {
 			}
 		});
 		setLayout(new GridLayout(2, 1));
-		add(new JTextField(""));
+		
+		tex = new JTextField("");
+		add(tex);
 		add(button);
 		
 		setBounds(10, 10, 300, 100);
@@ -53,7 +55,6 @@ public class PromptBox extends JFrame {
 	 * @return the string the user wrote 
 	 */
 	public String getValue(){
-		setVisible(true);
 		return tex.getText();
 	}
 

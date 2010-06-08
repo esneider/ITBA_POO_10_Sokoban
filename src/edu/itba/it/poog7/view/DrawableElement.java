@@ -35,10 +35,15 @@ public abstract class DrawableElement {
 
 			@Override
 			public void eventTriggered(Event e) {
-				image.setPosition(((GameElement) e.getDispatcher()).getPosition());
+				setPosition((GameElement) e.getDispatcher());
 				draw();
 			}
 		});
+	}
+	
+	protected void setPosition(GameElement element) {
+		
+		image.setPosition(element.getPosition());
 	}
 
 	public void draw() {

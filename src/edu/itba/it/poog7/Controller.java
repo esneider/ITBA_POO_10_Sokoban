@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,11 +16,15 @@ import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventListener;
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Game;
+import edu.itba.it.poog7.gamelogic.Highscores;
+import edu.itba.it.poog7.gamelogic.event.GameFinishedEvent;
 import edu.itba.it.poog7.gamelogic.event.GameOverEvent;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
+import edu.itba.it.poog7.gamelogic.exception.InvalidFileException;
+import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
 import edu.itba.it.poog7.view.GameManager;
-import edu.itba.it.poog7.view.gui.ErrorBox;
 import edu.itba.it.poog7.view.gui.MenuBar;
+import edu.itba.it.poog7.view.gui.MessageBox;
 import edu.itba.it.poog7.view.gui.PromptBox;
 
 /**
@@ -76,7 +79,7 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 					@Override
 					public void call() {
 
-						newGame(getLevels()[0], name.getName());
+						newGame(getLevels()[0], name.getValue());
 						name.dispose();
 					}
 				});
@@ -88,9 +91,17 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-				JFileChooser fileChoose = new JFileChooser();
-				fileChoose.showOpenDialog(null);
-				loadGame(fileChoose.getSelectedFile().getName());
+				final PromptBox fileName = new PromptBox("Ingrese el nombre del archivo");
+				fileName.setCallback(new getFunction() {
+					
+					@Override
+					public void call() {
+
+						loadGame(fileName.getValue());
+						fileName.dispose();
+					}
+				});
+				fileName.setVisible(true);
 			}
 
 		});
@@ -98,9 +109,17 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
-				JFileChooser fileChoose = new JFileChooser();
-				fileChoose.showSaveDialog(null);
-				saveGame(fileChoose.getSelectedFile().getName());
+				final PromptBox fileName = new PromptBox("Ingrese el nombre del archivo");
+				fileName.setCallback(new getFunction() {
+					
+					@Override
+					public void call() {
+
+						saveGame(fileName.getValue());
+						fileName.dispose();
+					}
+				});
+				fileName.setVisible(true);
 			}
 
 		});
@@ -112,11 +131,12 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 			}
 
 		});
-		map.put("Reset", new getFunction() {
+		map.put("Restart", new getFunction() {
 
 			@Override
 			public void call() {
-				newGame(game.getLevelName(), game.getUserName());
+				
+				resetGame();
 			}
 
 		});
@@ -141,8 +161,9 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		try{
 			return manager.getLevelList();
 		} catch (FileNotFoundException e){
-			new ErrorBox("No se encontraron niveles.\n"+e);
-			gamePanel.setVisible(false);
+			new MessageBox("Error", "No se encontraron niveles.\n"+e);
+			resetPanel();
+
 			return null;
 		}
 	}
@@ -154,14 +175,23 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	 * @param userName The user name that is playing.
 	 */
 	public void newGame(String levelName, String userName) {
+		if (null != game) {
+			
+			resetPanel();
+			game = null;
+		}
+
 		try {
 			game = manager.loadLevel(levelName, userName);
+			
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
-			gamePanel.setVisible(true);
+			game.subscribeListener(GameFinishedEvent.class, getGameFinishedListener());
+			
+			gamePanel.repaint();
 		} catch (CouldNotLoadFileException e) {
-			e.printStackTrace();
-			new ErrorBox("No levels were found.\n"+e);
-			gamePanel.setVisible(false);
+			
+			resetPanel();
+			new MessageBox("Error", "No levels were found.\n"+e);
 		}
 	}
 
@@ -169,12 +199,14 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	 * Reset the current game.
 	 */
 	public void resetGame() {
-		try{
-			game = manager.loadLevel(game.getLevelFileName(), game.getUserName());
-			gamePanel.setVisible(true);
-		} catch (CouldNotLoadFileException e){
-			new ErrorBox("Could restart level.\n"+e);
-		}
+		String levelFileName = game.getLevelFileName();
+		String userName = game.getUserName();
+		
+		resetPanel();
+		
+		newGame(levelFileName, userName);
+		
+		gamePanel.repaint();
 	}
 
 	/**
@@ -183,15 +215,70 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	 * @param savedLevelName The name of the saved game file.
 	 */
 	public void loadGame(String savedLevelName) {
+		
+		if (null != game) {
+			
+			resetPanel();
+			game = null;
+		}
 		try{
 			game = manager.loadGame(savedLevelName);
+			
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
-			gamePanel.setVisible(true);
+			game.subscribeListener(GameFinishedEvent.class, getGameFinishedListener());
+			
 		} catch (CouldNotLoadFileException e){
+
 			e.printStackTrace();
-			gamePanel.setVisible(false);
-			new ErrorBox("Could not load level.\n"+e);
+			resetPanel();
+			
+			new MessageBox("Error", "Could not load level.\n"+e);
 		}	
+	}
+
+	/**
+	 * Reset the panel that holds the game.
+	 */
+	private void resetPanel() {
+		gamePanel.removeAll();
+		gamePanel.repaint();
+	}
+
+	/**
+	 * @return
+	 */
+	private EventListener getGameFinishedListener() {
+		
+		return new EventListener() {
+			
+			@Override
+			public void eventTriggered(Event e) {
+
+				try {
+					Highscores highscores = new Highscores(game.getLevelFileName());
+					
+					//FIXME: This throws an exception when no highscore exists yet
+//					highscores.addScore(game.getUserName(), game.getNumMoves());
+				} catch (InvalidFileException ex) {
+					
+					new MessageBox("Error", "Could not save your highscore. Sorry dude!");
+				}
+				
+				try {
+					
+					String nextLevel = manager.getNextLevel(game.getLevelFileName());
+					newGame(nextLevel, game.getUserName());
+				} catch (FileNotFoundException ex) {
+
+					new MessageBox("Error", "Could not load level.");
+				} catch (NoMoreLevelsException ex) {
+
+					new MessageBox("Campeon!!", "¡Sos un titan man! ¡¡Ganaste el juego!!");
+					resetPanel();
+					game = null;
+				}
+			}
+		};
 	}
 
 	private EventListener getGameOverListener() {
@@ -215,7 +302,7 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		try{
 			manager.saveGame(game, savedLevelName);
 		} catch (IOException e){
-			new ErrorBox("Could not load the saved game.\n"+e);
+			new MessageBox("Error", "Could not save the game.\n"+e);
 		}
 	}
 
@@ -276,7 +363,7 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 			game.moveCharacter(Direction.DOWN);
 			break;
 		case KeyEvent.VK_R:
-			if ((e.getModifiers() & KeyEvent.SHIFT_DOWN_MASK) != 0){
+			if ((e.getModifiers() & KeyEvent.CTRL_MASK) == KeyEvent.CTRL_MASK){
 				resetGame();
 			}
 			break;

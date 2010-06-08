@@ -13,20 +13,19 @@ import javax.swing.JPanel;
  * Show a Error box with a simple message
  *
  */
-public class ErrorBox extends JFrame {
+public class MessageBox extends JFrame {
 	private static final long serialVersionUID = 20L;
 
 	/**
 	 * Show the user a simple box with some text.
 	 * @param message the message for the user to read.
 	 */
-	public ErrorBox(String message){
-		super("Error");
+	public MessageBox(String title, String message){
+		super(title);
 		
 		JPanel myPanel = new JPanel();
 		new BoxLayout(myPanel, BoxLayout.Y_AXIS);
 		
-		// TODO: Linkear OK con cerrar esto
 		JButton ok = new JButton("OK");
 		ok.addMouseListener(new MouseListener() {
 			

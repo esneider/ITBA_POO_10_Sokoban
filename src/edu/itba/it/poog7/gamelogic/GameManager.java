@@ -68,6 +68,10 @@ public class GameManager {
 			levelList = getLevelList();
 			return levelList[0];
 		}
+		
+		if (null == levelList) {
+			levelList = getLevelList();
+		}
 
 		int index = Arrays.binarySearch(levelList, current);
 
@@ -82,7 +86,7 @@ public class GameManager {
 		BufferedReader file;
 
 		try {
-			file = new BufferedReader(new FileReader(new File(fileName)));
+			file = new BufferedReader(new FileReader(new File("levels/" + fileName)));
 		} catch (FileNotFoundException e) {
 			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
 		}
@@ -107,9 +111,9 @@ public class GameManager {
 	public void saveGame(Game game, String saveFileName) throws FileNotFoundException {
 
 		PrintStream out = new PrintStream(new FileOutputStream(new File("levels/" + saveFileName)));
-		out.println(game.getLevelName());
 		out.println(game.getUserName());
 		out.println(game.getNumMoves());
+		out.println(game.getLevelName());
 
 		GameTile[][] tileMatrix = game.getTileMatrix();
 
@@ -125,6 +129,8 @@ public class GameManager {
 					out.println(gameTile.getObject());
 			}
 		}
+		
+		out.close();
 	}
 
 	public Game loadLevel(String fileName, String userName) throws CouldNotLoadFileException {
