@@ -28,4 +28,8 @@ public class Color {
 
 		return new java.awt.Color(r, g, b);
 	}
+	
+	public String toString(){
+		return "(RGB color: "+r+","+g+","+"b"+")";
+	}
 }

@@ -8,7 +8,6 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 
-
 /**
  * Target tile for boxes.
  * 
@@ -21,14 +20,16 @@ public class Target extends GameTile {
 	/**
 	 * Instance a new target tile.
 	 * 
-	 * @param pos   The position the tile is in.
-	 * @param color The color that the tile has.
+	 * @param pos
+	 *            The position the tile is in.
+	 * @param color
+	 *            The color that the tile has.
 	 */
 	public Target(Position pos, RGBColor color) {
 		super(pos);
 		this.color = color;
 	}
-	
+
 	/**
 	 * Get the tiles color.
 	 * 
@@ -41,12 +42,18 @@ public class Target extends GameTile {
 	@Override
 	public void setObject(GameObject object) {
 
-		if( this.object instanceof Box && ((Box)this.object).getColor() == color ) {
-			generateEvent(new TargetUnmatchedEvent(this));
+		if (this.object instanceof Box) {
+			if (((Box) this.object).getColor().equals(this.getColor())) {
+				System.out.println("Dispare un evento de target unmatched!");
+				generateEvent(new TargetUnmatchedEvent(this));
+			}
 		}
 
-		if( object instanceof Box && ((Box)object).getColor() == color ) {
-			generateEvent(new TargetMatchedEvent(this));
+		if (object instanceof Box) {
+			if (((Box) this.object).getColor().equals(this.getColor())) {
+				System.out.println("Dispare un evento de target matched!");
+				generateEvent(new TargetMatchedEvent(this));
+			}
 		}
 
 		super.setObject(object);
@@ -54,6 +61,6 @@ public class Target extends GameTile {
 
 	@Override
 	public String toString() {
-		return pos+","+ElementType.TARGET.getInt()+",0,"+color;
+		return pos + "," + ElementType.TARGET.getInt() + ",0," + color;
 	}
 }

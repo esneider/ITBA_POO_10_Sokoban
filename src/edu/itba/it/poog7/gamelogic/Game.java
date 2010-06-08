@@ -116,6 +116,7 @@ public class Game extends EventDispatcher {
 			public void eventTriggered(Event e) {
 				remainingBoxes--;
 				boxesNotMatched--;
+				System.out.println("Remaining: "+remainingBoxes+" boxesNotMatched: "+boxesNotMatched);
 			}
 		};
 	}
