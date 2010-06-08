@@ -41,8 +41,8 @@ public class Target extends GameTile {
 
 	@Override
 	public void setObject(GameObject object) {
-
-		if (this.object instanceof Box) {
+		
+		if ((this.object != null) && this.object instanceof Box) {
 			if (((Box) this.object).getColor().equals(this.getColor())) {
 				System.out.println("Dispare un evento de target unmatched!");
 				generateEvent(new TargetUnmatchedEvent(this));

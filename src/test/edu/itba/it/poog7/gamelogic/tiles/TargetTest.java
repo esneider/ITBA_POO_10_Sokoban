@@ -3,15 +3,15 @@
  */
 package test.edu.itba.it.poog7.gamelogic.tiles;
 
-
 import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.RGBColor;
+import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
 
 /**
  * @author champo
- *
+ * 
  */
 public class TargetTest extends TileTest {
 
@@ -28,10 +28,12 @@ public class TargetTest extends TileTest {
 	}
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Target#canMoveTo(edu.itba.it.poog7.gamelogic.Direction)}.
+	 * Test method for
+	 * {@link edu.itba.it.poog7.gamelogic.tiles.Target#canMoveTo(edu.itba.it.poog7.gamelogic.Direction)}
+	 * .
 	 */
 	public void testCanMoveTo() {
-		
+
 		assertTrue(target.canMoveFrom(Direction.DOWN));
 		assertTrue(target.canMoveFrom(Direction.UP));
 		assertTrue(target.canMoveFrom(Direction.LEFT));
@@ -39,10 +41,12 @@ public class TargetTest extends TileTest {
 	}
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Target#canMoveFrom(edu.itba.it.poog7.gamelogic.Direction)}.
+	 * Test method for
+	 * {@link edu.itba.it.poog7.gamelogic.tiles.Target#canMoveFrom(edu.itba.it.poog7.gamelogic.Direction)}
+	 * .
 	 */
 	public void testCanMoveFrom() {
-		
+
 		assertTrue(target.canMoveFrom(Direction.DOWN));
 		assertTrue(target.canMoveFrom(Direction.UP));
 		assertTrue(target.canMoveFrom(Direction.LEFT));
@@ -50,21 +54,33 @@ public class TargetTest extends TileTest {
 	}
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.tiles.Target#getColor()}.
+	 * Test method for
+	 * {@link edu.itba.it.poog7.gamelogic.tiles.Target#getColor()}.
 	 */
 	public void testGetColor() {
-		
+
 		RGBColor white = new RGBColor(255, 255, 255);
-		
+
 		assertNotNull(target.getColor());
 		assertTrue(target.getColor().equals(black));
 		assertFalse(target.getColor().equals(white));
-		
+
 		Target whiteTarget = new Target(new Position(0, 0), white);
-		
+
 		assertNotNull(whiteTarget.getColor());
 		assertTrue(whiteTarget.getColor().equals(white));
 		assertFalse(whiteTarget.getColor().equals(black));
+	}
+
+	/**
+	 * Move a box the same color into a Target and check whether it raises a
+	 * exception.
+	 */
+	public void testSameColorFall() {
+		Target blackTarget = new Target(new Position(0, 0), black);
+		Box blackBox = new Box(new Position(0, 0), black);
+
+		blackTarget.setObject(blackBox);
 	}
 
 }
