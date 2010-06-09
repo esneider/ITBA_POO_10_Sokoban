@@ -1,5 +1,5 @@
 #Titulo
-This is the Game Title
+This is the Game Title Duplicate
 10,10
 
 #Chaboncitou

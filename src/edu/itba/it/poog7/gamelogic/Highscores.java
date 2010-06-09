@@ -1,133 +1,209 @@
 package edu.itba.it.poog7.gamelogic;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.TreeSet;
+import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
+import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotSaveFileException;
-import edu.itba.it.poog7.gamelogic.exception.InvalidFileException;
 
+/**
+ * Class used to maintain the highscores for a given level
+ * 
+ */
+/**
+ * @author dario
+ * 
+ */
 public class Highscores {
 
 	private static final int MAX_SCORES = 10;
-	private TreeSet<Score> scores;
-	private String levelName;
+	private LinkedList<Score> scores;
+	private String fileName;
 
-	public Highscores(String levelName) throws InvalidFileException {
-		
-		this.levelName = levelName;
+	/**
+	 * Instance a {@link Highscores}
+	 * 
+	 * @param levelName
+	 *            the level name
+	 * @throws CouldNotLoadFileException
+	 */
+	public Highscores(String levelName) throws CouldNotLoadFileException {
+
+		this.fileName = levelName;
 		loadScores();
-	}
-	
-	private void loadScores() throws InvalidFileException {
-		
-		BufferedReader file;
-		try {
-			file = new BufferedReader(new FileReader(levelName));
-		} catch(FileNotFoundException e) {
-			scores = new TreeSet<Score>();
-			return;
-		}
-		
-		String line;
-		try {
-			while((line = file.readLine()) != null) {
-				
-				scores.add(parseLine(line));
-			}
-		} catch (IOException e) {
-			
-			throw new InvalidFileException();
-		}
-	}
-	
-	private Score parseLine(String line) throws InvalidFileException {
-		
-		int separator = line.indexOf(',');
-		if (separator == -1 || line.length() == separator - 1) {
-			throw new InvalidFileException();
-		}
-		
-		int score = Integer.parseInt(line.substring(0, separator));
-		String playerName = line.substring(separator + 1);
-		
-		return new Score(score, playerName);
 	}
 
 	/**
-	 * Add a new score.
+	 * Load the scores from a file
 	 * 
-	 * @param playerName
-	 * @param scored
-	 * @return True if the score entered the high scores, false otherwise
-	 * @throws CouldNotSaveFileException 
+	 * @throws CouldNotLoadFileException
 	 */
-	public boolean addScore(String playerName, int scored) throws CouldNotSaveFileException {
-		
-		Score score = new Score(scored, playerName);
-		Score last = scores.last();
-		
-		if (scores.size() < MAX_SCORES || score.compareTo(last) > 0 ) {
-			
-			scores.add(score);
-			if (scores.size() >= MAX_SCORES) {
-				scores.remove(last);
-			}
-			
-			saveScores();
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private void saveScores() throws CouldNotSaveFileException {
+	protected void loadScores() throws CouldNotLoadFileException {
+
+		BufferedReader file;
+		scores = new LinkedList<Score>();
 
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(levelName));
+			file = new BufferedReader(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			return;
+		}
 
-			for (Score s : scores) {
-				writer.write(s.getScore() + "," + s.getPlayerName());
-				writer.newLine();
+		String line;
+		try {
+			while ((line = file.readLine()) != null) {
+				scores.add(parseLine(line));
 			}
-			
-			writer.close();
 		} catch (IOException e) {
-			
-			throw new CouldNotSaveFileException("Could not save the highscores");
+
+			throw new CouldNotLoadFileException("Cound not load highscores file.");
 		}
 	}
 
-	class Score implements Comparable<Score> {
-		
+	/**
+	 * Helper method to parse lines
+	 * 
+	 * @param line
+	 *            the line
+	 * @return a {@link Score}
+	 * @throws CouldNotLoadFileException
+	 */
+	protected Score parseLine(String line) throws CouldNotLoadFileException {
+
+		String s[] = line.split(",");
+		if (s.length != 2) {
+			throw new CouldNotLoadFileException("highscores file is corrupted.");
+		}
+
 		int score;
-		String playerName;
-		
+		try {
+			score = Integer.parseInt(s[0]);
+		} catch (NumberFormatException e) {
+			throw new CouldNotLoadFileException("highscores file is corrupted.");
+		}
+
+		return new Score(score, s[1]);
+	}
+
+	/**
+	 * Add a new pair score<->user.
+	 * 
+	 * @param playerName
+	 *            the user name
+	 * @param scored
+	 *            the score
+	 * @return True if the score entered the high scores, false otherwise
+	 * @throws CouldNotSaveFileException
+	 */
+	public boolean addScore(String playerName, int scored) throws CouldNotSaveFileException {
+
+		Score score = new Score(scored, playerName);
+
+		if (scores.size() < MAX_SCORES || score.compareTo(scores.getLast()) < 0) {
+
+			ListIterator<Score> it = scores.listIterator();
+			while (it.hasNext() && it.next().compareTo(score) <= 0)
+				;
+
+			if (it.hasNext() || (it.hasPrevious() && score.compareTo(scores.getLast()) < 0)) {
+				it.previous();
+			}
+
+			it.add(score);
+
+			if (scores.size() > MAX_SCORES) {
+				scores.removeLast();
+			}
+
+			saveScores();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Save the scores to a file
+	 * 
+	 * @throws CouldNotSaveFileException
+	 */
+	protected void saveScores() throws CouldNotSaveFileException {
+
+		PrintStream out;
+		try {
+			out = new PrintStream(new FileOutputStream(new File(fileName)));
+		} catch (FileNotFoundException e) {
+			throw new CouldNotSaveFileException("Could not save the highscores");
+		}
+
+		for (Score s : scores) {
+			out.println(s);
+		}
+	}
+
+	/**
+	 * Helper class to maintain pairs of score<->user name
+	 * 
+	 */
+	public class Score implements Comparable<Score> {
+
+		private int score;
+		private String playerName;
+
+		/**
+		 * Instanciate a {@link Score}
+		 * 
+		 * @param score
+		 *            the score
+		 * @param playerName
+		 *            the user name
+		 */
 		public Score(int score, String playerName) {
-			super();
+
 			this.score = score;
 			this.playerName = playerName;
 		}
 
+		/**
+		 * @return the score
+		 */
 		public int getScore() {
+
 			return score;
 		}
 
+		/**
+		 * @return the user name
+		 */
 		public String getPlayerName() {
+
 			return playerName;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int compareTo(Score arg0) {
-			
-			return new Integer(score).compareTo(new Integer(arg0.score));
+
+			return score - arg0.getScore();
 		}
+
+		@Override
+		public String toString() {
+
+			return score + "," + playerName;
+		}
+	}
+
+	/**
+	 * @return the List of scores
+	 */
+	public LinkedList<Score> getScores() {
+
+		return scores;
 	}
 }

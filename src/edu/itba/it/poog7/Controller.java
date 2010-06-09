@@ -20,7 +20,7 @@ import edu.itba.it.poog7.gamelogic.Highscores;
 import edu.itba.it.poog7.gamelogic.event.GameFinishedEvent;
 import edu.itba.it.poog7.gamelogic.event.GameOverEvent;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
-import edu.itba.it.poog7.gamelogic.exception.InvalidFileException;
+import edu.itba.it.poog7.gamelogic.exception.CouldNotSaveFileException;
 import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
 import edu.itba.it.poog7.view.GameManager;
 import edu.itba.it.poog7.view.gui.MainFrame;
@@ -55,7 +55,8 @@ public class Controller implements ActionListener, KeyListener {
 		try {
 			manager = new GameManager();
 		} catch (CouldNotLoadFileException e) {
-			new MessageBox("Error", "The levels folder doesn't exist.", true);
+			e.printStackTrace();
+			new MessageBox("Error", "The levels folder doesn't exist or contains invalid files.", true);
 			frame.dispose();
 			return;
 		}
@@ -245,12 +246,12 @@ public class Controller implements ActionListener, KeyListener {
 				try {
 					Highscores highscores = new Highscores(game.getLevelFileName()+".score");
 
-					// FIXME: This throws an exception when no highscore exists
-					// yet
-					// highscores.addScore(game.getUserName(),
-					// game.getNumMoves());
-				} catch (InvalidFileException ex) {
-
+					highscores.addScore(game.getUserName(), game.getNumMoves());
+				} catch (CouldNotLoadFileException ex) {
+					
+					new MessageBox("Error", "Could not save your highscore. Sorry dude!", true);
+				} catch (CouldNotSaveFileException ex) {
+					
 					new MessageBox("Error", "Could not save your highscore. Sorry dude!", true);
 				}
 
