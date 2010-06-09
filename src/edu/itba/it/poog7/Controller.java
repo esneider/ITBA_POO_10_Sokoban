@@ -56,10 +56,7 @@ public class Controller implements ActionListener, KeyListener {
 		try {
 			manager = new GameManager();
 		} catch (CouldNotLoadFileException e) {
-			e.printStackTrace();
-			new MessageBox("Error", "The levels folder doesn't exist or contains invalid files.", true);
-			frame.dispose();
-			return;
+			new MessageBox("Error", "Error getting levels:\n"+e, true);
 		}
 
 		map = new HashMap<String, getFunction>();
@@ -172,7 +169,7 @@ public class Controller implements ActionListener, KeyListener {
 		} catch (NoMoreLevelsException e) {
 			new MessageBox("Congratulations", "You have beaten the game by winning all the levels!", false);
 		} catch (CouldNotLoadFileException e) {
-			new MessageBox("Error", "The level couldnt be loaded.", true);
+			new MessageBox("Error", "The level couldnt be loaded.\n"+e, true);
 		}
 	}
 
@@ -193,7 +190,7 @@ public class Controller implements ActionListener, KeyListener {
 			frame.setNoGame();
 			frame.setGame(manager.getView());
 		} catch (CouldNotLoadFileException e) {
-			new MessageBox("Error", "The level could not be loaded", true);
+			new MessageBox("Error", "The level could not be loaded\n"+e, true);
 			frame.setNoGame();
 		}
 	}
@@ -214,7 +211,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			frame.setGame(manager.getView());
 		} catch (CouldNotLoadFileException e) {
-			new MessageBox("Error", "Could not load level.", true);
+			new MessageBox("Error", "Could not load level.\n"+e, true);
 		}
 	}
 
@@ -250,10 +247,10 @@ public class Controller implements ActionListener, KeyListener {
 					}
 				} catch (CouldNotLoadFileException ex) {
 					
-					new MessageBox("Error", "Could not save your highscore. Sorry dude!", true);
+					new MessageBox("Error", "Could not save your highscore-. Sorry dude!\n"+e, true);
 				} catch (CouldNotSaveFileException ex) {
 					
-					new MessageBox("Error", "Could not save your highscore. Sorry dude!", true);
+					new MessageBox("Error", "Could not save your highscore. Sorry dude!\n"+e, true);
 				}
 
 				loadNextLevel(game.getLevelName(), game.getUserName());

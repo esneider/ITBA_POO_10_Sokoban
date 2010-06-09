@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 
+import javax.print.DocFlavor.URL;
+
 import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
@@ -78,7 +80,7 @@ public class GameManager {
 	 */
 	protected void loadLevelList() throws CouldNotLoadFileException {
 
-		File dir = new File("levels/");
+		File dir = new File(ClassLoader.getSystemResource("levels/").getFile());
 		File[] files = null;
 
 		files = dir.listFiles(new FileFilter() {
@@ -187,7 +189,8 @@ public class GameManager {
 		BufferedReader file;
 
 		try {
-			file = new BufferedReader(new FileReader(new File(fileName)));
+			String resource = ClassLoader.getSystemResource(fileName).getFile();
+			file = new BufferedReader(new FileReader(new File(resource)));
 		} catch (FileNotFoundException e) {
 			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
 		}
@@ -196,13 +199,13 @@ public class GameManager {
 		String userName;
 
 		if ((userName = readLine(file)) == null) {
-			throw new CouldNotLoadFileException("The file is corrupted");
+			throw new CouldNotLoadFileException("The file is corrupted.\nInsufficient data: Missing user name.");
 		}
 
 		try {
 			score = Integer.parseInt(readLine(file));
 		} catch (NumberFormatException e) {
-			throw new CouldNotLoadFileException("The file is corrupted");
+			throw new CouldNotLoadFileException("The file is corrupted.\nThe score is invalid.");
 		}
 
 		return loadState(file, fileName, userName, score);
@@ -301,19 +304,19 @@ public class GameManager {
 		game = new Game();
 
 		if ((levelName = readLine(file)) == null) {
-			throw new CouldNotLoadFileException("The file is corrupted");
+			throw new CouldNotLoadFileException("The file is corrupted. No name for the level.");
 		}
 
 		try {
 			String[] s = readLine(file).split(",");
 			if (s.length != 2) {
-				throw new CouldNotLoadFileException("The file is corrupted");
+				throw new CouldNotLoadFileException("The file is corrupted. Invalid board size.");
 			}
 			maxPos = new Position(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
 		} catch (NumberFormatException e) {
-			throw new CouldNotLoadFileException("The file is corrupted");
+			throw new CouldNotLoadFileException("The file is corrupted.\nInvalid board size data - not a integer.");
 		} catch (NullPointerException e) {
-			throw new CouldNotLoadFileException("The file is corrupted");
+			throw new CouldNotLoadFileException("The file is corrupted. Unknown error.");
 		}
 
 		tileMatrix = new GameTile[maxPos.getY()][maxPos.getX()];

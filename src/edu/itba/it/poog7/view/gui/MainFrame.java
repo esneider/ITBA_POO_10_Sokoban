@@ -1,5 +1,6 @@
 package edu.itba.it.poog7.view.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -26,7 +28,7 @@ import edu.itba.it.poog7.view.View;
  */
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 10098415897L;
-	private static final int SCREEN_SIDE = 640;
+	private static final int SCREEN_SIDE = 700;
 	MyMenu menu;
 	View view;
 	Container pane;

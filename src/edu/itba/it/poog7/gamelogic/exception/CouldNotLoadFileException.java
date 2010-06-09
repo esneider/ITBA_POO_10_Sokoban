@@ -22,4 +22,8 @@ public class CouldNotLoadFileException extends Exception {
 	public CouldNotLoadFileException(String string) {
 		this.description = string;
 	}
+	
+	public String toString(){
+		return this.description;
+	}
 }
