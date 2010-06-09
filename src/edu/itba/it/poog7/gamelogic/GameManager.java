@@ -80,8 +80,8 @@ public class GameManager {
 
 		File dir = new File("levels/");
 		File[] files = null;
-
 		files = dir.listFiles(new FileFilter() {
+			
 
 			public boolean accept(File file) {
 
@@ -421,7 +421,7 @@ public class GameManager {
 		do {
 			try {
 				str = file.readLine();
-			} catch (Exception e) {
+			} catch (IOException e) {
 				throw new CouldNotLoadFileException("Could not read from file.");
 			}
 

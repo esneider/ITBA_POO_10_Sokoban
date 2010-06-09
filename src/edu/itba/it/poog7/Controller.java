@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -309,7 +310,7 @@ public class Controller implements ActionListener, KeyListener {
 
 		try {
 			manager.saveGame(game, savedLevelName);
-		} catch (Exception e) {
+		} catch (IOException e){
 			new MessageBox("Error", "Could not save the game.\n" + e, true);
 		}
 	}
@@ -320,7 +321,9 @@ public class Controller implements ActionListener, KeyListener {
 	public void highScores() {
 		try {
 			new ShowHighScores(manager.getNextLevel(""), manager);
-		} catch (Exception e) {
+		} catch (CouldNotLoadFileException e) {
+			new MessageBox("Error", "Couldn't load the highscores", true);
+		} catch (NoMoreLevelsException e){
 			new MessageBox("Error", "Couldn't load the highscores", true);
 		}
 	}

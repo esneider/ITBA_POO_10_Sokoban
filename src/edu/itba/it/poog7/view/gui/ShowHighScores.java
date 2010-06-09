@@ -18,6 +18,7 @@ import edu.itba.it.poog7.gamelogic.GameManager;
 import edu.itba.it.poog7.gamelogic.Highscores;
 import edu.itba.it.poog7.gamelogic.Highscores.Score;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
+import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
 
 /**
  * Show highscores
@@ -89,7 +90,9 @@ public class ShowHighScores extends JFrame implements ActionListener {
 			String after = null;
 			try {
 				before = manager.getPreviousLevel(levelName);
-			} catch (Exception e) {
+			} catch (NoMoreLevelsException e) {
+				;
+			} catch (CouldNotLoadFileException e) {
 				;
 			}
 			if (before != null) {
@@ -101,7 +104,9 @@ public class ShowHighScores extends JFrame implements ActionListener {
 
 			try {
 				after = manager.getNextLevel(levelName);
-			} catch (Exception e) {
+			} catch (NoMoreLevelsException e) {
+				;
+			} catch (CouldNotLoadFileException e) {
 				;
 			}
 
@@ -122,9 +127,10 @@ public class ShowHighScores extends JFrame implements ActionListener {
 			try {
 				scores = new Highscores(manager.getLevelNamesMap().get(
 						levelName)).getScores();
-			} catch (Exception e) {
+			} catch (CouldNotLoadFileException e) {
 				;
 			}
+
 			LayoutManager gridLayout = new GridLayout(10, 2);
 			this.setLayout(gridLayout);
 
