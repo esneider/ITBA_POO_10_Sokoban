@@ -61,10 +61,6 @@
         </jar>
     </target>
 
-    <target name="dist" depends="clean">
-	    <ant-call target="build" />
-	    <ant-call target="test" />
-	    <ant-call target="doc" />
-	    <ant-call target="jar" />
+    <target name="dist" depends="clean,build,test,doc,jar">
     </target>	
 </project>
