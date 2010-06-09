@@ -58,6 +58,7 @@ public class MainFrame extends JFrame {
 			view.clearImage();
 		}
 		
+		repaint();
 		menu.savegame.setEnabled(false);
 		menu.restart.setEnabled(false);
 	}
