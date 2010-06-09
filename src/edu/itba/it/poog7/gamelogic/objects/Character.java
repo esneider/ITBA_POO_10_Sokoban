@@ -11,8 +11,7 @@ import edu.itba.it.poog7.gamelogic.objects.event.MoveCharacterEvent;
 import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 
 /**
- * 
- * @author eordano
+ * A Character that moves through the game and can move other objects.
  *
  */
 public class Character extends GameObject {

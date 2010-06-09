@@ -12,8 +12,6 @@ import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 
 /**
  * The class that represents the colored boxes in the game.
- * 
- * @author eordano
  *
  */
 public class Box extends GameObject {

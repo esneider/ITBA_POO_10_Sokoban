@@ -6,7 +6,6 @@ import edu.itba.it.poog7.gamelogic.Position;
 /**
  * Abstract class to draw things representable in a tile on screen.
  * 
- * @author eordano
  *
  */
 public abstract class GameElement implements Drawable {

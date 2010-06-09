@@ -9,8 +9,7 @@ import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
 import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 
 /**
- * 
- * @author eordano
+ * Abstract class that simbolizes Game objects.
  * 
  */
 public abstract class GameObject extends GameElement {

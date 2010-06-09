@@ -9,7 +9,6 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
 /**
  * One way tile.
  * 
- * @author champo
  */
 public class OneWay extends GameTile {
 	

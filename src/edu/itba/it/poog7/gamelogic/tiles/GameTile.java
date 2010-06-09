@@ -10,7 +10,6 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
 /**
  * Abstract base class for all tiles.
  * 
- * @author champo
  */
 public abstract class GameTile extends GameElement {
 	

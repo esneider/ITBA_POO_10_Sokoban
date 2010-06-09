@@ -1,7 +1,7 @@
 package edu.itba.it.poog7.gamelogic;
 
 /**
- * @author champo
+ * A position in the board (or not). Stores a pair of integer values.
  * 
  */
 public class Position {

@@ -10,7 +10,6 @@ import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
 /**
- * @author eordano
  */
 public class LevelObjectTest extends TestCase {
 	GameStub state;
@@ -52,7 +51,6 @@ public class LevelObjectTest extends TestCase {
 	/**
 	 * Stub classes
 	 * 
-	 * @author eordano
 	 */
 	class GameStub extends Game {		
 		/**
@@ -74,7 +72,6 @@ public class LevelObjectTest extends TestCase {
 		}
 	}
 	/**
-	 * @author dario
 	 *
 	 */
 	class GameObjectStub extends GameObject {

@@ -8,7 +8,6 @@ import edu.itba.it.poog7.gamelogic.Direction;
 import edu.itba.it.poog7.gamelogic.Position;
 
 /**
- * @author champo
  *
  */
 public class PositionTest extends TestCase {

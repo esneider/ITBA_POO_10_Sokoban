@@ -14,8 +14,6 @@ import edu.itba.it.poog7.gamelogic.tiles.GameTile;
  * Model for the 'Model-View-Controller' pattern <br>
  * All information about a game and its state of playing
  * 
- * @author dario
- * 
  */
 public class Game extends EventDispatcher {
 

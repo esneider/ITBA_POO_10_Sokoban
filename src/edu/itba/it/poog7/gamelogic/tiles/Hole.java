@@ -9,7 +9,6 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
 /**
  * Hole tile. Any object that falls into this tile is erased from the game.
  * 
- * @author champo
  */
 public class Hole extends GameTile {
 

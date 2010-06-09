@@ -10,7 +10,6 @@ import edu.itba.it.poog7.gamelogic.objects.GameObject;
 import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 
 /**
- * @author champo
  *
  */
 public class TileTest extends LevelElementTest {

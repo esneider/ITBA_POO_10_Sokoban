@@ -16,7 +16,6 @@ import edu.itba.it.poog7.view.View;
 /**
  * {@link DrawableElement} corresponding to {@link Box}
  * 
- * @author dario
  *
  */
 public class DBox extends DObject {

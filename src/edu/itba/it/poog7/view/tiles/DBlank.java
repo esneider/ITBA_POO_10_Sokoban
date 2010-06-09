@@ -10,7 +10,6 @@ import edu.itba.it.poog7.view.View;
 /**
  * {@link DrawableElement} corresponding to {@link Blank}
  * 
- * @author dario
  *
  */
 public class DBlank extends DrawableElement {

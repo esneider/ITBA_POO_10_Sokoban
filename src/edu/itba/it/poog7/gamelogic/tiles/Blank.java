@@ -8,7 +8,6 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
 /**
  * Blank tile.
  * 
- * @author champo
  */
 public class Blank extends GameTile {
 

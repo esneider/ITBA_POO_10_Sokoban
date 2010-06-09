@@ -10,8 +10,6 @@ import java.util.Map;
  * 
  * @see edu.itba.it.poog7.event.EventListener
  * 
- * @author dario
- * 
  */
 public class EventDispatcher {
 

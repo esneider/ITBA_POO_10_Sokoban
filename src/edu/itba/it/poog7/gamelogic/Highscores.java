@@ -17,10 +17,6 @@ import edu.itba.it.poog7.gamelogic.exception.CouldNotSaveFileException;
  * Class used to maintain the highscores for a given level
  * 
  */
-/**
- * @author dario
- * 
- */
 public class Highscores {
 
 	private static final int MAX_SCORES = 10;

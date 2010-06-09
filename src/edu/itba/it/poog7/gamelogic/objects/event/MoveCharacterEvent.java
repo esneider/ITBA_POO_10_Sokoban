@@ -5,7 +5,7 @@ import edu.itba.it.poog7.event.EventDispatcher;
 import edu.itba.it.poog7.gamelogic.Direction;
 
 /**
- * @author dario
+ * Event triggered by the Game and listened by the Character.
  *
  */
 public class MoveCharacterEvent extends Event{

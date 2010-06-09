@@ -9,7 +9,6 @@ import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
 
 /**
- * @author dario
  *
  */
 public class CharacterTest extends LevelObjectTest {

@@ -32,7 +32,6 @@ import edu.itba.it.poog7.view.gui.ShowHighScores;
  * Big class to control the application flow. <br>
  * In charge of communicating things in between big objects.
  * 
- * @author eordano
  * 
  */
 public class Controller implements ActionListener, KeyListener {
@@ -83,6 +82,7 @@ public class Controller implements ActionListener, KeyListener {
 				return "Sokoban Saved File Game (.sok)";
 			}
 		};
+
 		map.put("Load Game", new getFunction() {
 
 			@Override
@@ -234,12 +234,11 @@ public class Controller implements ActionListener, KeyListener {
 		String userName = game.getUserName();
 
 		frame.setNoGame();
-		if (manager.getLevelNamesMap().get(levelName) == null){
-			new MessageBox("Error", "There is no data about the game level.\n"+
-					"If the game is a saved game you loaded,\n"+
-					"please load the game again from the file.", true);
-		}
-		else{
+		if (manager.getLevelNamesMap().get(levelName) == null) {
+			new MessageBox("Error", "There is no data about the game level.\n"
+					+ "If the game is a saved game you loaded,\n"
+					+ "please load the game again from the file.", true);
+		} else {
 			loadGame(levelName, userName);
 		}
 	}
@@ -327,8 +326,9 @@ public class Controller implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * @author dario
-	 * 
+	 * We don't have pointers to functions, but we can do this. This class has
+	 * to be overrun with a method that does something when it is called. Is
+	 * used with the menus.
 	 */
 	public abstract class getFunction {
 		/**

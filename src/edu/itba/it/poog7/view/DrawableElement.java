@@ -11,7 +11,6 @@ import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
  * 
  * @see edu.itba.it.poog7.event.EventListener
  * 
- * @author dario
  * 
  */
 public abstract class DrawableElement {

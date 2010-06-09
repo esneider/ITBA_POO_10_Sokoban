@@ -9,8 +9,6 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
 
 /**
  * Wrapper of {@link ImageUtils}
- * 
- * @author dario
  *
  */
 public class Image {

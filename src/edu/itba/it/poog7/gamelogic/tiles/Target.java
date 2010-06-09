@@ -7,7 +7,6 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
 /**
  * Target tile for boxes.
  * 
- * @author champo
  */
 public class Target extends GameTile {
 

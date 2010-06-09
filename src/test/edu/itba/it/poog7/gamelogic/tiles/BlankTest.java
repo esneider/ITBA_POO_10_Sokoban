@@ -8,7 +8,6 @@ import edu.itba.it.poog7.gamelogic.Position;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 
 /**
- * @author champo
  *
  */
 public class BlankTest extends TileTest {

@@ -8,7 +8,6 @@ import edu.itba.it.poog7.gamelogic.GameElement;
 import edu.itba.it.poog7.gamelogic.Position;
 
 /**
- * @author champo
  *
  */
 public class LevelElementTest extends TestCase {

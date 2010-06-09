@@ -17,8 +17,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 
-import javax.print.DocFlavor.URL;
-
 import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
@@ -631,8 +629,6 @@ public class GameManager {
 	 * It receives a string that has to be of the regex form (\d,){6}\d => that means 7 numbers separated by comas. The first two are
 	 * translated into {row, column}; the third one represents the ElementType of the element being read, the fourth is how is it rotated
 	 * and the last three numbers represent the RGB color of the element.
-	 * 
-	 * @author eordano
 	 * 
 	 */
 	protected class IOHelper {

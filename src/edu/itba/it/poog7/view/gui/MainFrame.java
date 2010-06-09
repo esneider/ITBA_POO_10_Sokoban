@@ -1,6 +1,5 @@
 package edu.itba.it.poog7.view.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -11,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,7 +22,6 @@ import edu.itba.it.poog7.view.View;
 /**
  * Meant to hold the game board.
  * 
- * @author champo
  */
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 10098415897L;
@@ -113,7 +110,7 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * @author champo
+	 * This is the main menu that is always shown to the user via a menubar.
 	 *
 	 */
 	private class MyMenu extends JMenuBar {
@@ -157,8 +154,7 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * @author champo
-	 *
+	 *	Background Image
 	 */
 	private class Background extends JPanel {
 		private static final long serialVersionUID = 21L;

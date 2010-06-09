@@ -10,7 +10,6 @@ import edu.itba.it.poog7.view.View;
 /**
  * {@link DrawableElement} corresponding to {@link OneWay}
  * 
- * @author dario
  *
  */
 public class DOneWay extends DrawableElement {

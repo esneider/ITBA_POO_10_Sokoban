@@ -4,7 +4,7 @@ import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventDispatcher;
 
 /**
- * @author dario
+ * This event is dispatched whenever a GameObject is erased by a hole
  *
  */
 public class DestroyedEvent extends Event {

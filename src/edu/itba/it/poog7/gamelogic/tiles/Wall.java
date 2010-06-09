@@ -8,8 +8,6 @@ import edu.itba.it.poog7.gamelogic.RGBColor;
 
 /**
  * Wall tile.
- * 
- * @author champo
  */
 public class Wall extends GameTile {
 

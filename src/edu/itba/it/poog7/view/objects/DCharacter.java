@@ -10,7 +10,6 @@ import edu.itba.it.poog7.view.View;
 /**
  * {@link DrawableElement} corresponding to {@link Character}
  * 
- * @author dario
  *
  */
 public class DCharacter extends DObject {

@@ -10,7 +10,6 @@ import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
 
 /**
- * @author champo
  * 
  */
 public class TargetTest extends TileTest {

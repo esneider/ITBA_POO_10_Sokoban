@@ -5,8 +5,6 @@ import edu.itba.it.poog7.gamelogic.Position;
 
 /**
  * Wrapper of {@link BoardPanel} that implements Image drawing
- * 
- * @author dario
  *
  */
 public class Board extends BoardPanel{
