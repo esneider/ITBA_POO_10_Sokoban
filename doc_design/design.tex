@@ -51,7 +51,9 @@ Dentro de un objeto \textbf{Game} debe existir un conjunto de \textbf{GameTiles}
 
 La comunicación interna entre objetos de \textbf{gamelogic} varía entre pasaje de mensajes y lanzamiento de \textbf{Events}. Este modelo es una implementación del patrón \textbf{\emph{Observer}} en la que objetos que implementan la interfaz \textbf{EventListener} se suscriben a un \textbf{EventDispatcher}, encargado de notificar cada vez que un \textbf{Event} es lanzado.
 
-La comunicación al exterior acerca de cambios de estado del juego se realiza puramente a través de este tipo de eventos. Movimiento de objetos, notificaciones de que el juego terminó, cambio del puntaje, son ejemplos de las notificaciones que nuestro \emph{backend} emite. Es responsabilidad del frontend responder a estos eventos. Por otro lado, el \emph{backend} no escucha a eventos externos, sólo responde a pasaje de mensajes. Sí escucha a eventos internos, lo que se describirá posteriormente.
+La comunicación hacia el exterior acerca de cambios de estado del juego se realiza puramente a través de este tipo de eventos. Movimiento de objetos, notificaciones de que el juego terminó, cambio del puntaje, son ejemplos de las notificaciones que nuestro \emph{backend} emite. Es responsabilidad del frontend responder a estos eventos.
+
+Por otro lado, el \emph{backend} no escucha a eventos externos, sólo responde a pasaje de mensajes.
 
 \subsubsection{Diagrama UML de Eventos}
 
@@ -70,7 +72,7 @@ Este evento contiene una referencia a \textbf{Game} y dispara el método \emph{c
 \begin{itemize}
  \item Preguntar si el \textbf{GameTile} vecino tiene un objeto arriba
  \begin{itemize}
-  \item Si contiene un objeto, determinar si se puede mover en esa misma dirección llamando al método \textit{canMove()} del \textbf{GameObject}.
+  \item Si contiene un objeto, determinar si se puede mover en esa misma dirección mandando el mensaje \textit{canMove()} al \textbf{GameObject}.
  \end{itemize}
  \item Preguntar al \textbf{GameTile} debajo suyo si puede salir en esa dirección.
  \item Preguntar al \textbf{GameTile} vecino si se puede mover entrando en esa dirección.
@@ -78,7 +80,7 @@ Este evento contiene una referencia a \textbf{Game} y dispara el método \emph{c
 
 Estas comprobaciones son realizadas por pasaje de mensajes y no de eventos, debido a que todas necesitan devolver un valor y por simplicidad no agregamos funciones de \emph{callback}.
 
-Se utiliza un evento \textbf{moveCharacterEvent} interno para realizar esto para evitar que la instancia de \textbf{Game} mantenga información adicional acerca del \textbf{Character}. De este modo, \textbf{Game} sólo tiene una matriz de \textbf{GameTiles}. Esto fué decidido para evitar referencias desde el Game hacia el \textbf{Character}, para no dar saltos dentro del árbol de clases.
+Se utiliza un evento \textbf{moveCharacterEvent} interno, para evitar que la instancia de \textbf{Game} mantenga información adicional acerca del \textbf{Character}. De este modo, \textbf{Game} sólo tiene una matriz de \textbf{GameTiles}. Esto fué decidido para evitar referencias desde el Game hacia el \textbf{Character}, para no dar saltos dentro del árbol de clases.
 
 \subsection{Lógica del Estado del Juego}
 
@@ -92,7 +94,7 @@ Los \textbf{GameTiles} de tipo \textbf{Target} además, disparan un evento \text
 	\item \textbf{GameObject} ha cambiado su estado: cambió su posición.
 \end{itemize}
 
-Asimismo, un \textbf{Hole} al recibir un \textbf{GameObject}, le manda un mensaje para avisarle que ha sido destruído. Un objeto al ser destruído manda un evento \textbf{DestroyedEvent}. Este tipo de eventos es escuchado internamente, debido a que \textbf{Game} debe disminuír un contador de \textbf{Box}es en el nivel y enviar eventos de tipo \textbf{GameOverEvent} si el objeto que cayó es el \textbf{Character}.
+Asimismo, un \textbf{Hole} al recibir un \textbf{GameObject}, le manda un mensaje para avisarle que ha sido destruído. Un objeto al ser destruído manda un evento \textbf{DestroyedEvent}. Este tipo de eventos es escuchado internamente, debido a que \textbf{Game} debe disminuír un contador de \textbf{Boxes} en el nivel y enviar eventos de tipo \textbf{GameOverEvent} si el objeto que cayó es el \textbf{Character}.
 
 En caso de que se cumpla la condición de que la \emph{cantidad de cajas actuales en el nivel} sea igual a la \emph{cantidad de objetivos en el nivel con una caja de su color arriba} (ambas son atributos guardados en la instancia de \textbf{Game}), el juego fué ganado, y se lanza un event de tipo \textbf{GameFinishedEvent}
 
@@ -100,7 +102,7 @@ En caso de que se cumpla la condición de que la \emph{cantidad de cajas actuale
 
 La creación de nuevos juegos se realiza usando el patrón de diseño \textbf{\emph{Factory}}. Una clase \textbf{GameManager} es encargada de leer datos sobre cómo crear un nuevo juego a partir de un archivo e instanciar un nuevo \textbf{Game} a partir de esos datos, ya sean estos de una partida guardada o no. La clase asegura que se instanciaran todos los \textbf{GameElement} que se lean del archivo (si el archivo no está corrupto, en cuyo caso se debe tirar una \textbf{Exception}), en orden especifico: primero los \textbf{GameTiles} y luego los \textbf{GameObjects}.
 
-Esta clase permite ser extendida y sus métodos fueron subdivididos para que puedan ser sobreescritos o sobrecargados diferenciando las subclases de \textbf{GameElement} que son instanciadas. 
+Esta clase permite ser extendida y sus métodos fueron subdivididos para que puedan ser sobreescritos o sobrecargados diferenciando las subclases de \textbf{GameElement} que son instanciadas. Lamentablemente esta clase quedó grande, con un método más bien imperativo, debido a la naturaleza del proceso de lectura del archivo de datos. Por más que separamos las piezas, quedaron un par de funciones 	
 
 \subsection{Elementos Auxiliares del Juego}
 
@@ -124,9 +126,9 @@ Heredamos de este modelado inicial el patrón \emph{\textbf{Factory}}, pero con 
 
 \subsection{Diseño del Frontend}
 
-Al adoptar el modelo MVC, nuestros modelos de \emph{backend} debían tener clases "hermanas" que las compusieran. En un principio, estuvimos tentados por la opción "imperativa", hacer un mapeo de los \emph{Strings} con los nombres de las clases del \emph{backend} hacia imágenes, con casteos para obtener más datos, como el color de las cajas. Abandonamos esta idea por parecernos una mala práctica y nos mantuvimos dentro del paradigma orientado a objetos.
+Al adoptar el modelo MVC, nuestros modelos de \emph{backend} debían tener clases hermanas que las compusieran. En un principio, estuvimos tentados por la opción imperativa, hacer un mapeo de los \emph{Strings} con los nombres de las clases del \emph{backend} hacia imágenes, con casteos para obtener más datos, como el color de las cajas. Abandonamos esta idea por parecernos una mala práctica y nos mantuvimos dentro del paradigma orientado a objetos.
 
-La correcta separación entre la \emph{Vista} y el \emph{Controlador} requirió también de un refactoreo entero de ambos, debido a que nos aceleramos para intentar tener algo que funcione pronto.
+La correcta separación entre la \emph{Vista} y el \emph{Controlador} requirió también de un refactoreo entero de ambos, debido a que nos aceleramos para intentar tener algo que funcione pronto. Posteriormente, \emph{Swing} nos trajo problemas de renderizado debido a algunos conceptos erróneos que teníamos sobre su funcionamiento que arreglamos.
 
 \subsection{Implementación}
 
@@ -136,15 +138,15 @@ En momentos, cuando encontramos un \emph{bug} importante durante la implementaci
 
 \subsection{Trabajo en Equipo}
 
-Luego del diseño inicial, fué cuestión de dividir bien el trabajo y en horas gran parte del juego estaba andando correctamente. Sin embargo, surgieron diversos problemas debido a que uno de los compañeros del equipo tiene problemas con la conexión a internet desde su casa, por lo que hemos perdido algunas largas horas corrigiendo problemas de versiones con \emph{SVN}.
+Luego del diseño inicial, fué cuestión de dividir bien el trabajo y en horas gran parte del juego estaba andando correctamente. Sin embargo, surgieron diversos problemas debido a que uno de los compañeros del equipo tiene problemas con la conexión a internet desde su casa, por lo que hemos perdido tiempo corrigiendo problemas de versiones con \emph{SVN}.
 
 \subsection{Herramientas Adicionales}
 
 El uso de varias herramientas, tanto las otorgadas por la cátedra como las que descubrimos por nuestra cuenta, facilitaron nuestro trabajo enormemente. En primer lugar, el uso de la interfaz de desarrollo \emph{Eclipse} fué muy provechosa y agilizó la etapa de implementación. Para el diseño de los esquemas \emph{UML} utilizamos el programa \emph{UMLet}, que ofrece herramientas básicas de integración con \emph{Eclipse} que en última instancia, terminamos despreciando en pro de nuestro propio diseño.
 
-Para el armado de algunos niveles adicionales, en poco tiempo armamos un pequeño utilitario escrito en \emph{Python} para escribir niveles, lo que requirió de un acelerado e intensivo curso del \emph{framework} \emph{PyQT4}. Con esto obtuvimos niveles de alta calidad con poco esfuerzo de edición de archivos de texto. Bajamos algunos niveles que están libremente disponibles en internet.
+Para el armado de algunos niveles adicionales, en poco tiempo armamos un pequeño utilitario escrito en \emph{Python} para escribir niveles, lo que requirió de un acelerado e intensivo curso del \emph{framework} \emph{PyQt4}. Con esto obtuvimos niveles de alta calidad con poco esfuerzo de edición de archivos de texto. Bajamos algunos niveles que están libremente disponibles en internet.
 
-Durante una sesión de programación, hemos usado una alternativa al gestor de versiones de código \emph{SVN} llamada \emph{Git}. Nos ha resultado práctica en nuestra situación particular porque no disponíamos de internet en ese momento.
+Durante una sesión de programación, hemos usado una alternativa al gestor de versiones de código \emph{SVN} llamada \emph{Git}. Nos ha resultado práctica en nuestra situación particular porque no disponíamos de internet en ese momento, y al ser una herramienta distribuída, una de las computadoras que teníamos actuaba de servidor.
 
 El \emph{framework} de testeos unitarios de \emph{Java}, \emph{JUnit} fué muy útil en ciertas ocaciones. Usamos también \emph{\LaTeX} para escribir este informe y \emph{Inkscape} para armar las imágenes a partir del archivo \emph{SVG} que genera la herramienta de modelado UML.
 

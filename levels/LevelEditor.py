@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Jun 8, 2010
 
@@ -24,12 +25,13 @@ class rebut(QtGui.QPushButton):
         return self.x, self.y
 
     def asign(self):
-        if self.parent.actual == "clear":
+        if self.parent.actual == "":
             self.setText("")
             if (self.x, self.y) in self.parent.cosas.keys():
                 self.parent.cosas.pop((self.x, self.y))
-        self.parent.cosas.update({(self.x, self.y): self.parent.actual})
-        self.setText(self.parent.actual)
+        else:
+            self.parent.cosas.update({(self.x, self.y): self.parent.actual})
+            self.setText(self.parent.actual)
 
     def setear(self):
         self.parent.actual = self.quecosa
