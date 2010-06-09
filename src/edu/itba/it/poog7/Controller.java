@@ -25,6 +25,7 @@ import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
 import edu.itba.it.poog7.view.GameManager;
 import edu.itba.it.poog7.view.gui.MainFrame;
 import edu.itba.it.poog7.view.gui.MessageBox;
+import edu.itba.it.poog7.view.gui.ShowHighScores;
 
 /**
  * Controller for the 'Model-View-Controller' pattern <br>
@@ -169,9 +170,8 @@ public class Controller implements ActionListener, KeyListener {
 		try {
 			loadGame(manager.getNextLevel(currentLevel), userName);
 		} catch (NoMoreLevelsException e) {
-			new MessageBox("Campeon!!", "¡Sos un titan man! ¡¡Ganaste el juego!!", false);
+			new MessageBox("Congratulations", "You have beaten the game by winning all the levels!", false);
 		} catch (CouldNotLoadFileException e) {
-			e.printStackTrace();
 			new MessageBox("Error", "The level couldnt be loaded.", true);
 		}
 	}
@@ -243,9 +243,11 @@ public class Controller implements ActionListener, KeyListener {
 			public void eventTriggered(Event e) {
 
 				try {
-					Highscores highscores = new Highscores(game.getLevelFileName()+".score");
+					Highscores highscores = new Highscores(game.getLevelFileName());
 
-					highscores.addScore(game.getUserName(), game.getNumMoves());
+					if (highscores.addScore(game.getUserName(), game.getNumMoves())){
+						new MessageBox("Congratulations", "You made a new highscore on the level", false);
+					}
 				} catch (CouldNotLoadFileException ex) {
 					
 					new MessageBox("Error", "Could not save your highscore. Sorry dude!", true);
@@ -294,8 +296,11 @@ public class Controller implements ActionListener, KeyListener {
 	 * Show the highscores dialog.
 	 */
 	public void highScores() {
-
-		// TODO: HighScores Dialog
+		try{
+			new ShowHighScores(manager.getNextLevel(""), manager);
+		} catch(Exception e){
+			new MessageBox("Error", "Couldn't load the highscores", true);
+		}
 	}
 
 	/**

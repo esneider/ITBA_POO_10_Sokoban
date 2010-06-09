@@ -30,13 +30,13 @@ public class Highscores {
 	/**
 	 * Instance a {@link Highscores}
 	 * 
-	 * @param levelName
-	 *            the level name
+	 * @param levelFileName
+	 *            the level filename
 	 * @throws CouldNotLoadFileException
 	 */
-	public Highscores(String levelName) throws CouldNotLoadFileException {
+	public Highscores(String levelFileName) throws CouldNotLoadFileException {
 
-		this.fileName = levelName;
+		this.fileName = levelFileName + ".score";
 		loadScores();
 	}
 
@@ -49,7 +49,7 @@ public class Highscores {
 
 		BufferedReader file;
 		scores = new LinkedList<Score>();
-
+		
 		try {
 			file = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
@@ -78,18 +78,18 @@ public class Highscores {
 	protected Score parseLine(String line) throws CouldNotLoadFileException {
 
 		String s[] = line.split(",");
-		if (s.length != 2) {
-			throw new CouldNotLoadFileException("highscores file is corrupted.");
+		if (s.length < 2) {
+			throw new CouldNotLoadFileException("The highscores file is corrupted.");
 		}
 
 		int score;
 		try {
 			score = Integer.parseInt(s[0]);
 		} catch (NumberFormatException e) {
-			throw new CouldNotLoadFileException("highscores file is corrupted.");
+			throw new CouldNotLoadFileException("The highscores file is corrupted.");
 		}
 
-		return new Score(score, s[1]);
+		return new Score(score, line.substring(line.indexOf(',')+1));
 	}
 
 	/**
@@ -205,5 +205,12 @@ public class Highscores {
 	public LinkedList<Score> getScores() {
 
 		return scores;
+	}
+
+	public void erase() throws CouldNotLoadFileException {
+		// TODO Auto-generated method stub
+		File file = new File(fileName);
+		file.delete();
+		loadScores();
 	}
 }

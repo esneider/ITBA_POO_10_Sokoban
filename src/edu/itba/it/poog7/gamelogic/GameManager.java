@@ -54,6 +54,22 @@ public class GameManager {
 
 		loadLevelList();
 	}
+	
+	/**
+	 * Get a map levelNames -> fileNames
+	 * @return a Map to known the name of the file for a given level name
+	 */
+	public Map<String, String> getLevelNamesMap(){
+		return levelNames;
+	}
+
+	/**
+	 * Get a map fileNames -> levelNames
+	 * @return a Map to known the name of the file for a given level name
+	 */
+	public Map<String, String> getFileNamesMap() {
+		return fileNames;
+	}
 
 	/**
 	 * Load the level list
@@ -74,9 +90,9 @@ public class GameManager {
 		});
 
 		if (files == null) {
-			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
+			throw new CouldNotLoadFileException("Couldn't find folder 'levels'.");
 		}
-
+		
 		fileNames = new TreeMap<String, String>();
 		levelNames = new HashMap<String, String>();
 
@@ -732,4 +748,5 @@ public class GameManager {
 			return count;
 		}
 	}
+
 }
