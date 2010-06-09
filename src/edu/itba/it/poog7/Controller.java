@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,11 +47,18 @@ public class Controller implements ActionListener, KeyListener {
 	 * Constructor.
 	 */
 	Controller() {
+
 		frame = new MainFrame();
 		frame.addKeyListener(this);
 		frame.addOutsiderListener(this);
 
-		manager = new GameManager();
+		try {
+			manager = new GameManager();
+		} catch (CouldNotLoadFileException e) {
+			new MessageBox("Error", "The levels folder doesn't exist.", true);
+			frame.dispose();
+			return;
+		}
 
 		map = new HashMap<String, getFunction>();
 		map.put("New Game", new getFunction() {
@@ -68,11 +74,13 @@ public class Controller implements ActionListener, KeyListener {
 		final FileFilter sokoFilter = new FileFilter() {
 			@Override
 			public boolean accept(File f) {
+
 				return f.getName().endsWith(".sok") || f.isDirectory();
 			}
 
 			@Override
 			public String getDescription() {
+
 				return "Sokoban Saved File Game (.sok)";
 			}
 		};
@@ -80,6 +88,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
+
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileFilter(sokoFilter);
 				int returnVal = chooser.showOpenDialog(frame);
@@ -93,6 +102,7 @@ public class Controller implements ActionListener, KeyListener {
 
 			@Override
 			public void call() {
+
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileFilter(sokoFilter);
 				int returnVal = chooser.showSaveDialog(frame);
@@ -139,12 +149,11 @@ public class Controller implements ActionListener, KeyListener {
 	/**
 	 * Create a new game for a given level.
 	 * 
-	 * @param levelName
-	 *            The name of the level name.
-	 * @param userName
-	 *            The user name that is playing.
+	 * @param levelName The name of the level name.
+	 * @param userName The user name that is playing.
 	 */
 	public void newGame(String userName) {
+
 		frame.setNoGame();
 		loadNextLevel("", userName);
 	}
@@ -152,38 +161,34 @@ public class Controller implements ActionListener, KeyListener {
 	/**
 	 * Load the level after a given one.
 	 * 
-	 * @param currentLevel
-	 *            The name of the level thats previous to the level to load.
-	 * @param userName
-	 *            The name of the user playing.
+	 * @param currentLevel The name of the level thats previous to the level to load.
+	 * @param userName The name of the user playing.
 	 */
 	private void loadNextLevel(String currentLevel, String userName) {
+
 		try {
 			loadGame(manager.getNextLevel(currentLevel), userName);
-		} catch (FileNotFoundException e) {
-			new MessageBox("Error", "The levels folder doesn't exist.", true);
-			frame.setNoGame();
 		} catch (NoMoreLevelsException e) {
-			new MessageBox("Campeon!!",
-					"¡Sos un titan man! ¡¡Ganaste el juego!!", false);
+			new MessageBox("Campeon!!", "¡Sos un titan man! ¡¡Ganaste el juego!!", false);
+		} catch (CouldNotLoadFileException e) {
+			e.printStackTrace();
+			new MessageBox("Error", "The level couldnt be loaded.", true);
 		}
 	}
 
 	/**
 	 * Load a game level.
 	 * 
-	 * @param levelName
-	 *            The name of the level to load.
-	 * @param userName
-	 *            The name of the user playing the level.
+	 * @param levelName The name of the level to load.
+	 * @param userName The name of the user playing the level.
 	 */
 	private void loadGame(String levelName, String userName) {
+
 		try {
 			game = manager.loadLevel(levelName, userName);
 
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
-			game.subscribeListener(GameFinishedEvent.class,
-					getGameFinishedListener());
+			game.subscribeListener(GameFinishedEvent.class, getGameFinishedListener());
 
 			frame.setNoGame();
 			frame.setGame(manager.getView());
@@ -196,17 +201,16 @@ public class Controller implements ActionListener, KeyListener {
 	/**
 	 * Load a saved game.
 	 * 
-	 * @param savedLevelName
-	 *            The name of the saved game file.
+	 * @param savedLevelName The name of the saved game file.
 	 */
 	public void loadSavedGame(String savedLevelName) {
+
 		frame.setNoGame();
 		try {
 			game = manager.loadGame(savedLevelName);
 
 			game.subscribeListener(GameOverEvent.class, getGameOverListener());
-			game.subscribeListener(GameFinishedEvent.class,
-					getGameFinishedListener());
+			game.subscribeListener(GameFinishedEvent.class, getGameFinishedListener());
 
 			frame.setGame(manager.getView());
 		} catch (CouldNotLoadFileException e) {
@@ -218,11 +222,12 @@ public class Controller implements ActionListener, KeyListener {
 	 * Reset the current game.
 	 */
 	public void resetGame() {
-		String levelFileName = game.getLevelFileName();
+
+		String levelName = game.getLevelName();
 		String userName = game.getUserName();
 
 		frame.setNoGame();
-		loadGame(levelFileName, userName);
+		loadGame(levelName, userName);
 	}
 
 	/**
@@ -238,8 +243,7 @@ public class Controller implements ActionListener, KeyListener {
 			public void eventTriggered(Event e) {
 
 				try {
-					Highscores highscores = new Highscores(game
-							.getLevelFileName());
+					Highscores highscores = new Highscores(game.getLevelFileName()+".score");
 
 					// FIXME: This throws an exception when no highscore exists
 					// yet
@@ -247,11 +251,10 @@ public class Controller implements ActionListener, KeyListener {
 					// game.getNumMoves());
 				} catch (InvalidFileException ex) {
 
-					new MessageBox("Error",
-							"Could not save your highscore. Sorry dude!", true);
+					new MessageBox("Error", "Could not save your highscore. Sorry dude!", true);
 				}
 
-				loadNextLevel(game.getLevelFileName(), game.getUserName());
+				loadNextLevel(game.getLevelName(), game.getUserName());
 			}
 		};
 	}
@@ -271,10 +274,10 @@ public class Controller implements ActionListener, KeyListener {
 	/**
 	 * Save the current game to a file.
 	 * 
-	 * @param savedLevelName
-	 *            The name of the file to save to.
+	 * @param savedLevelName The name of the file to save to.
 	 */
 	public void saveGame(String savedLevelName) {
+
 		try {
 			manager.saveGame(game, savedLevelName);
 		} catch (Exception e) {
@@ -286,6 +289,7 @@ public class Controller implements ActionListener, KeyListener {
 	 * Show the highscores dialog.
 	 */
 	public void highScores() {
+
 		// TODO: HighScores Dialog
 	}
 
@@ -302,6 +306,7 @@ public class Controller implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
 		if (map.containsKey(e.getActionCommand().toString())) {
 			map.get(e.getActionCommand().toString()).call();
 		}
@@ -313,6 +318,7 @@ public class Controller implements ActionListener, KeyListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 		new Controller();
 	}
 
@@ -352,6 +358,7 @@ public class Controller implements ActionListener, KeyListener {
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
+
 		// Pass
 
 	}
@@ -361,6 +368,7 @@ public class Controller implements ActionListener, KeyListener {
 	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
+
 		// Pass
 	}
 }

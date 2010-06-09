@@ -11,9 +11,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
+import java.util.TreeMap;
 
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.exception.NoMoreLevelsException;
@@ -36,40 +38,58 @@ import edu.itba.it.poog7.gamelogic.tiles.Wall;
  */
 public class GameManager {
 
-	String[] levelList;
+	TreeMap<String, String> fileNames;
+	Map<String, String> levelNames;
+	
+	public GameManager() throws CouldNotLoadFileException {
+		
+		loadLevelList();
+	}
 
 	/**
-	 * Get a list of valid levels in the directory "levels"
+	 * Load the level list
 	 * 
-	 * TODO: validate levels
-	 * 
-	 * @return a array of Strings with the filenames of the games
-	 * @throws FileNotFoundException
-	 *             when the folder levels was not found
+	 * @throws CouldNotLoadFileException
 	 */
-	public String[] getLevelList() throws FileNotFoundException {
+	protected void loadLevelList() throws CouldNotLoadFileException {
 
 		File dir = new File("levels/");
 		File[] files = null;
 
 		files = dir.listFiles(new FileFilter() {
+
 			public boolean accept(File file) {
+
 				return file.getName().endsWith(".txt");
 			}
 		});
 
 		if (files == null) {
-			throw new FileNotFoundException("No folder 'levels' found.");
+			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
 		}
 
-		String[] levels = new String[files.length];
+		fileNames = new TreeMap<String, String>();
+		levelNames = new HashMap<String, String>();
+
 		for (int i = 0; i < files.length; i++) {
-			levels[i] = files[i].getName();
+			BufferedReader file;
+			try {
+				file = new BufferedReader(new FileReader(files[i]));
+			} catch (FileNotFoundException e) {
+				throw new CouldNotLoadFileException("Could not load folder 'levels'.");
+			}
+			String name;
+			if ((name = readLine(file)) == null) {
+				throw new CouldNotLoadFileException("The file is corrupted.");
+			}
+			if (levelNames.containsKey(name)) {
+				throw new CouldNotLoadFileException("Two levels with the same name.");
+			}
+
+			String fileName = "levels/" + files[i].getName();
+			fileNames.put(fileName, name);
+			levelNames.put(name, fileName);
 		}
-
-		Arrays.sort(levels);
-
-		return levels;
 	}
 
 	/**
@@ -83,25 +103,24 @@ public class GameManager {
 	 *             missing)
 	 * @throws NoMoreLevelsException
 	 *             if the level is the last
+	 * @throws CouldNotLoadFileException 
 	 */
-	public String getNextLevel(String current) throws FileNotFoundException,
-			NoMoreLevelsException {
+	public String getNextLevel(String current) throws NoMoreLevelsException, CouldNotLoadFileException {
 
 		if (current == "") {
-			levelList = getLevelList();
-			return levelList[0];
+			return fileNames.firstEntry().getValue();
+		}
+		if (!levelNames.containsKey(current)) {
+			throw new CouldNotLoadFileException("There is no such level");
 		}
 
-		if (null == levelList) {
-			levelList = getLevelList();
-		}
+		Map.Entry<String, String> nextLevelFileName = fileNames.higherEntry(levelNames.get(current));
 
-		int index = Arrays.binarySearch(levelList, current);
-
-		if (index < 0 || index + 1 == levelList.length) {
+		if (nextLevelFileName == null) {
 			throw new NoMoreLevelsException();
 		}
-		return levelList[index + 1];
+
+		return nextLevelFileName.getValue();
 	}
 
 	/**
@@ -193,23 +212,23 @@ public class GameManager {
 	/**
 	 * Loads a level from its stored file
 	 * 
-	 * @param fileName
-	 *            the name of the file that has the level
+	 * @param levelName The name of the level to load
 	 * @param userName
 	 *            the name of the new user
 	 * @return a new instance of a game
 	 * @throws CouldNotLoadFileException
 	 */
-	public Game loadLevel(String fileName, String userName)
+	public Game loadLevel(String levelName, String userName)
 			throws CouldNotLoadFileException {
 
 		BufferedReader file;
+		
+		String fileName = levelNames.get(levelName);
 
 		try {
-			file = new BufferedReader(new FileReader("levels/" + fileName));
+			file = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
-			throw new CouldNotLoadFileException("Could not load the file '"
-					+ fileName);
+			throw new CouldNotLoadFileException("Could not load the file '" + fileName);
 		}
 
 		return loadState(file, fileName, userName, 0);

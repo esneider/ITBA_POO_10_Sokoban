@@ -30,6 +30,14 @@ import edu.itba.it.poog7.view.tiles.DWall;
 
 public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
+	/**
+	 * @throws CouldNotLoadFileException
+	 */
+	public GameManager() throws CouldNotLoadFileException {
+
+		super();
+	}
+
 	private static final int CELL_SIZE = 30;
 	private View view;
 
