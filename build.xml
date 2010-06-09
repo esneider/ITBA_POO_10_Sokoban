@@ -2,15 +2,20 @@
 <project name="Sokoban" default="build" basedir=".">
 	<property name="src" location="src"/>
 	<property name="build" location="bin"/>
+	<property name="doc" location="doc"/>
+	<property name="res" location="resources"/>
+	<property name="levels" location="levels"/>
 	<property name="dist"  location="dist"/>
 	<property name="test" location="test"/>
 	
 	<target name="build">
 		<mkdir dir="${build}" />
-		<javac srcdir="${src}" destdir="${build}" />
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="yes" />
 	</target>
 	
 	<target name="clean">
+		<delete file="tpe.jar" />
+		<delete dir="${doc}" />
 		<delete dir="${build}" />
 	</target>
 		
@@ -22,20 +27,44 @@
 	        	<fileset dir="${src}">
     				<include name="**/*Test.java"/>
 				</fileset>
-	        	<formatter type="plain" />
 	        </batchtest>
 		</junit>
 	</target>
 
-    <target name="dist" depends="build,test">
-        <jar destfile="Sokoban7.jar" basedir="bin">
+	<target name="doc">
+		<mkdir dir="${doc}" />
+		<javadoc destdir="${doc}" author="false" >
+			<fileset dir="${src}" defaultexcludes="yes">
+	            <exclude name="/test/**/*.java" />
+	        </fileset>
+        </javadoc>
+	</target>
+	
+	<target name="jar" depends="build">
+		<copy todir="${build}/resources">
+			<fileset dir="${res}">
+				<include name="*.png" />
+				<include name="*.jpg" />
+				<include name="*.gif" />
+			</fileset>
+		</copy>
+		<copy todir="${build}/levels">
+            <fileset dir="${levels}">
+				<include name="*.txt" />
+		    </fileset>
+		</copy>
+		<delete dir="${build}/test"/>
+        <jar destfile="tpe.jar" basedir="${build}">
             <manifest>
                 <attribute name="Main-Class" value="edu.itba.it.poog7.Controller" />
             </manifest>
-            <fileset dir="resources">
-                <include name="*" />
-            </fileset>
         </jar>
     </target>
-	
+
+    <target name="dist" depends="clean">
+	    <ant-call target="build" />
+	    <ant-call target="test" />
+	    <ant-call target="doc" />
+	    <ant-call target="jar" />
+    </target>	
 </project>
