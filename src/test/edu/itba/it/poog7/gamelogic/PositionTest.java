@@ -73,7 +73,7 @@ public class PositionTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.Position#equals(edu.itba.it.poog7.gamelogic.Direction)}.
+	 * Test method for {@link edu.itba.it.poog7.gamelogic.Position#equals(Object)}.
 	 */
 	public void testEquals() {
 		

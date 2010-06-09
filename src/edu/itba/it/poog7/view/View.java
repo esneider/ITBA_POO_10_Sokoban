@@ -35,9 +35,9 @@ public class View extends JPanel {
 	/**
 	 * Set (or reset if already set) the board settings.
 	 * 
-	 * @param rows
-	 * @param columns
-	 * @param cellSize
+	 * @param rows The number of rows in the board.
+	 * @param columns The number of columns in the row.
+	 * @param cellSize The size of the cells.
 	 */
 	public void setBoardSize(int rows, int columns, int cellSize) {
 

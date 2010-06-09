@@ -45,6 +45,11 @@ public class GameManager {
 	TreeMap<String, String> fileNames;
 	Map<String, String> levelNames;
 
+	/**
+	 * Instance a new game manager.
+	 * 
+	 * @throws CouldNotLoadFileException if theres no levels, or repeated level titles.
+	 */
 	public GameManager() throws CouldNotLoadFileException {
 
 		loadLevelList();
@@ -101,7 +106,6 @@ public class GameManager {
 	 * 
 	 * @param current the title of the current level
 	 * @return the title of the next level
-	 * @throws FileNotFoundException when there was a problem loading the next level (file missing)
 	 * @throws NoMoreLevelsException if the level is the last
 	 * @throws CouldNotLoadFileException
 	 */
@@ -233,7 +237,7 @@ public class GameManager {
 	 * @param userName the name of the user
 	 * @param score the initial score of the game
 	 * @return a new instance of game
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected Game loadState(BufferedReader file, String fileName, String userName, int score) throws CouldNotLoadFileException {
 
@@ -311,6 +315,13 @@ public class GameManager {
 		return game;
 	}
 
+	/**
+	 * Set an object in a tile of the tile matrix.
+	 * 
+	 * @param poll The object to set.
+	 * @param tileMatrix The tile matrix to get the tile from
+	 * @throws CouldNotLoadFileException Bubble validation errores upwards.
+	 */
 	private void setObject(GameObject poll, GameTile[][] tileMatrix) throws CouldNotLoadFileException {
 
 		Position pos = poll.getPosition();
@@ -331,6 +342,13 @@ public class GameManager {
 		theTile.setObject(poll);
 	}
 
+	/**
+	 * Set a tile in a tile matrix.
+	 * 
+	 * @param poll The tile to set.
+	 * @param tileMatrix The tile matrix to use.
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
+	 */
 	private void setTile(GameTile poll, GameTile[][] tileMatrix) throws CouldNotLoadFileException {
 
 		Position pos = poll.getPosition();
@@ -346,6 +364,7 @@ public class GameManager {
 	 * 
 	 * @param file the file from where to read
 	 * @return the string read from the file without front whitespace and leading comments
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	private String readLine(BufferedReader file) throws CouldNotLoadFileException {
 
@@ -374,10 +393,14 @@ public class GameManager {
 	 * Given a line containing something with the regex "(\d,){6}\d", evaluate what kind of GameElement it is, and add it to a queue of
 	 * elements. This method doesn't read data from the queues, only inserts data.
 	 * 
+	 * @param game The game object to set the state in.
 	 * @param newLine the string from where to read data
 	 * @param tileQueue a queue of GameTile
 	 * @param objectQueue a queue of GameObject
-	 * @throws Exception
+	 * @param boxCount The current box count.
+	 * @param targetCount The current target count.
+	 * @param characterCount The current character count. For validation only.
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	private void computeLine(Game game, String newLine, Queue<GameTile> tileQueue, Queue<GameObject> objectQueue, Counter boxCount,
 			Counter targetCount, Counter characterCount) throws CouldNotLoadFileException {
@@ -400,9 +423,11 @@ public class GameManager {
 	 * Returns a tile, bask on what kind of tile the string gotten says it is. Not a very beautiful implementation, should look for
 	 * something nicer.
 	 * 
+	 * @param game The game to set the new state in.
 	 * @param data a IOHelper with the information gotten.
+	 * @param targetCount The current target count.
 	 * @return a processed GameTile from the data
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	private GameTile readTile(Game game, IOHelper data, Counter targetCount) throws CouldNotLoadFileException {
 
@@ -424,9 +449,12 @@ public class GameManager {
 	/**
 	 * Returns an GameObject from the incoming data
 	 * 
+	 * @param game The game to set the state in.
 	 * @param data a IOHelper with information about the object
-	 * @param characterCount
+	 * @param boxCount The current number of boxes.
+	 * @param characterCount The current number of characters. For validation only.
 	 * @return a new GameObject of the correct type
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	private GameObject readObject(Game game, IOHelper data, Counter boxCount, Counter characterCount) throws CouldNotLoadFileException {
 
@@ -448,7 +476,7 @@ public class GameManager {
 	 * @param game the game where to instance the tile
 	 * @param data the information about the tile
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected OneWay newOneWay(Game game, IOHelper data) throws CouldNotLoadFileException {
 
@@ -461,7 +489,7 @@ public class GameManager {
 	 * @param game the game where to instance the tile
 	 * @param data the information about the tile
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected GameTile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
 
@@ -474,7 +502,7 @@ public class GameManager {
 	 * @param game the game where to instance the tile
 	 * @param data the information about the tile
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected GameTile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
 
@@ -487,7 +515,7 @@ public class GameManager {
 	 * @param game the game where to instance the tile
 	 * @param data the information about the tile
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected GameTile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
 
@@ -500,14 +528,14 @@ public class GameManager {
 	 * @param game the game where to instance the character
 	 * @param data the information about the character (position)
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected GameObject newCharacter(Game game, IOHelper data) throws CouldNotLoadFileException {
 
 		Character newCharacter = new Character(data.getPosition());
-		
+
 		game.subscribeListener(MoveCharacterEvent.class, newCharacter.getMoveListener());
-		
+
 		newCharacter.subscribeListener(DestroyedEvent.class, game.getCharacterDestroyedListener());
 		newCharacter.subscribeListener(StateUpdateEvent.class, game.getCharacterMovedListener());
 
@@ -520,7 +548,7 @@ public class GameManager {
 	 * @param game the game where to instance the box
 	 * @param data the information about the box
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected GameObject newBox(Game game, IOHelper data) throws CouldNotLoadFileException {
 
@@ -540,7 +568,7 @@ public class GameManager {
 	 * @param game the game where to instance the blank tile
 	 * @param pos the information about the tile, where is it
 	 * @return the instance created
-	 * @throws CouldNotLoadFileException
+	 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 	 */
 	protected GameTile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
 
@@ -562,23 +590,10 @@ public class GameManager {
 		int data[];
 
 		/**
-		 * A IOHelper
-		 * 
-		 * @param pos
-		 * @param type
-		 * @param rotations
-		 * @param col
-		 */
-		IOHelper(Position pos, int type, int rotations, RGBColor col) {
-
-			data = new int[] { pos.getX(), pos.getY(), type, rotations, col.getR(), col.getG(), col.getB() };
-		}
-
-		/**
 		 * A constructor from a string of the regex form "(\d,){6}\d"
 		 * 
 		 * @param S incoming data to be processed
-		 * @throws Exception
+		 * @throws CouldNotLoadFileException Bubble validation errors upwards.
 		 */
 		IOHelper(String S) throws CouldNotLoadFileException {
 
@@ -609,6 +624,7 @@ public class GameManager {
 
 		/**
 		 * Access direction of the element. This is stored in the fourth position
+		 * @return The direction the object is oriented in.
 		 */
 		public Direction getDirection() {
 
@@ -657,16 +673,26 @@ public class GameManager {
 	private class Counter {
 		private int count;
 
+		/**
+		 * Instance a new counter.
+		 */
 		Counter() {
 
 			count = 0;
 		}
 
+		/**
+		 * Increment the counter in one.
+		 */
 		public void increment() {
 
 			count++;
 		}
 
+		/**
+		 * Get the current count.
+		 * @return The count.
+		 */
 		public int getCount() {
 
 			return count;

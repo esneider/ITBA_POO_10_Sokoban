@@ -14,7 +14,7 @@ import edu.itba.it.poog7.gamelogic.Position;
 public class LevelElementTest extends TestCase {
 
 	/**
-	 * Test method for {@link edu.itba.it.poog7.gamelogic.GameElement#LevelElement(edu.itba.it.poog7.gamelogic.Position)}.
+	 * Test method for {@link edu.itba.it.poog7.gamelogic.GameElement#GameElement(edu.itba.it.poog7.gamelogic.Position)}.
 	 */
 	public void testLevelElement() {
 		

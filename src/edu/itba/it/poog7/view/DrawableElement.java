@@ -21,9 +21,8 @@ public abstract class DrawableElement {
 
 	/**
 	 * Instance a {@link DrawableElement}
-	 * 
-	 * @param board
-	 *            the {@link Board} in which to draw
+	 * @param myView 
+	 *            the {@link View} in which to draw
 	 * @param element
 	 *            the {@link Position} in the board
 	 */
@@ -41,11 +40,18 @@ public abstract class DrawableElement {
 		});
 	}
 	
+	/**
+	 * Set the objects position.
+	 * @param element The element that contains the position info.
+	 */
 	protected void setPosition(GameElement element) {
 		
 		image.setPosition(element.getPosition());
 	}
 
+	/**
+	 * Draw the element in the view we have.
+	 */
 	public void draw() {
 		if (view.getBoard() != null) {
 			view.getBoard().draw(image);

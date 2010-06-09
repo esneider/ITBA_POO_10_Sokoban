@@ -4,7 +4,7 @@ import edu.itba.it.poog7.event.Event;
 import edu.itba.it.poog7.event.EventDispatcher;
 
 /**
- * Every time the score changes, the class {@link Game} triggers this event.
+ * Every time the score changes, the class {@link edu.itba.it.poog7.gamelogic.Game} triggers this event.
  */
 public class ScoreChangedEvent extends Event {
 	/**

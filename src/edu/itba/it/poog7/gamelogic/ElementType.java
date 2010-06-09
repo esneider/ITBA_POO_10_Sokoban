@@ -10,6 +10,11 @@ public enum ElementType {
 
 	private final int dir;
 
+	/**
+	 * Instance a new element type enum.
+	 * 
+	 * @param dir A value associated with the element.
+	 */
 	private ElementType(int dir) {
 		this.dir = dir;
 	}

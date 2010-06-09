@@ -19,6 +19,11 @@ import javax.swing.OverlayLayout;
 import edu.itba.it.gui.ImageUtils;
 import edu.itba.it.poog7.view.View;
 
+/**
+ * Meant to hold the game board.
+ * 
+ * @author champo
+ */
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 10098415897L;
 	private static final int SCREEN_SIDE = 640;
@@ -27,6 +32,9 @@ public class MainFrame extends JFrame {
 	Container pane;
 	Container background;
 
+	/**
+	 * Instance a new main frame.
+	 */
 	public MainFrame() {
 		super("Sokoban");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,6 +58,9 @@ public class MainFrame extends JFrame {
 		setNoGame();
 	}
 
+	/**
+	 * Tell the frame there should be no game playing.
+	 */
 	public void setNoGame() {
 		pane.removeAll();
 		pane.add(background, 0);
@@ -63,6 +74,11 @@ public class MainFrame extends JFrame {
 		menu.restart.setEnabled(false);
 	}
 
+	/**
+	 * Set a new game and show it.
+	 * 
+	 * @param aView The view associated with the game.
+	 */
 	public void setGame(View aView) {
 
 		view = aView;
@@ -80,6 +96,9 @@ public class MainFrame extends JFrame {
 		menu.restart.setEnabled(true);
 	}
 
+	/**
+	 * @param outsider
+	 */
 	public void addOutsiderListener(ActionListener outsider) {
 		if (menu != null) {
 			menu.newgame.addActionListener(outsider);
@@ -91,6 +110,10 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * @author champo
+	 *
+	 */
 	private class MyMenu extends JMenuBar {
 		private static final long serialVersionUID = 969388L;
 		JMenu game;
@@ -131,6 +154,10 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * @author champo
+	 *
+	 */
 	private class Background extends JPanel {
 		private static final long serialVersionUID = 21L;
 		private Image background;

@@ -12,7 +12,9 @@ public class MessageBox extends JFrame {
 
 	/**
 	 * Show the user a simple box with some text.
+	 * @param title The title to show.
 	 * @param message the message for the user to read.
+	 * @param error Whether this box is meant to show an error or not.
 	 */
 	public MessageBox(String title, String message, boolean error){
 		super(title);

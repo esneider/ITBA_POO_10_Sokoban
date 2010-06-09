@@ -148,9 +148,8 @@ public class Controller implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * Create a new game for a given level.
+	 * Create a new game.
 	 * 
-	 * @param levelName The name of the level name.
 	 * @param userName The user name that is playing.
 	 */
 	public void newGame(String userName) {
@@ -232,9 +231,9 @@ public class Controller implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * Listener for GameOvers.
+	 * Listener for game finished.
 	 * 
-	 * @return a listener if the game is over
+	 * @return a listener if the game is finished.
 	 */
 	private EventListener getGameFinishedListener() {
 
@@ -260,6 +259,11 @@ public class Controller implements ActionListener, KeyListener {
 		};
 	}
 
+	/**
+	 * Get the game over listener.
+	 * 
+	 * @return A listener for game over events.
+	 */
 	private EventListener getGameOverListener() {
 
 		return new EventListener() {
