@@ -21,17 +21,17 @@ class rebut(QtGui.QPushButton):
     
     def getpos(self):
         return self.x, self.y
-    
+
     def asign(self):
+        if self.parent.actual == "clear":
+            self.setText("")
+            if (self.x, self.y) in self.parent.cosas.keys():
+                self.parent.cosas.pop((self.x, self.y))
         self.parent.cosas.update({(self.x, self.y): self.parent.actual})
         self.setText(self.parent.actual)
-    
+
     def setear(self):
-        if (self.quecosa == "clear"):
-            if ((self.x, self.y) in self.parent.cosas.keys()):
-                self.parent.cosas.pop((self.x, self.y))
-        else:
-            self.parent.actual = self.quecosa
+        self.parent.actual = self.quecosa
 
 class Grid(QtGui.QWidget):
     name = ""
@@ -65,6 +65,8 @@ class Grid(QtGui.QWidget):
     
     def save(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, 'Save', '/home/eordano/Code/workspace/Sokoban/levels/')
+        if not filename:
+            return
         savefile = open(filename, 'w')
         equises = [i[0] for i in self.cosas]
         iyises = [i[1] for i in self.cosas]
