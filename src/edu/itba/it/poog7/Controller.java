@@ -239,7 +239,9 @@ public class Controller implements ActionListener, KeyListener {
 					"If the game is a saved game you loaded,\n"+
 					"please load the game again from the file.", true);
 		}
-		loadGame(levelName, userName);
+		else{
+			loadGame(levelName, userName);
+		}
 	}
 
 	/**
