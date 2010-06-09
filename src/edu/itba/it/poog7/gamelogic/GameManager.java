@@ -104,8 +104,12 @@ public class GameManager {
 	/**
 	 * Given a level, return the next in the list of levels
 	 * 
+	 * If current is empty, the first level is returned.
+	 * 
 	 * @param current the title of the current level
+	 * 
 	 * @return the title of the next level
+	 * 
 	 * @throws NoMoreLevelsException if the level is the last
 	 * @throws CouldNotLoadFileException
 	 */
@@ -119,6 +123,34 @@ public class GameManager {
 		}
 
 		Map.Entry<String, String> nextLevelFileName = fileNames.higherEntry(levelNames.get(current));
+
+		if (nextLevelFileName == null) {
+			throw new NoMoreLevelsException();
+		}
+
+		return nextLevelFileName.getValue();
+	}
+
+	/**
+	 * Get the title of the previous level given a level title.
+	 * 
+	 * If current is an empty string, the last level is returned.
+	 * 
+	 * @param current The title of the current level.
+	 * @return The title of the previous level.
+	 * @throws CouldNotLoadFileException If the level title passed is non a level.
+	 * @throws NoMoreLevelsException If the level is the first.
+	 */
+	public String getPreviousLevel(String current) throws CouldNotLoadFileException, NoMoreLevelsException {
+
+		if (current == "") {
+			return fileNames.lastEntry().getValue();
+		}
+		if (!levelNames.containsKey(current)) {
+			throw new CouldNotLoadFileException("There is no such level");
+		}
+
+		Map.Entry<String, String> nextLevelFileName = fileNames.lowerEntry(levelNames.get(current));
 
 		if (nextLevelFileName == null) {
 			throw new NoMoreLevelsException();
@@ -624,6 +656,7 @@ public class GameManager {
 
 		/**
 		 * Access direction of the element. This is stored in the fourth position
+		 * 
 		 * @return The direction the object is oriented in.
 		 */
 		public Direction getDirection() {
@@ -691,6 +724,7 @@ public class GameManager {
 
 		/**
 		 * Get the current count.
+		 * 
 		 * @return The count.
 		 */
 		public int getCount() {
