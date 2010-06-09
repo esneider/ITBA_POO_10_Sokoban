@@ -10,7 +10,8 @@ options = {'chabon': "1,0,0,0,0", 'hole': "5,0,0,0,0", 'wall': "4,0,0,0,0",
            'derecha': "6,3,0,0,0", 'izquierda': "6,1,0,0,0", 'arriba': "6,2,0,0,0",
            'abajo': "6,0,0,0,0", 'croja':"2,0,255,0,0", 'trojo':"3,0,255,0,0",
            'cazul':"2,0,0,0,255", 'tazul':"3,0,0,0,255",
-           'cnegra':"2,0,0,0,0", 'tnegro':"3,0,0,0,0", 'save': "save", 'clear': "clear"}
+           'camaril':"2,0,0,255,255", 'tamaril':"3,0,0,255,255",
+           'cverde':"2,0,0,255,0", 'tverde':"3,0,0,255,0", 'save': "save", 'clear': "clear"}
 
 class rebut(QtGui.QPushButton):
     def __init__(self, name, x, y, parent, quecosa=""):
@@ -32,6 +33,8 @@ class rebut(QtGui.QPushButton):
 
     def setear(self):
         self.parent.actual = self.quecosa
+        if self.quecosa == "clear":
+            self.parent.actual = ""
 
 class Grid(QtGui.QWidget):
     name = ""

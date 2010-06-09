@@ -29,7 +29,6 @@ public class ShowHighScores extends JFrame implements ActionListener {
 
 	public ShowHighScores(String levelName, GameManager manager) {
 		super("Highscores");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(600, 600);
 
 		setLayout(new BorderLayout());

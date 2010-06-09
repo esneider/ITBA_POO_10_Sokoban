@@ -36,7 +36,7 @@ public class Highscores {
 	 */
 	public Highscores(String levelFileName) throws CouldNotLoadFileException {
 
-		this.fileName = levelFileName + ".score";
+		this.fileName = levelFileName.substring(0, levelFileName.length()-4) + ".score";
 		loadScores();
 	}
 
