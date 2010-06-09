@@ -5,21 +5,16 @@ import java.io.IOException;
 
 import edu.itba.it.poog7.gamelogic.Game;
 import edu.itba.it.poog7.gamelogic.Position;
-import edu.itba.it.poog7.gamelogic.event.StateUpdateEvent;
 import edu.itba.it.poog7.gamelogic.exception.CouldNotLoadFileException;
 import edu.itba.it.poog7.gamelogic.objects.Box;
 import edu.itba.it.poog7.gamelogic.objects.Character;
 import edu.itba.it.poog7.gamelogic.objects.GameObject;
-import edu.itba.it.poog7.gamelogic.objects.event.DestroyedEvent;
-import edu.itba.it.poog7.gamelogic.objects.event.MoveCharacterEvent;
 import edu.itba.it.poog7.gamelogic.tiles.Blank;
 import edu.itba.it.poog7.gamelogic.tiles.GameTile;
 import edu.itba.it.poog7.gamelogic.tiles.Hole;
 import edu.itba.it.poog7.gamelogic.tiles.OneWay;
 import edu.itba.it.poog7.gamelogic.tiles.Target;
 import edu.itba.it.poog7.gamelogic.tiles.Wall;
-import edu.itba.it.poog7.gamelogic.tiles.event.TargetMatchedEvent;
-import edu.itba.it.poog7.gamelogic.tiles.event.TargetUnmatchedEvent;
 import edu.itba.it.poog7.view.objects.DBox;
 import edu.itba.it.poog7.view.objects.DCharacter;
 import edu.itba.it.poog7.view.tiles.DBlank;
@@ -46,31 +41,26 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	 * 
 	 * @return the view created
 	 */
-	public View getView(){
-		
+	public View getView() {
+
 		return view;
 	}
 
 	@Override
-	protected Game loadState(BufferedReader file, String fileName, String userName, int score)
-			throws CouldNotLoadFileException {
+	protected Game loadState(BufferedReader file, String fileName, String userName, int score) throws CouldNotLoadFileException {
 
-		view = new View(0,0);
+		view = new View(0, 0);
 		Game game = super.loadState(file, fileName, userName, score);
-		
+
 		view.setBoardSize(game.getHeight(), game.getWidth(), CELL_SIZE);
-		
+
 		return game;
 	}
 
 	@Override
 	protected GameObject newBox(Game game, IOHelper data) throws CouldNotLoadFileException {
+
 		Box newBox = (Box) super.newBox(game, data);
-		newBox.subscribeListener(DestroyedEvent.class, game
-				.getBoxDestroyedListener());
-		
-		newBox.subscribeListener(TargetMatchedEvent.class, game.getTargetMatchedListener());
-		newBox.subscribeListener(TargetUnmatchedEvent.class, game.getTargetUnmatchedListener());
 
 		try {
 			view.addElement(new DBox(view, newBox));
@@ -82,14 +72,10 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 	}
 
 	@Override
-	protected GameObject newCharacter(Game game, IOHelper data)
-			throws CouldNotLoadFileException {
+	protected GameObject newCharacter(Game game, IOHelper data) throws CouldNotLoadFileException {
+
 		Character newCharacter = (Character) super.newCharacter(game, data);
-		
-		newCharacter.subscribeListener(DestroyedEvent.class, game.getCharacterDestroyedListener());
-		newCharacter.subscribeListener(StateUpdateEvent.class, game.getCharacterMovedListener());
-		game.subscribeListener(MoveCharacterEvent.class, newCharacter.getMoveListener());
-		
+
 		try {
 			view.addElement(new DCharacter(view, newCharacter));
 		} catch (IOException e) {
@@ -101,6 +87,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
 	@Override
 	protected GameTile newHole(Game game, IOHelper data) throws CouldNotLoadFileException {
+
 		Hole newHole = (Hole) super.newHole(game, data);
 
 		try {
@@ -114,6 +101,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
 	@Override
 	protected OneWay newOneWay(Game game, IOHelper data) throws CouldNotLoadFileException {
+
 		OneWay newOneWay = (OneWay) super.newOneWay(game, data);
 
 		try {
@@ -127,6 +115,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
 	@Override
 	protected GameTile newTarget(Game game, IOHelper data) throws CouldNotLoadFileException {
+
 		Target newTarget = (Target) super.newTarget(game, data);
 
 		try {
@@ -140,6 +129,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
 	@Override
 	protected GameTile newWall(Game game, IOHelper data) throws CouldNotLoadFileException {
+
 		Wall newWall = (Wall) super.newWall(game, data);
 
 		try {
@@ -153,6 +143,7 @@ public class GameManager extends edu.itba.it.poog7.gamelogic.GameManager {
 
 	@Override
 	protected GameTile newBlank(Game game, Position pos) throws CouldNotLoadFileException {
+
 		Blank newBlank = (Blank) super.newBlank(game, pos);
 
 		try {
