@@ -80,7 +80,7 @@ public class GameManager {
 	 */
 	protected void loadLevelList() throws CouldNotLoadFileException {
 
-		File dir = new File(ClassLoader.getSystemResource("levels/").getFile());
+		File dir = new File("levels/");
 		File[] files = null;
 
 		files = dir.listFiles(new FileFilter() {
@@ -189,8 +189,7 @@ public class GameManager {
 		BufferedReader file;
 
 		try {
-			String resource = ClassLoader.getSystemResource(fileName).getFile();
-			file = new BufferedReader(new FileReader(new File(resource)));
+			file = new BufferedReader(new FileReader(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			throw new CouldNotLoadFileException("Could not load folder 'levels'.");
 		}

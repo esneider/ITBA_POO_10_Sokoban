@@ -1,4 +1,4 @@
-(PyQt4.QtCore.QString(u'nuevo level'), True)
+Primer Nivel
 10,6
 7,5,6,2,0,0,0
 8,4,6,1,0,0,0

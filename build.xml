@@ -19,7 +19,7 @@
 		<delete dir="${build}" />
 	</target>
 		
-	<target name="test" depends="build">
+	<target name="test" depends="clean,build">
 		<mkdir dir="${test}" />
 		<junit printsummary="yes" haltonfailure="no">
 			<classpath path="${build}" />

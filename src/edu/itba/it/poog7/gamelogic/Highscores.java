@@ -51,8 +51,7 @@ public class Highscores {
 		scores = new LinkedList<Score>();
 		
 		try {
-			String resource = ClassLoader.getSystemResource(fileName).getFile();
-			file = new BufferedReader(new FileReader(resource));
+			file = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
 			return;
 		}
@@ -138,8 +137,7 @@ public class Highscores {
 
 		PrintStream out;
 		try {
-			String resource = ClassLoader.getSystemResource(fileName).getFile();
-			out = new PrintStream(new FileOutputStream(new File(resource)));
+			out = new PrintStream(new FileOutputStream(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			throw new CouldNotSaveFileException("Could not save the highscores");
 		}
@@ -211,8 +209,7 @@ public class Highscores {
 
 	public void erase() throws CouldNotLoadFileException {
 		// TODO Auto-generated method stub
-		String resource = ClassLoader.getSystemResource(fileName).getFile();
-		File file = new File(resource);
+		File file = new File(fileName);
 		file.delete();
 		loadScores();
 	}

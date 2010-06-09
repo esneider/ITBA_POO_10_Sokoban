@@ -1,4 +1,4 @@
-(PyQt4.QtCore.QString(u'Otro straightforward'), True)
+Enorme
 20,20
 3,7,6,2,0,0,0
 19,19,4,0,0,0,0
